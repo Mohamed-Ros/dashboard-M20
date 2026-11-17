@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import Swal from 'sweetalert2';
+import A4InvoiceSheets from '../components/orders/A4InvoiceSheets';
 import { useLanguage } from '../context/LanguageContext';
 import { EGYPT_GOVERNORATES, getGovernorateRate, getGovernorateObject } from '../data/egyptGovernorates';
 import { 
@@ -164,6 +165,11 @@ export default function OrdersPage() {
   });
   const [submittingRefund, setSubmittingRefund] = useState(false);
   const [inspectingRestock, setInspectingRestock] = useState(false);
+
+  // Bulk A4 invoice sheets
+  const [selectedIds, setSelectedIds] = useState(() => new Set());
+  const [a4PerPage, setA4PerPage] = useState(4);
+  const [showA4Sheets, setShowA4Sheets] = useState(false);
 
   const invoicePrintRef = useRef(null);
   const shippingPrintRef = useRef(null);
@@ -948,6 +954,35 @@ export default function OrdersPage() {
         </div>
       </div>
 
+      {/* Bulk A4 invoice toolbar */}
+      {selectedIds.size > 0 && (
+        <div className="flex flex-wrap items-center gap-3 bg-brand-700/5 border border-brand-700/30 rounded-2xl px-4 py-3 text-xs">
+          <span className="font-bold text-brand-700">تم تحديد {selectedIds.size} طلب</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-slate-500">عدد الفواتير في الورقة:</span>
+            {[4, 6].map((n) => (
+              <button
+                key={n}
+                onClick={() => setA4PerPage(n)}
+                className={`px-3 h-8 rounded-lg font-bold border transition-colors ${a4PerPage === n ? 'bg-brand-700 text-white border-brand-700' : 'bg-white text-slate-700 border-line hover:bg-slate-50'}`}
+              >
+                {n} فواتير
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setShowA4Sheets(true)}
+            className="h-8 px-4 rounded-lg bg-brand-700 text-white font-bold flex items-center gap-1.5"
+          >
+            <Printer size={14} />
+            <span>طباعة / تصدير A4 ({Math.ceil(selectedIds.size / a4PerPage)} ورقة)</span>
+          </button>
+          <button onClick={() => setSelectedIds(new Set())} className="text-slate-500 hover:underline font-semibold">
+            إلغاء التحديد
+          </button>
+        </div>
+      )}
+
       {/* Orders Table */}
       {loading ? (
         <div className="py-20 text-center text-xs text-slate-500 bg-white/60 rounded-2xl border border-line/60">
@@ -966,6 +1001,17 @@ export default function OrdersPage() {
             <table className="w-full text-right text-xs">
               <thead className="bg-canvas text-slate-500 border-b border-line font-bold">
                 <tr>
+                  <th className="p-3.5 w-8">
+                    <input
+                      type="checkbox"
+                      aria-label="تحديد كل الطلبات"
+                      className="cursor-pointer accent-brand-700"
+                      checked={filteredOrders.length > 0 && filteredOrders.every((o) => selectedIds.has(o._id))}
+                      onChange={(e) =>
+                        setSelectedIds(e.target.checked ? new Set(filteredOrders.map((o) => o._id)) : new Set())
+                      }
+                    />
+                  </th>
                   <th className="p-3.5">رقم الطلب</th>
                   <th className="p-3.5">العميل & الهاتف</th>
                   <th className="p-3.5">طريقة الاستلام & المحافظة</th>
@@ -982,6 +1028,21 @@ export default function OrdersPage() {
                   const hasProof = !!(order.paymentScreenshot || order.paymentProofUrl);
                   return (
                     <tr key={order._id} className="hover:bg-slate-50/70 transition-colors">
+                      <td className="p-3.5 w-8">
+                        <input
+                          type="checkbox"
+                          aria-label={`تحديد الطلب ${order.orderNumber}`}
+                          className="cursor-pointer accent-brand-700"
+                          checked={selectedIds.has(order._id)}
+                          onChange={(e) =>
+                            setSelectedIds((prev) => {
+                              const next = new Set(prev);
+                              if (e.target.checked) next.add(order._id); else next.delete(order._id);
+                              return next;
+                            })
+                          }
+                        />
+                      </td>
                       {/* Order Number & Date */}
                       <td className="p-3.5 font-mono font-bold text-brand-700">
                         <button
@@ -2636,6 +2697,14 @@ export default function OrdersPage() {
         </div>
       )}
 
+      {showA4Sheets && (
+        <A4InvoiceSheets
+          orders={orders.filter((o) => selectedIds.has(o._id))}
+          perPage={a4PerPage}
+          onClose={() => setShowA4Sheets(false)}
+        />
+      )}
+
       {/* HIDDEN PRINT VIEW CONTAINER */}
       {printMode && selectedOrder && (
         <div className="fixed inset-0 z-100 bg-white flex flex-col items-center justify-center p-4">
@@ -2746,12 +2815,12 @@ export default function OrdersPage() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid #E2E8F0', padding: '6px', borderRadius: '6px' }}>
                 <div>
                   <p style={{ margin: 0, fontWeight: 'bold', fontSize: '9px', color: '#174F43' }}>امسح للتحقق ومتابعة الشحنة</p>
-                  <p style={{ margin: '2px 0 0 0', fontSize: '8px', color: '#64748B' }}>m20fragrance.com/track-order</p>
+                  <p style={{ margin: '2px 0 0 0', fontSize: '8px', color: '#64748B' }}>m20fragrance.store/track-order</p>
                   <p style={{ margin: '4px 0 0 0', fontSize: '7.5px', color: '#94A3B8' }}>شكراً لاختياركم دار عطور M20</p>
                 </div>
                 <div style={{ padding: '3px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1', borderRadius: '4px' }}>
                   <QRCodeSVG 
-                    value={`https://m20fragrance.com/track-order?order=${selectedOrder.orderNumber}`} 
+                    value={`https://m20fragrance.store/track-order?order=${selectedOrder.orderNumber}`} 
                     size={48}
                     level="M"
                   />
@@ -2833,7 +2902,7 @@ export default function OrdersPage() {
                   <p style={{ margin: '2px 0 0 0' }}>المرسل: دار M20 للعطور • القاهرة</p>
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                  <QRCodeSVG value={`https://m20fragrance.com/track-order?order=${selectedOrder.orderNumber}`} size={38} />
+                  <QRCodeSVG value={`https://m20fragrance.store/track-order?order=${selectedOrder.orderNumber}`} size={38} />
                 </div>
               </div>
             </div>

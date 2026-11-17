@@ -168,7 +168,7 @@ export default function MarketingPage() {
 
   // Generated UTM Link Helper
   const generatedCampaignUrl = (() => {
-    const baseUrl = 'https://m20fragrance.com';
+    const baseUrl = 'https://m20fragrance.store';
     const cleanCamp = (utmForm.campaignName || '').trim().toLowerCase().replace(/[\s_]+/g, '_');
     const cleanContent = (utmForm.adContent || '').trim().toLowerCase().replace(/[\s_]+/g, '_');
     const source = utmForm.platform === 'meta' ? 'meta' : (utmForm.platform === 'tiktok' ? 'tiktok' : 'other');
