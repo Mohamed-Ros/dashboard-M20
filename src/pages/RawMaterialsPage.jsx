@@ -258,16 +258,16 @@ export default function RawMaterialsPage() {
       value: catValue,
       labelEn: catValue,
       labelAr: catValue,
-      badge: 'bg-slate-100 text-slate-700 border-slate-200'
+      badge: 'bg-slate-100 text-slate-700 border-line'
     };
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-sm bg-[#174F43] text-white flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-control bg-brand-700 text-white flex items-center justify-center shrink-0">
             <FlaskConical size={20} strokeWidth={1.5} />
           </div>
           <div>
@@ -285,7 +285,7 @@ export default function RawMaterialsPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenAdd}
-            className="px-4 py-2 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold flex items-center gap-2 transition-colors shadow-xs"
+            className="px-4 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-2 transition-colors shadow-xs"
           >
             <Plus size={15} />
             <span>{lang === 'ar' ? 'إضافة مادة خام' : 'Add Raw Material'}</span>
@@ -293,17 +293,17 @@ export default function RawMaterialsPage() {
 
           <button
             onClick={fetchMaterials}
-            className="p-2 rounded-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
+            className="p-2 rounded-control border border-line bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
             title={lang === 'ar' ? 'تحديث' : 'Refresh'}
           >
-            <RefreshCw size={15} strokeWidth={1.5} className={loading ? 'animate-spin text-[#174F43]' : ''} />
+            <RefreshCw size={15} strokeWidth={1.5} className={loading ? 'animate-spin text-brand-700' : ''} />
           </button>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'إجمالي المواد المسجلة' : 'Total Registered Materials'}
           </span>
@@ -313,12 +313,12 @@ export default function RawMaterialsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'إجمالي وزن الزيوت والكحول' : 'Bulk Oils & Alcohol Stock'}
           </span>
           <div className="flex items-baseline gap-2 mt-1">
-            <h3 className="text-2xl font-bold text-[#174F43] font-mono">
+            <h3 className="text-2xl font-bold text-brand-700 font-mono">
               {(totalInventoryGrams / 1000).toFixed(2)}
             </h3>
             <span className="text-xs text-slate-400">
@@ -327,7 +327,7 @@ export default function RawMaterialsPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'إجمالي قيمة مخزون الخام' : 'Total Inventory Valuation'}
           </span>
@@ -338,8 +338,8 @@ export default function RawMaterialsPage() {
           </div>
         </div>
 
-        <div className={`rounded-sm p-4 border shadow-xs transition-colors ${
-          lowStockCount > 0 ? 'bg-amber-50/70 border-amber-200' : 'bg-white border-slate-200'
+        <div className={`rounded-control p-4 border shadow-xs transition-colors ${
+          lowStockCount > 0 ? 'bg-amber-50/70 border-amber-200' : 'bg-white border-line'
         }`}>
           <div className="flex items-center justify-between">
             <span className={`text-xs font-medium block ${lowStockCount > 0 ? 'text-amber-800' : 'text-slate-500'}`}>
@@ -357,7 +357,7 @@ export default function RawMaterialsPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-sm p-3 border border-slate-200 shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
+      <div className="bg-white rounded-control p-3 border border-line shadow-xs flex flex-col md:flex-row gap-3 items-center justify-between">
         <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 w-full md:w-80">
           <div className="relative flex-1">
             <input
@@ -365,13 +365,13 @@ export default function RawMaterialsPage() {
               placeholder={lang === 'ar' ? 'بحث باسم المادة الخام...' : 'Search raw material by name...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-9 pr-9 pl-3 bg-slate-50 border border-slate-200 rounded-sm text-xs outline-none focus:border-[#174F43] focus:bg-white transition-colors"
+              className="w-full h-9 pr-9 pl-3 bg-slate-50 border border-line rounded-control text-xs outline-none focus:border-brand-700 focus:bg-white transition-colors"
             />
             <Search size={14} className={`absolute top-2.5 text-slate-400 ${isRTL ? 'right-3' : 'left-auto right-3'}`} />
           </div>
           <button
             type="submit"
-            className="px-3.5 h-9 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-sm transition-colors"
+            className="px-3.5 h-9 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-control transition-colors"
           >
             {lang === 'ar' ? 'بحث' : 'Search'}
           </button>
@@ -385,7 +385,7 @@ export default function RawMaterialsPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="h-9 bg-slate-50 border border-slate-200 rounded-sm px-3 text-xs font-medium outline-none text-slate-700 cursor-pointer"
+            className="h-9 bg-slate-50 border border-line rounded-control px-3 text-xs font-medium outline-none text-slate-700 cursor-pointer"
           >
             <option value="">{lang === 'ar' ? `كل التصنيفات (${materials.length})` : `All Categories (${materials.length})`}</option>
             {CATEGORIES.map(c => (
@@ -398,10 +398,10 @@ export default function RawMaterialsPage() {
       </div>
 
       {/* Materials Table */}
-      <div className="bg-white rounded-sm border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
-            <thead className="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+            <thead className="bg-slate-50 text-slate-700 font-semibold border-b border-line">
               <tr>
                 <th className={`py-3 px-4 ${isRTL ? 'text-right' : 'text-left'}`}>
                   {lang === 'ar' ? 'اسم المادة الخام' : 'Material Name'}
@@ -426,12 +426,12 @@ export default function RawMaterialsPage() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700 font-normal">
+            <tbody className="divide-y divide-line text-slate-700 font-normal">
               {loading ? (
                 <tr>
                   <td colSpan="7" className="py-12 text-center text-slate-400">
                     <div className="flex items-center justify-center gap-2">
-                      <RefreshCw size={15} className="animate-spin text-[#174F43]" />
+                      <RefreshCw size={15} className="animate-spin text-brand-700" />
                       <span>{lang === 'ar' ? 'جاري تحميل المواد الخام...' : 'Loading raw materials...'}</span>
                     </div>
                   </td>
@@ -462,7 +462,7 @@ export default function RawMaterialsPage() {
                       </td>
 
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded-sm border text-[10px] font-semibold ${cat.badge}`}>
+                        <span className={`px-2 py-0.5 rounded-control border text-[10px] font-semibold ${cat.badge}`}>
                           {lang === 'ar' ? cat.labelAr : cat.labelEn}
                         </span>
                       </td>
@@ -475,7 +475,7 @@ export default function RawMaterialsPage() {
                           {isLow && (
                             <span 
                               title={lang === 'ar' ? `دون الحد الأدنى (${threshold} ${displayUnit})` : `Below threshold (${threshold} ${displayUnit})`} 
-                              className="inline-block p-0.5 bg-amber-100 text-amber-700 rounded-sm"
+                              className="inline-block p-0.5 bg-amber-100 text-amber-700 rounded-control"
                             >
                               <AlertTriangle size={12} />
                             </span>
@@ -500,21 +500,21 @@ export default function RawMaterialsPage() {
                           <button
                             onClick={() => handleOpenAdjust(item)}
                             title={lang === 'ar' ? 'تسوية مخزون (جرد / هالك / زيادة)' : 'Adjust stock (audit / waste)'}
-                            className="p-1.5 rounded-sm bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                            className="p-1.5 rounded-control bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                           >
                             <ArrowUpDown size={13} />
                           </button>
                           <button
                             onClick={() => handleOpenEdit(item)}
                             title={lang === 'ar' ? 'تعديل المادة' : 'Edit item'}
-                            className="p-1.5 rounded-sm bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors"
+                            className="p-1.5 rounded-control bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors"
                           >
                             <Edit2 size={13} />
                           </button>
                           <button
                             onClick={() => handleDelete(item)}
                             title={lang === 'ar' ? 'حذف' : 'Delete'}
-                            className="p-1.5 rounded-sm bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
+                            className="p-1.5 rounded-control bg-rose-50 hover:bg-rose-100 text-rose-600 transition-colors"
                           >
                             <Trash2 size={13} />
                           </button>
@@ -532,8 +532,8 @@ export default function RawMaterialsPage() {
       {/* Add / Edit Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="relative w-full max-w-lg bg-white rounded-sm border border-slate-200 shadow-xl z-10 max-h-[90vh] overflow-y-auto">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#174F43] text-white flex items-center justify-between">
+          <div className="relative w-full max-w-lg bg-surface rounded-card border border-line shadow-card shadow-xl z-10 max-h-[90vh] overflow-y-auto">
+            <div className="px-5 py-3.5 border-b border-line bg-brand-700 text-white flex items-center justify-between">
               <h2 className="text-sm font-bold flex items-center gap-2">
                 <FlaskConical size={16} />
                 <span>
@@ -559,7 +559,7 @@ export default function RawMaterialsPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder={lang === 'ar' ? 'مثال: زيت فانيليا مدغشقر' : 'e.g. French Vanilla Oil'}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700"
                   />
                 </div>
 
@@ -570,7 +570,7 @@ export default function RawMaterialsPage() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs font-medium outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-medium outline-none focus:border-brand-700"
                   >
                     {CATEGORIES.map(c => (
                       <option key={c.value} value={c.value}>
@@ -589,7 +589,7 @@ export default function RawMaterialsPage() {
                   <select
                     value={formData.unit}
                     onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     <option value="gram">{lang === 'ar' ? 'جرام (gram)' : 'Gram (g)'}</option>
                     <option value="ml">{lang === 'ar' ? 'مليلتر (ml)' : 'Milliliter (ml)'}</option>
@@ -609,7 +609,7 @@ export default function RawMaterialsPage() {
                     value={formData.currentStock}
                     onChange={(e) => setFormData({ ...formData, currentStock: e.target.value })}
                     placeholder="1000"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none font-mono focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none font-mono focus:border-brand-700"
                   />
                 </div>
               </div>
@@ -626,7 +626,7 @@ export default function RawMaterialsPage() {
                     value={formData.costPerGram}
                     onChange={(e) => setFormData({ ...formData, costPerGram: e.target.value })}
                     placeholder="4.50"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none font-mono focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none font-mono focus:border-brand-700"
                   />
                 </div>
 
@@ -641,7 +641,7 @@ export default function RawMaterialsPage() {
                     value={formData.lowStockThreshold}
                     onChange={(e) => setFormData({ ...formData, lowStockThreshold: e.target.value })}
                     placeholder="100"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none font-mono focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none font-mono focus:border-brand-700"
                   />
                 </div>
               </div>
@@ -655,7 +655,7 @@ export default function RawMaterialsPage() {
                   value={formData.supplier}
                   onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
                   placeholder={lang === 'ar' ? 'مثال: شركة الأندلس للزيوت العطرية' : 'e.g. Al-Andalus Fragrance Oils'}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -668,22 +668,22 @@ export default function RawMaterialsPage() {
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder={lang === 'ar' ? 'درجة النقاء، تاريخ الانتهاء، مكان التخزين...' : 'Purity, storage location, expiry...'}
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 font-medium"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 font-medium"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] font-semibold disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 font-semibold disabled:opacity-50"
                 >
                   {submitting 
                     ? (lang === 'ar' ? 'جاري الحفظ...' : 'Saving...') 
@@ -700,8 +700,8 @@ export default function RawMaterialsPage() {
       {/* Stock Adjustment Modal */}
       {showAdjustModal && selectedMaterial && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="relative w-full max-w-sm bg-white rounded-sm border border-slate-200 shadow-xl z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+          <div className="relative w-full max-w-sm bg-surface rounded-card border border-line shadow-card shadow-xl z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-slate-50 flex items-center justify-between">
               <h2 className="text-sm font-bold text-slate-900">
                 {lang === 'ar' ? `تسوية مخزون: ${selectedMaterial.name}` : `Stock Adjustment: ${selectedMaterial.name}`}
               </h2>
@@ -711,7 +711,7 @@ export default function RawMaterialsPage() {
             </div>
 
             <form onSubmit={handleSubmitAdjust} className="p-5 space-y-3.5 text-xs">
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm">
+              <div className="p-3 bg-slate-50 border border-line rounded-control">
                 <span className="text-slate-500 font-medium block">
                   {lang === 'ar' ? 'المخزون الحالي المسجل:' : 'Current Recorded Stock:'}
                 </span>
@@ -733,7 +733,7 @@ export default function RawMaterialsPage() {
                   value={adjustData.quantityChange}
                   onChange={(e) => setAdjustData({ ...adjustData, quantityChange: e.target.value })}
                   placeholder="-50 or +100"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -744,7 +744,7 @@ export default function RawMaterialsPage() {
                 <select
                   value={adjustData.type}
                   onChange={(e) => setAdjustData({ ...adjustData, type: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs font-medium outline-none"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-medium outline-none"
                 >
                   <option value="MANUAL_ADJUSTMENT">
                     {lang === 'ar' ? 'تسوية جرد دوري (Correction)' : 'Inventory Audit / Correction'}
@@ -771,22 +771,22 @@ export default function RawMaterialsPage() {
                   value={adjustData.reason}
                   onChange={(e) => setAdjustData({ ...adjustData, reason: e.target.value })}
                   placeholder={lang === 'ar' ? 'مثال: تسوية جرد ربع سنوي...' : 'e.g. Quarterly physical recount...'}
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAdjustModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 font-medium"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 font-medium"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] font-semibold disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 font-semibold disabled:opacity-50"
                 >
                   {submitting 
                     ? (lang === 'ar' ? 'جاري التأكيد...' : 'Confirming...') 

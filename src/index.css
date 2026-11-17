@@ -35,6 +35,37 @@
   --font-heading: 'Ara Hamah 1982', 'AraHamah1982-Regular', 'Montserrat', sans-serif;
   --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
   --font-cairo: 'Cairo', system-ui, -apple-system, sans-serif;
+
+  /* ================= M20 DASHBOARD DESIGN SYSTEM: TOKENS ================= */
+  /* Surfaces */
+  --color-canvas: #F4F6F4;        /* app background */
+  --color-surface: #FFFFFF;       /* cards, topbar, inputs */
+  --color-line: #E3E8E5;          /* all borders / dividers */
+  --color-photo: #E9E8E6;         /* ground behind product photos */
+  /* Ink (text) */
+  --color-ink: #12201C;           /* primary text */
+  --color-ink-2: #4B5B56;         /* secondary text */
+  --color-ink-3: #8A9893;         /* muted / placeholder */
+  /* Brand */
+  --color-brand-900: #0F3830;     /* sidebar */
+  --color-brand-700: #174F43;     /* primary actions */
+  --color-brand-600: #1F6354;
+  --color-brand-100: #D3E5DF;
+  --color-brand-50: #EAF2EF;      /* soft tints, hover */
+  --color-accent: #FF9D00;        /* highlights, key CTA */
+  --color-accent-600: #E68D00;
+  --color-accent-50: #FFF4DE;
+  /* Status */
+  --color-success: #15803D;  --color-success-50: #E7F5EC;
+  --color-warning: #B45309;  --color-warning-50: #FEF3E0;
+  --color-danger:  #B91C1C;  --color-danger-50:  #FDECEC;
+  --color-info:    #1D4ED8;  --color-info-50:    #E8EEFD;
+
+  /* Shape + elevation */
+  --radius-control: 8px;          /* buttons, inputs */
+  --radius-card: 12px;            /* cards, panels */
+  --shadow-card: 0 1px 2px rgba(15, 56, 48, 0.05), 0 1px 1px rgba(15, 56, 48, 0.03);
+  --shadow-pop: 0 12px 32px -8px rgba(15, 56, 48, 0.18), 0 2px 6px rgba(15, 56, 48, 0.06);
 }
 
 @layer base {
@@ -54,8 +85,8 @@
 
   body {
     font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -67,14 +98,22 @@
     font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
   }
 
+  /* Dashboard headings use the UI face (legible at small sizes). The thin display face
+     'Ara Hamah' is reserved for brand moments via the .font-brand class. */
   html[dir="ltr"] h1,
   html[dir="ltr"] h2,
   html[dir="ltr"] h3,
-  html[dir="ltr"] .font-main,
   html[lang="en"] h1,
   html[lang="en"] h2,
-  html[lang="en"] h3,
-  html[lang="en"] .font-main {
+  html[lang="en"] h3 {
+    font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  html[dir="ltr"] .font-brand,
+  html[lang="en"] .font-brand,
+  .font-main {
     font-family: 'Ara Hamah 1982', 'AraHamah1982-Regular', 'Montserrat', sans-serif;
   }
 

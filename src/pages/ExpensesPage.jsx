@@ -17,7 +17,7 @@ const EXPENSE_CATEGORIES = {
   packaging_shipping: { label: 'تغليف وشحن إضافي', color: 'bg-amber-50 text-amber-700 border-amber-200' },
   software_tools: { label: 'برمجيات واشتراكات', color: 'bg-purple-50 text-purple-700 border-purple-200' },
   maintenance: { label: 'صيانة ومعدات', color: 'bg-cyan-50 text-cyan-700 border-cyan-200' },
-  other: { label: 'مصروفات أخرى', color: 'bg-slate-100 text-slate-700 border-slate-200' },
+  other: { label: 'مصروفات أخرى', color: 'bg-slate-100 text-slate-700 border-line' },
 };
 
 export default function ExpensesPage() {
@@ -120,10 +120,10 @@ export default function ExpensesPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <DollarSign size={20} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <DollarSign size={20} strokeWidth={1.5} className="text-brand-700" />
             <span>المصروفات التشغيلية (Operating Expenses)</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -134,7 +134,7 @@ export default function ExpensesPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenAdd}
-            className="px-3.5 py-2 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
+            className="px-3.5 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
           >
             <Plus size={14} />
             <span>تسجيل مصروف جديد</span>
@@ -142,7 +142,7 @@ export default function ExpensesPage() {
 
           <button
             onClick={fetchData}
-            className="p-2 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors"
             title="تحديث"
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
@@ -152,26 +152,26 @@ export default function ExpensesPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="bg-white rounded-sm p-4 border border-slate-200">
+        <div className="bg-white rounded-control p-4 border border-line">
           <span className="text-xs text-slate-500 block">إجمالي المصروفات التشغيلية</span>
-          <h3 className="text-xl font-bold text-[#b91c1c] mt-1">{Math.round(totalExpenseAmount).toLocaleString()} ج.م</h3>
+          <h3 className="text-xl font-bold text-danger mt-1">{Math.round(totalExpenseAmount).toLocaleString()} ج.م</h3>
         </div>
 
-        <div className="bg-white rounded-sm p-4 border border-slate-200">
+        <div className="bg-white rounded-control p-4 border border-line">
           <span className="text-xs text-slate-500 block">مصروفات التسويق والإعلانات</span>
           <h3 className="text-xl font-bold text-slate-900 mt-1">
             {Math.round(summary.byCategory?.marketing || 0).toLocaleString()} ج.م
           </h3>
         </div>
 
-        <div className="bg-white rounded-sm p-4 border border-slate-200">
+        <div className="bg-white rounded-control p-4 border border-line">
           <span className="text-xs text-slate-500 block">مصروفات الرواتب والمكافآت</span>
           <h3 className="text-xl font-bold text-slate-900 mt-1">
             {Math.round(summary.byCategory?.salaries || 0).toLocaleString()} ج.م
           </h3>
         </div>
 
-        <div className="bg-white rounded-sm p-4 border border-slate-200">
+        <div className="bg-white rounded-control p-4 border border-line">
           <span className="text-xs text-slate-500 block">التشغيل والمرافق والبرمجيات</span>
           <h3 className="text-xl font-bold text-slate-900 mt-1">
             {Math.round((summary.byCategory?.rent_utilities || 0) + (summary.byCategory?.software_tools || 0) + (summary.byCategory?.other || 0)).toLocaleString()} ج.م
@@ -180,7 +180,7 @@ export default function ExpensesPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white rounded-sm p-3 border border-slate-200 flex items-center justify-between">
+      <div className="bg-white rounded-control p-3 border border-line flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-500 flex items-center gap-1">
             <Filter size={12} />
@@ -189,7 +189,7 @@ export default function ExpensesPage() {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="h-9 bg-[#F8FAFC] border border-slate-200 rounded-sm px-3 text-xs outline-none text-slate-700"
+            className="h-9 bg-canvas border border-line rounded-control px-3 text-xs outline-none text-slate-700"
           >
             <option value="">جميع التصنيفات</option>
             {Object.entries(EXPENSE_CATEGORIES).map(([k, v]) => (
@@ -204,10 +204,10 @@ export default function ExpensesPage() {
       </div>
 
       {/* Expenses Table */}
-      <div className="bg-white rounded-sm border border-slate-200 overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-[#F8FAFC] text-slate-700 font-semibold border-b border-slate-200">
+            <thead className="bg-canvas text-slate-700 font-semibold border-b border-line">
               <tr>
                 <th className="py-3 px-4">اسم / بيان المصروف</th>
                 <th className="py-3 px-4">التصنيف</th>
@@ -218,12 +218,12 @@ export default function ExpensesPage() {
                 <th className="py-3 px-4 text-center">حذف</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-normal text-slate-700">
+            <tbody className="divide-y divide-line font-normal text-slate-700">
               {loading ? (
                 <tr>
                   <td colSpan="7" className="py-8 text-center text-slate-400">
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-[#174F43] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-brand-700 border-t-transparent rounded-full animate-spin"></div>
                       <span>جاري تحميل المصروفات...</span>
                     </div>
                   </td>
@@ -244,7 +244,7 @@ export default function ExpensesPage() {
                       </td>
 
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded-sm border text-[11px] font-medium ${catInfo.color}`}>
+                        <span className={`px-2 py-0.5 rounded-control border text-[11px] font-medium ${catInfo.color}`}>
                           {catInfo.label}
                         </span>
                       </td>
@@ -253,7 +253,7 @@ export default function ExpensesPage() {
                         {new Date(expense.date).toLocaleDateString('ar-EG')}
                       </td>
 
-                      <td className="py-3 px-4 text-center font-mono font-bold text-[#b91c1c]">
+                      <td className="py-3 px-4 text-center font-mono font-bold text-danger">
                         {expense.amount.toLocaleString()} ج.م
                       </td>
 
@@ -287,9 +287,9 @@ export default function ExpensesPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
           <div className="fixed inset-0 bg-black/40" onClick={() => setShowModal(false)} />
-          <div className="relative w-full max-w-md bg-white rounded-sm border border-slate-200 overlay-shadow z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
+          <div className="relative w-full max-w-md bg-surface rounded-card border border-line shadow-card overlay-shadow z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                 <Plus size={16} />
                 <span>تسجيل مصروف تشغيلي جديد</span>
               </h2>
@@ -307,7 +307,7 @@ export default function ExpensesPage() {
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="مثال: حملة إعلانية فيسبوك وإنستجرام"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -317,7 +317,7 @@ export default function ExpensesPage() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     {Object.entries(EXPENSE_CATEGORIES).map(([k, v]) => (
                       <option key={k} value={k}>{v.label}</option>
@@ -335,7 +335,7 @@ export default function ExpensesPage() {
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     placeholder="3500"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
               </div>
@@ -348,7 +348,7 @@ export default function ExpensesPage() {
                     required
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none"
                   />
                 </div>
 
@@ -357,7 +357,7 @@ export default function ExpensesPage() {
                   <select
                     value={formData.paidFromAccount}
                     onChange={(e) => setFormData({ ...formData, paidFromAccount: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     <option value="">-- بدون خصم من خزينة --</option>
                     {cashAccounts.map(acc => (
@@ -376,22 +376,22 @@ export default function ExpensesPage() {
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder="ملاحظات توثيقية إضافية..."
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] h-9 font-medium disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 h-9 font-medium disabled:opacity-50"
                 >
                   {submitting ? 'جاري الحفظ...' : 'تسجيل المصروف'}
                 </button>

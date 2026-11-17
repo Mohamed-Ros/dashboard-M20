@@ -227,9 +227,9 @@ export default function FinancePage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-sm bg-[#174F43] text-white flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-control bg-brand-700 text-white flex items-center justify-center shrink-0">
             <DollarSign size={20} strokeWidth={1.5} />
           </div>
           <div>
@@ -247,7 +247,7 @@ export default function FinancePage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => setShowCostModal(true)}
-            className="px-3.5 py-2 rounded-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs"
+            className="px-3.5 py-2 rounded-control border border-line bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-xs"
           >
             <Sliders size={14} />
             <span>{lang === 'ar' ? 'إعدادات التكاليف التلقائية' : 'Cost Defaults Settings'}</span>
@@ -255,16 +255,16 @@ export default function FinancePage() {
 
           <button
             onClick={fetchFinanceData}
-            className="p-2 rounded-sm border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
+            className="p-2 rounded-control border border-line bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
             title={lang === 'ar' ? 'تحديث' : 'Refresh'}
           >
-            <RefreshCw size={15} strokeWidth={1.5} className={loading ? 'animate-spin text-[#174F43]' : ''} />
+            <RefreshCw size={15} strokeWidth={1.5} className={loading ? 'animate-spin text-brand-700' : ''} />
           </button>
         </div>
       </div>
 
       {/* Date Presets Filter Bar */}
-      <div className="bg-white rounded-sm p-3 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white rounded-control p-3 border border-line shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-1.5 overflow-x-auto">
           <span className="text-xs text-slate-400 font-medium flex items-center gap-1 shrink-0 mr-1">
             <Calendar size={13} />
@@ -277,9 +277,9 @@ export default function FinancePage() {
                 key={p.key}
                 type="button"
                 onClick={() => setPeriod(p.key)}
-                className={`px-3 py-1.5 rounded-sm text-xs font-medium transition-colors shrink-0 ${
+                className={`px-3 py-1.5 rounded-control text-xs font-medium transition-colors shrink-0 ${
                   isActive
-                    ? 'bg-[#174F43] text-white font-semibold shadow-xs'
+                    ? 'bg-brand-700 text-white font-semibold shadow-xs'
                     : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
                 }`}
               >
@@ -295,18 +295,18 @@ export default function FinancePage() {
             type="date"
             value={customDates.startDate}
             onChange={(e) => setCustomDates({ ...customDates, startDate: e.target.value })}
-            className="h-8 bg-slate-50 border border-slate-200 rounded-sm px-2 text-xs outline-none text-slate-700 font-mono"
+            className="h-8 bg-slate-50 border border-line rounded-control px-2 text-xs outline-none text-slate-700 font-mono"
           />
           <span className="text-slate-400 text-xs">-</span>
           <input
             type="date"
             value={customDates.endDate}
             onChange={(e) => setCustomDates({ ...customDates, endDate: e.target.value })}
-            className="h-8 bg-slate-50 border border-slate-200 rounded-sm px-2 text-xs outline-none text-slate-700 font-mono"
+            className="h-8 bg-slate-50 border border-line rounded-control px-2 text-xs outline-none text-slate-700 font-mono"
           />
           <button
             type="submit"
-            className="px-3 h-8 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-sm transition-colors"
+            className="px-3 h-8 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-control transition-colors"
           >
             {lang === 'ar' ? 'تطبيق' : 'Apply'}
           </button>
@@ -316,7 +316,7 @@ export default function FinancePage() {
       {/* Primary Financial Performance KPIs (P&L Breakdown) */}
       <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">
         {/* Gross Sales */}
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'إجمالي المبيعات' : 'Gross Sales'}
           </span>
@@ -331,7 +331,7 @@ export default function FinancePage() {
         </div>
 
         {/* Cost of Goods Sold (COGS) */}
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'تكلفة البضاعة المباعة (COGS)' : 'Cost of Goods Sold'}
           </span>
@@ -346,12 +346,12 @@ export default function FinancePage() {
         </div>
 
         {/* Gross Profit */}
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'مجمل الربح' : 'Gross Profit'}
           </span>
           <div className="mt-1">
-            <h3 className="text-xl font-bold text-[#174F43] font-mono">
+            <h3 className="text-xl font-bold text-brand-700 font-mono">
               {formatCurrency(Math.round(summary.grossProfit))}
             </h3>
             <span className="text-[11px] text-emerald-600 font-semibold block mt-0.5 font-mono">
@@ -361,7 +361,7 @@ export default function FinancePage() {
         </div>
 
         {/* Operating Expenses */}
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'المصروفات التشغيلية' : 'Operating Expenses'}
           </span>
@@ -376,7 +376,7 @@ export default function FinancePage() {
         </div>
 
         {/* Shipping & Transport */}
-        <div className="bg-white rounded-sm p-4 border border-slate-200 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-line shadow-xs">
           <span className="text-xs text-slate-500 font-medium block">
             {lang === 'ar' ? 'مصاريف الشحن والنقل' : 'Shipping & Logistics'}
           </span>
@@ -391,7 +391,7 @@ export default function FinancePage() {
         </div>
 
         {/* Returned Orders Shipping Costs */}
-        <div className="bg-white rounded-sm p-4 border border-amber-200/90 shadow-xs">
+        <div className="bg-white rounded-control p-4 border border-amber-200/90 shadow-xs">
           <span className="text-xs text-amber-900 font-semibold flex items-center justify-between">
             <span>{lang === 'ar' ? 'تكاليف شحن المرتجعات' : 'Return Shipping'}</span>
             <RotateCcw size={13} className="text-amber-700" />
@@ -407,7 +407,7 @@ export default function FinancePage() {
         </div>
 
         {/* Net Profit */}
-        <div className={`rounded-sm p-4 border shadow-xs ${
+        <div className={`rounded-control p-4 border shadow-xs ${
           summary.netProfit >= 0 ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'
         }`}>
           <span className={`text-xs font-semibold block ${summary.netProfit >= 0 ? 'text-emerald-900' : 'text-rose-900'}`}>
@@ -428,7 +428,7 @@ export default function FinancePage() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Wallet size={16} className="text-[#174F43]" />
+            <Wallet size={16} className="text-brand-700" />
             <h2 className="text-sm font-bold text-slate-900">
               {lang === 'ar' ? 'الخزائن وحسابات الدفع المتاحة' : 'Cash & Payment Account Balances'}
             </h2>
@@ -438,7 +438,7 @@ export default function FinancePage() {
             <span className="text-xs text-slate-500 font-medium">
               {lang === 'ar' ? 'إجمالي السيولة المتاحة:' : 'Total Available Cash:'}
             </span>
-            <span className="text-base font-bold font-mono text-[#174F43]">
+            <span className="text-base font-bold font-mono text-brand-700">
               {formatCurrency(Math.round(cashBalances.total))}
             </span>
           </div>
@@ -448,7 +448,7 @@ export default function FinancePage() {
           {cashBalances.accounts.map((acc) => (
             <div 
               key={acc.id} 
-              className="bg-white rounded-sm border border-slate-200 p-3.5 shadow-xs flex flex-col justify-between"
+              className="bg-surface rounded-card border border-line shadow-card p-3.5 shadow-xs flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
@@ -456,7 +456,7 @@ export default function FinancePage() {
                     {getAccountIcon(acc.type)}
                     {acc.name}
                   </span>
-                  <span className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded-sm border border-slate-200">
+                  <span className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded-control border border-line">
                     {acc.type}
                   </span>
                 </div>
@@ -474,7 +474,7 @@ export default function FinancePage() {
                 <button
                   type="button"
                   onClick={() => handleOpenAdjust(acc)}
-                  className="text-[11px] font-semibold text-[#174F43] hover:underline"
+                  className="text-[11px] font-semibold text-brand-700 hover:underline"
                 >
                   {lang === 'ar' ? 'تسوية / إيداع / سحب' : 'Adjust / Deposit'}
                 </button>
@@ -487,8 +487,8 @@ export default function FinancePage() {
       {/* Outstanding Balances & Inventory Valuation Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Outstanding Receivables and Payables */}
-        <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs space-y-3">
-          <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs space-y-3">
+          <div className="flex items-center gap-2 pb-2 border-b border-line">
             <AlertCircle size={16} className="text-amber-600" />
             <h2 className="text-sm font-bold text-slate-900">
               {lang === 'ar' ? 'المستحقات المعلقة (العملاء والموردين)' : 'Outstanding Balances (Payables & Receivables)'}
@@ -497,7 +497,7 @@ export default function FinancePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Customer Receivables */}
-            <div className="bg-slate-50 rounded-sm p-3 border border-slate-200">
+            <div className="bg-slate-50 rounded-control p-3 border border-line">
               <span className="text-xs text-slate-500 font-medium block">
                 {lang === 'ar' ? 'مستحقات معلقة لدى العملاء (تحصيل / دفع)' : 'Outstanding Customer Payments'}
               </span>
@@ -510,7 +510,7 @@ export default function FinancePage() {
             </div>
 
             {/* Supplier Payables */}
-            <div className="bg-slate-50 rounded-sm p-3 border border-slate-200">
+            <div className="bg-slate-50 rounded-control p-3 border border-line">
               <span className="text-xs text-slate-500 font-medium block">
                 {lang === 'ar' ? 'مستحقات معلقة للموردين (فواتير غير مسددة)' : 'Outstanding Supplier Payments'}
               </span>
@@ -525,10 +525,10 @@ export default function FinancePage() {
         </div>
 
         {/* Live Inventory Valuation */}
-        <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs space-y-3">
+          <div className="flex items-center justify-between pb-2 border-b border-line">
             <div className="flex items-center gap-2">
-              <Package size={16} className="text-[#174F43]" />
+              <Package size={16} className="text-brand-700" />
               <h2 className="text-sm font-bold text-slate-900">
                 {lang === 'ar' ? 'تقييم المخزون الحالي (قيمة الأصول)' : 'Live Inventory Asset Valuation'}
               </h2>
@@ -539,7 +539,7 @@ export default function FinancePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-slate-50 p-3 rounded-sm border border-slate-200">
+            <div className="bg-slate-50 p-3 rounded-control border border-line">
               <span className="text-xs text-slate-500 font-medium block">
                 {lang === 'ar' ? 'مخزون المواد الخام' : 'Raw Materials Stock'}
               </span>
@@ -551,7 +551,7 @@ export default function FinancePage() {
               </span>
             </div>
 
-            <div className="bg-slate-50 p-3 rounded-sm border border-slate-200">
+            <div className="bg-slate-50 p-3 rounded-control border border-line">
               <span className="text-xs text-slate-500 font-medium block">
                 {lang === 'ar' ? 'مخزون العطور السائلة المجهزة' : 'Finished Liquid Bulk'}
               </span>
@@ -567,8 +567,8 @@ export default function FinancePage() {
       </div>
 
       {/* RETURNED ORDERS & SHIPPING CHARGES AUDIT SECTION */}
-      <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-line">
           <div className="flex items-center gap-2">
             <RotateCcw size={16} className="text-amber-800" />
             <div>
@@ -582,10 +582,10 @@ export default function FinancePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-sm">
+            <span className="text-xs font-semibold px-2.5 py-1 bg-amber-50 text-amber-900 border border-amber-200 rounded-control">
               {summary.returnedOrdersCount} {lang === 'ar' ? 'شحنة مرتجعة' : 'returns'}
             </span>
-            <span className="text-xs font-bold font-mono px-2.5 py-1 bg-slate-100 text-slate-900 border border-slate-200 rounded-sm">
+            <span className="text-xs font-bold font-mono px-2.5 py-1 bg-slate-100 text-slate-900 border border-line rounded-control">
               {lang === 'ar' ? 'الإجمالي:' : 'Total:'} {formatCurrency(Math.round(summary.totalReturnShippingExpenses))}
             </span>
           </div>
@@ -593,7 +593,7 @@ export default function FinancePage() {
 
         {/* 4 Financial Policy Highlight Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="bg-slate-50 p-3 rounded-sm border border-slate-200">
+          <div className="bg-slate-50 p-3 rounded-control border border-line">
             <span className="text-[11px] text-slate-500 font-medium block">
               {lang === 'ar' ? 'شحن ذهاباً للعميل (Outbound)' : 'Outbound Shipping'}
             </span>
@@ -605,7 +605,7 @@ export default function FinancePage() {
             </span>
           </div>
 
-          <div className="bg-slate-50 p-3 rounded-sm border border-slate-200">
+          <div className="bg-slate-50 p-3 rounded-control border border-line">
             <span className="text-[11px] text-slate-500 font-medium block">
               {lang === 'ar' ? 'شحن إياباً / عودة (Inbound)' : 'Return Transit Fee'}
             </span>
@@ -617,7 +617,7 @@ export default function FinancePage() {
             </span>
           </div>
 
-          <div className="bg-slate-50 p-3 rounded-sm border border-slate-200">
+          <div className="bg-slate-50 p-3 rounded-control border border-line">
             <span className="text-[11px] text-slate-500 font-medium block">
               {lang === 'ar' ? 'الأثر المالي على صافي الربح' : 'Net Profit Impact'}
             </span>
@@ -629,7 +629,7 @@ export default function FinancePage() {
             </span>
           </div>
 
-          <div className="bg-emerald-50/70 p-3 rounded-sm border border-emerald-200">
+          <div className="bg-emerald-50/70 p-3 rounded-control border border-emerald-200">
             <span className="text-[11px] text-emerald-900 font-semibold block flex items-center gap-1">
               <ShieldCheck size={13} className="text-emerald-700" />
               <span>{lang === 'ar' ? 'حماية تكلفة التصنيع (COGS)' : 'COGS Protection'}</span>
@@ -644,7 +644,7 @@ export default function FinancePage() {
         </div>
 
         {/* Policy Explainer Note */}
-        <div className="p-3 bg-amber-50/60 rounded-sm border border-amber-200/90 text-amber-950 text-xs leading-relaxed">
+        <div className="p-3 bg-amber-50/60 rounded-control border border-amber-200/90 text-amber-950 text-xs leading-relaxed">
           <p className="font-semibold mb-0.5">
             {lang === 'ar' ? 'قواعد معالجة المرتجعات المالية في دار M20:' : 'M20 Return Finance Rules:'}
           </p>
@@ -656,10 +656,10 @@ export default function FinancePage() {
         </div>
 
         {/* Returned Shipments Table */}
-        <div className="border border-slate-200 rounded-sm overflow-hidden">
+        <div className="border border-line rounded-control overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className="bg-slate-50 border-b border-slate-200 font-bold text-slate-600">
+              <thead className="bg-slate-50 border-b border-line font-bold text-slate-600">
                 <tr>
                   <th className="p-2.5">{lang === 'ar' ? 'رقم الطلب' : 'Order #'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'العميل' : 'Customer'}</th>
@@ -672,11 +672,11 @@ export default function FinancePage() {
                   <th className="p-2.5 text-left">{lang === 'ar' ? 'الطلب' : 'View'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 bg-white">
+              <tbody className="divide-y divide-line bg-white">
                 {returnedShipments.orders && returnedShipments.orders.length > 0 ? (
                   returnedShipments.orders.map((o, idx) => (
                     <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="p-2.5 font-bold font-mono text-[#174F43]">
+                      <td className="p-2.5 font-bold font-mono text-brand-700">
                         #{o.orderNumber}
                       </td>
                       <td className="p-2.5">
@@ -726,7 +726,7 @@ export default function FinancePage() {
                       <td className="p-2.5 text-left">
                         <Link
                           to={`/orders?id=${o.orderId}`}
-                          className="inline-flex items-center gap-1 text-slate-600 hover:text-[#174F43] font-semibold text-[11px]"
+                          className="inline-flex items-center gap-1 text-slate-600 hover:text-brand-700 font-semibold text-[11px]"
                         >
                           <span>{lang === 'ar' ? 'عرض' : 'View'}</span>
                           <ExternalLink size={12} />
@@ -748,8 +748,8 @@ export default function FinancePage() {
       </div>
       {showCostModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-white rounded-sm border border-slate-200 shadow-xl z-10 max-h-[90vh] overflow-y-auto">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#174F43] text-white flex items-center justify-between">
+          <div className="relative w-full max-w-md bg-surface rounded-card border border-line shadow-card shadow-xl z-10 max-h-[90vh] overflow-y-auto">
+            <div className="px-5 py-3.5 border-b border-line bg-brand-700 text-white flex items-center justify-between">
               <h2 className="text-sm font-bold flex items-center gap-2">
                 <Sliders size={16} />
                 <span>{lang === 'ar' ? 'إعدادات التكاليف الافتراضية للمنتجات' : 'Automated Product Cost Settings'}</span>
@@ -778,7 +778,7 @@ export default function FinancePage() {
                   value={costForm.bottleWithCapSprayer}
                   onChange={(e) => setCostForm({ ...costForm, bottleWithCapSprayer: e.target.value })}
                   placeholder="45"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -794,7 +794,7 @@ export default function FinancePage() {
                   value={costForm.sticker}
                   onChange={(e) => setCostForm({ ...costForm, sticker: e.target.value })}
                   placeholder="20"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -810,7 +810,7 @@ export default function FinancePage() {
                   value={costForm.box}
                   onChange={(e) => setCostForm({ ...costForm, box: e.target.value })}
                   placeholder="25"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -826,7 +826,7 @@ export default function FinancePage() {
                   value={costForm.marketingPerBottle}
                   onChange={(e) => setCostForm({ ...costForm, marketingPerBottle: e.target.value })}
                   placeholder="20"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -843,25 +843,25 @@ export default function FinancePage() {
                   value={costForm.defaultLiquidDensity}
                   onChange={(e) => setCostForm({ ...costForm, defaultLiquidDensity: e.target.value })}
                   placeholder="0.86"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
                 <span className="text-[10px] text-slate-400 mt-1 block">
                   {lang === 'ar' ? 'تُستخدم لتحويل الحجم (50ml / 100ml) لوزن بالجرام لخصم السائل بدقة.' : 'Used to convert ml to grams for accurate liquid deduction.'}
                 </span>
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowCostModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 font-medium"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 font-medium"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={savingCosts}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] font-semibold disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 font-semibold disabled:opacity-50"
                 >
                   {savingCosts ? (lang === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (lang === 'ar' ? 'حفظ الإعدادات' : 'Save Defaults')}
                 </button>
@@ -874,8 +874,8 @@ export default function FinancePage() {
       {/* Cash Account Adjustment Modal */}
       {showAdjustModal && selectedAccount && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-          <div className="relative w-full max-w-sm bg-white rounded-sm border border-slate-200 shadow-xl z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+          <div className="relative w-full max-w-sm bg-surface rounded-card border border-line shadow-card shadow-xl z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-slate-50 flex items-center justify-between">
               <h2 className="text-sm font-bold text-slate-900">
                 {lang === 'ar' ? `تسوية حساب: ${selectedAccount.name}` : `Adjust Account: ${selectedAccount.name}`}
               </h2>
@@ -885,7 +885,7 @@ export default function FinancePage() {
             </div>
 
             <form onSubmit={handleSubmitAdjust} className="p-5 space-y-3.5 text-xs">
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm">
+              <div className="p-3 bg-slate-50 border border-line rounded-control">
                 <span className="text-slate-500 font-medium block">
                   {lang === 'ar' ? 'الرصيد المسجل حالياً:' : 'Current Balance:'}
                 </span>
@@ -901,7 +901,7 @@ export default function FinancePage() {
                 <select
                   value={adjustForm.type}
                   onChange={(e) => setAdjustForm({ ...adjustForm, type: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs font-semibold outline-none"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-semibold outline-none"
                 >
                   <option value="deposit">{lang === 'ar' ? 'إيداع / زيادة رصيد (+)' : 'Deposit / Add Funds (+)'}</option>
                   <option value="withdrawal">{lang === 'ar' ? 'سحب / خصم رصيد (-)' : 'Withdrawal / Deduct Funds (-)'}</option>
@@ -920,7 +920,7 @@ export default function FinancePage() {
                   value={adjustForm.amount}
                   onChange={(e) => setAdjustForm({ ...adjustForm, amount: e.target.value })}
                   placeholder="1000"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -934,22 +934,22 @@ export default function FinancePage() {
                   value={adjustForm.reason}
                   onChange={(e) => setAdjustForm({ ...adjustForm, reason: e.target.value })}
                   placeholder={lang === 'ar' ? 'مثال: تسوية رصيد بنكي شهري...' : 'e.g. Monthly bank reconciliation...'}
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAdjustModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 font-medium"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 font-medium"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={submittingAdjust}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] font-semibold disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 font-semibold disabled:opacity-50"
                 >
                   {submittingAdjust ? (lang === 'ar' ? 'جاري التأكيد...' : 'Saving...') : (lang === 'ar' ? 'تأكيد التسوية' : 'Confirm')}
                 </button>

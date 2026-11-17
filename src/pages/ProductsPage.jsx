@@ -354,14 +354,14 @@ export default function ProductsPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200/80">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line/80">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#174F43] to-[#0F3830] text-white flex items-center justify-center shadow-md shadow-[#174F43]/10">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center shadow-md shadow-[#174F43]/10">
               <Package size={20} strokeWidth={1.5} />
             </div>
             <div>
-              <h1 className="text-xl font-extrabold text-[#174F43] tracking-tight">
+              <h1 className="text-xl font-extrabold text-brand-700 tracking-tight">
                 كتالوج العطور والمنتجات التامة (Products)
               </h1>
               <p className="text-xs text-slate-500 font-medium">
@@ -374,7 +374,7 @@ export default function ProductsPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenNew}
-            className="px-4 py-2.5 rounded-xl bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-sm hover:shadow active:scale-95"
+            className="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-sm hover:shadow active:scale-95"
           >
             <Plus size={16} />
             <span>إضافة عطر جديد</span>
@@ -382,16 +382,16 @@ export default function ProductsPage() {
 
           <button
             onClick={fetchProductsList}
-            className="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
+            className="p-2.5 rounded-xl border border-line bg-white hover:bg-slate-50 text-slate-700 transition-colors shadow-xs"
             title="تحديث"
           >
-            <RefreshCw size={14} strokeWidth={1.7} className={loading ? 'animate-spin text-[#174F43]' : ''} />
+            <RefreshCw size={14} strokeWidth={1.7} className={loading ? 'animate-spin text-brand-700' : ''} />
           </button>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white p-3.5 rounded-2xl border border-line/80 shadow-xs">
         <div className="relative w-full sm:w-80">
           <Search size={15} className="absolute right-3.5 top-3 text-slate-400" />
           <input
@@ -399,7 +399,7 @@ export default function ProductsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="بحث بالاسم أو الوصف..."
-            className="w-full h-9 pr-9 pl-3 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#174F43]"
+            className="w-full h-9 pr-9 pl-3 text-xs bg-slate-50 border border-line rounded-xl outline-none focus:border-brand-700"
           />
         </div>
 
@@ -408,7 +408,7 @@ export default function ProductsPage() {
           <button
             onClick={() => setFilterGender('ALL')}
             className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
-              filterGender === 'ALL' ? 'bg-white text-[#174F43] shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+              filterGender === 'ALL' ? 'bg-white text-brand-700 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             الكل ({products.length})
@@ -416,7 +416,7 @@ export default function ProductsPage() {
           <button
             onClick={() => setFilterGender('MEN')}
             className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
-              filterGender === 'MEN' ? 'bg-[#174F43] text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+              filterGender === 'MEN' ? 'bg-brand-700 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             رجالي (MEN)
@@ -435,14 +435,14 @@ export default function ProductsPage() {
       {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {loading ? (
-          <div className="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200/80">
+          <div className="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-line/80">
             <div className="flex items-center justify-center gap-3">
-              <div className="w-6 h-6 border-2 border-[#174F43] border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-6 h-6 border-2 border-brand-700 border-t-transparent rounded-full animate-spin"></div>
               <span className="font-semibold text-xs">جاري تحميل كتالوج العطور...</span>
             </div>
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-slate-200/80 p-6">
+          <div className="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-line/80 p-6">
             <Package size={36} className="mx-auto text-slate-300 mb-2" strokeWidth={1.5} />
             <p className="font-bold text-slate-700 text-sm">لا توجد عطور مطابقة للبحث</p>
             <p className="text-xs text-slate-400 mt-1">اضغط على "إضافة عطر جديد" لإضافة عطر بالصور والأسعار المحدثة.</p>
@@ -456,27 +456,27 @@ export default function ProductsPage() {
             const packagingImg = product.packagingImage?.url || product.images?.find(i => i.role === 'packaging')?.url;
 
             return (
-              <div key={product._id} className="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group">
+              <div key={product._id} className="bg-white rounded-2xl border border-line/80 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group">
                 <div>
                   {/* Top Image Box with Hover Transition */}
-                  <div className="relative aspect-4/3 bg-[#F8FAFC] border-b border-slate-100 p-4 flex items-center justify-center overflow-hidden">
+                  <div className="relative aspect-4/3 bg-photo overflow-hidden">
                     <img
                       src={mainImg}
                       alt={product.name}
-                      className="w-full h-full object-contain transition-opacity duration-300 group-hover:opacity-0"
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
                       onError={(e) => { e.target.onerror = null; e.target.src = '/img/product.png'; }}
                     />
                     {hoverImg && (
                       <img
                         src={hoverImg}
                         alt={`${product.name} hover`}
-                        className="absolute inset-0 w-full h-full object-contain p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                       />
                     )}
 
                     {/* Gender Badge */}
                     <span className={`absolute top-3 right-3 px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider ${
-                      isMen ? 'bg-[#174F43] text-white' : 'bg-rose-600 text-white'
+                      isMen ? 'bg-brand-700 text-white' : 'bg-rose-600 text-white'
                     }`}>
                       {isMen ? 'MEN • رجالي' : 'WOMEN • نسائي'}
                     </span>
@@ -494,7 +494,7 @@ export default function ProductsPage() {
                   {/* Body Content */}
                   <div className="p-4 space-y-3">
                     <div>
-                      <h3 className="font-extrabold text-sm text-[#174F43] line-clamp-1">{product.name}</h3>
+                      <h3 className="font-extrabold text-sm text-brand-700 line-clamp-1">{product.name}</h3>
                       <p className="text-xs text-slate-500 font-light mt-0.5 line-clamp-2 leading-relaxed">
                         {product.shortDescription || product.description || 'عطر فاخر مصنوع بتركيز استثنائي.'}
                       </p>
@@ -505,19 +505,19 @@ export default function ProductsPage() {
                       <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 space-y-1 text-[11px]">
                         {product.notes.top?.length > 0 && (
                           <div className="flex items-center gap-1 text-slate-600 truncate">
-                            <span className="font-bold text-[#174F43] shrink-0">القمة:</span>
+                            <span className="font-bold text-brand-700 shrink-0">القمة:</span>
                             <span className="truncate">{product.notes.top.join(', ')}</span>
                           </div>
                         )}
                         {product.notes.heart?.length > 0 && (
                           <div className="flex items-center gap-1 text-slate-600 truncate">
-                            <span className="font-bold text-[#174F43] shrink-0">القلب:</span>
+                            <span className="font-bold text-brand-700 shrink-0">القلب:</span>
                             <span className="truncate">{product.notes.heart.join(', ')}</span>
                           </div>
                         )}
                         {product.notes.base?.length > 0 && (
                           <div className="flex items-center gap-1 text-slate-600 truncate">
-                            <span className="font-bold text-[#174F43] shrink-0">القاعدة:</span>
+                            <span className="font-bold text-brand-700 shrink-0">القاعدة:</span>
                             <span className="truncate">{product.notes.base.join(', ')}</span>
                           </div>
                         )}
@@ -561,8 +561,8 @@ export default function ProductsPage() {
                         const oldPrice = variant.compareAtPrice || variant.oldPrice;
 
                         return (
-                          <div key={sz} className="p-2 bg-white rounded-xl border border-slate-200/90 text-center">
-                            <span className="font-extrabold text-[11px] text-[#174F43] block">{sz}</span>
+                          <div key={sz} className="p-2 bg-white rounded-xl border border-line/90 text-center">
+                            <span className="font-extrabold text-[11px] text-brand-700 block">{sz}</span>
                             {oldPrice && oldPrice > price && (
                               <span className="text-[10px] text-slate-400 line-through block -mt-0.5">
                                 {oldPrice} ج.م
@@ -587,9 +587,9 @@ export default function ProductsPage() {
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => handleOpenEdit(product)}
-                      className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold flex items-center gap-1 transition-colors shadow-2xs"
+                      className="px-3 py-1.5 rounded-xl bg-white border border-line hover:bg-slate-100 text-slate-700 text-xs font-bold flex items-center gap-1 transition-colors shadow-2xs"
                     >
-                      <Edit3 size={13} className="text-[#174F43]" />
+                      <Edit3 size={13} className="text-brand-700" />
                       <span>تعديل العطر</span>
                     </button>
 
@@ -611,15 +611,15 @@ export default function ProductsPage() {
       {/* Product Create / Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl bg-black/50 backdrop-blur-xs">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-slate-200 shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden">
+          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-line shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200/80 bg-[#F8FAFC] flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 border-b border-line/80 bg-canvas flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#174F43]/10 text-[#174F43] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-brand-700/10 text-brand-700 flex items-center justify-center">
                   <Package size={18} />
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold text-[#174F43]">
+                  <h2 className="text-sm font-bold text-brand-700">
                     {editingId ? `تعديل العطر: ${formData.name}` : 'إضافة عطر فاخر جديد'}
                   </h2>
                   <p className="text-[11px] text-slate-400">إدارة تفاصيل العطر، النوتات، الأحجام الثابتة، والصور الـ 4</p>
@@ -645,7 +645,7 @@ export default function ProductsPage() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="مثال: M20 Signature Noir"
-                      className="w-full h-10 bg-white border border-slate-200 rounded-xl px-3.5 text-xs font-bold outline-none focus:border-[#174F43]"
+                      className="w-full h-10 bg-white border border-line rounded-xl px-3.5 text-xs font-bold outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -657,7 +657,7 @@ export default function ProductsPage() {
                         type="button"
                         onClick={() => setFormData({ ...formData, gender: 'MEN' })}
                         className={`h-full text-xs font-bold rounded-lg transition-all flex items-center justify-center ${
-                          formData.gender === 'MEN' ? 'bg-[#174F43] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                          formData.gender === 'MEN' ? 'bg-brand-700 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
                         MEN (رجالي)
@@ -683,14 +683,14 @@ export default function ProductsPage() {
                     value={formData.shortDescription}
                     onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
                     placeholder="وصف تسويقي جذاب يظهر على كروت المنتجات وتفاصيل العطر..."
-                    className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs outline-none focus:border-[#174F43]"
+                    className="w-full bg-white border border-line rounded-xl p-3 text-xs outline-none focus:border-brand-700"
                   />
                 </div>
               </div>
 
               {/* Section 2: Fragrance Notes */}
-              <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-2xl space-y-3">
-                <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+              <div className="p-4 bg-canvas border border-line rounded-2xl space-y-3">
+                <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                   <Sparkles size={15} />
                   <span>الهرم العطري والنوتات (Fragrance Notes)</span>
                 </span>
@@ -704,7 +704,7 @@ export default function ProductsPage() {
                       value={topNotesStr}
                       onChange={(e) => setTopNotesStr(e.target.value)}
                       placeholder="البرغموت, الفلفل الوردي"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -715,7 +715,7 @@ export default function ProductsPage() {
                       value={heartNotesStr}
                       onChange={(e) => setHeartNotesStr(e.target.value)}
                       placeholder="الياسمين, الورد الجوري"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -726,16 +726,16 @@ export default function ProductsPage() {
                       value={baseNotesStr}
                       onChange={(e) => setBaseNotesStr(e.target.value)}
                       placeholder="العود, العنبر, المسك"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 2.5: Perfume Performance & Occasions (الثبات، الفوحان، وقائمة المناسبات) */}
-              <div className="p-4 bg-white border border-slate-200/90 rounded-2xl space-y-4">
+              <div className="p-4 bg-white border border-line/90 rounded-2xl space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <Timer size={15} />
                     <span>أداء العطر والمناسبات الموصى بها (Performance & Occasions)</span>
                   </span>
@@ -744,9 +744,9 @@ export default function ProductsPage() {
 
                 {/* Longevity & Sillage Hours */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                  <div className="p-3 bg-slate-50 border border-line rounded-xl space-y-1">
                     <label className="flex items-center gap-1.5 text-[11px] font-bold text-slate-700">
-                      <Clock size={13} className="text-[#174F43]" />
+                      <Clock size={13} className="text-brand-700" />
                       <span>مدة الثبات بالساعات (Longevity)</span>
                     </label>
                     <div className="flex items-center gap-2">
@@ -757,15 +757,15 @@ export default function ProductsPage() {
                         value={formData.longevityHours}
                         onChange={(e) => setFormData({ ...formData, longevityHours: e.target.value })}
                         placeholder="مثال: 8 أو 12"
-                        className="w-full h-9 bg-white border border-slate-200 rounded-lg px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-lg px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                       />
                       <span className="text-xs font-bold text-slate-500 shrink-0">ساعات</span>
                     </div>
                   </div>
 
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                  <div className="p-3 bg-slate-50 border border-line rounded-xl space-y-1">
                     <label className="flex items-center gap-1.5 text-[11px] font-bold text-slate-700">
-                      <Wind size={13} className="text-[#174F43]" />
+                      <Wind size={13} className="text-brand-700" />
                       <span>مدة الفوحان بالساعات (Sillage)</span>
                     </label>
                     <div className="flex items-center gap-2">
@@ -776,7 +776,7 @@ export default function ProductsPage() {
                         value={formData.sillageHours}
                         onChange={(e) => setFormData({ ...formData, sillageHours: e.target.value })}
                         placeholder="مثال: 4 أو 6"
-                        className="w-full h-9 bg-white border border-slate-200 rounded-lg px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-lg px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                       />
                       <span className="text-xs font-bold text-slate-500 shrink-0">ساعات</span>
                     </div>
@@ -799,8 +799,8 @@ export default function ProductsPage() {
                           onClick={() => toggleOccasion(occ.id)}
                           className={`p-2.5 rounded-xl border text-xs font-semibold flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                             isSelected
-                              ? 'bg-[#174F43] text-white border-[#174F43] shadow-sm scale-[1.02]'
-                              : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-100'
+                              ? 'bg-brand-700 text-white border-brand-700 shadow-sm scale-[1.02]'
+                              : 'bg-slate-50 text-slate-600 border-line hover:border-slate-300 hover:bg-slate-100'
                           }`}
                         >
                           <IconComp size={16} strokeWidth={isSelected ? 2 : 1.5} />
@@ -813,9 +813,9 @@ export default function ProductsPage() {
               </div>
 
               {/* Section 3: Sizes & Pricing (Fixed 30ml, 50ml, 100ml) */}
-              <div className="p-4 bg-white border border-slate-200/90 rounded-2xl space-y-3">
+              <div className="p-4 bg-white border border-line/90 rounded-2xl space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <Tag size={15} />
                     <span>الأسعار والأحجام الثابتة (30ml / 50ml / 100ml)</span>
                   </span>
@@ -826,10 +826,10 @@ export default function ProductsPage() {
                   {FIXED_SIZES.map(sz => {
                     const variant = formData.variants.find(v => v.size === sz) || { price: 0, compareAtPrice: '' };
                     return (
-                      <div key={sz} className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+                      <div key={sz} className="p-3.5 bg-slate-50 border border-line rounded-2xl space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="font-extrabold text-xs text-[#174F43]">{sz}</span>
-                          <span className="text-[10px] bg-white px-2 py-0.5 rounded-md border border-slate-200 text-slate-600 font-mono font-bold">
+                          <span className="font-extrabold text-xs text-brand-700">{sz}</span>
+                          <span className="text-[10px] bg-white px-2 py-0.5 rounded-md border border-line text-slate-600 font-mono font-bold">
                             ثابت
                           </span>
                         </div>
@@ -843,7 +843,7 @@ export default function ProductsPage() {
                             value={variant.price}
                             onChange={(e) => handleVariantPriceChange(sz, 'price', e.target.value)}
                             placeholder="400"
-                            className="w-full h-9 bg-white border border-slate-200 rounded-xl px-2.5 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                            className="w-full h-9 bg-white border border-line rounded-xl px-2.5 text-xs font-mono font-bold outline-none focus:border-brand-700"
                           />
                         </div>
 
@@ -855,7 +855,7 @@ export default function ProductsPage() {
                             value={variant.compareAtPrice || ''}
                             onChange={(e) => handleVariantPriceChange(sz, 'compareAtPrice', e.target.value)}
                             placeholder="مثال: 500"
-                            className="w-full h-9 bg-white border border-slate-200 rounded-xl px-2.5 text-xs font-mono text-slate-500 outline-none focus:border-[#174F43]"
+                            className="w-full h-9 bg-white border border-line rounded-xl px-2.5 text-xs font-mono text-slate-500 outline-none focus:border-brand-700"
                           />
                         </div>
                       </div>
@@ -867,7 +867,7 @@ export default function ProductsPage() {
               {/* Section 4: Exactly 4 Defined Image Inputs */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <ImageIcon size={15} />
                     <span>صور العطر الأربعة المخصصة (4 Defined Product Images)</span>
                   </span>
@@ -876,9 +876,9 @@ export default function ProductsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Slot 1: Main Product Image */}
-                  <div className="p-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-2">
+                  <div className="p-3.5 bg-slate-50/70 border border-line rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-[#174F43] flex items-center gap-1">
+                      <span className="font-extrabold text-xs text-brand-700 flex items-center gap-1">
                         <span>1. الصورة الرئيسية (Main Image) *</span>
                       </span>
                       <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md">
@@ -888,7 +888,7 @@ export default function ProductsPage() {
                     <p className="text-[10px] text-slate-400">زجاجة العطر النقية في الكتالوج وكروت المنتجات</p>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                      <div className="w-16 h-16 rounded-xl bg-white border border-line p-1 flex items-center justify-center overflow-hidden shrink-0">
                         {formData.mainImage?.url ? (
                           <img src={formData.mainImage.url} alt="Main Preview" className="w-full h-full object-contain" />
                         ) : (
@@ -899,7 +899,7 @@ export default function ProductsPage() {
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center gap-1.5">
                           <label className="flex-1 cursor-pointer">
-                            <span className="w-full h-8 bg-white border border-slate-200 hover:bg-slate-100 text-[#174F43] rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                            <span className="w-full h-8 bg-white border border-line hover:bg-slate-100 text-brand-700 rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
                               {uploadingRole === 'mainImage' ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
                               <span>رفع صورة من الجهاز</span>
                             </span>
@@ -928,16 +928,16 @@ export default function ProductsPage() {
                           value={formData.mainImage?.url || ''}
                           onChange={(e) => handleImageUrlChange('mainImage', e.target.value)}
                           placeholder="أو ضع رابط الصورة المباشر هنا..."
-                          className="w-full h-7 bg-white border border-slate-200 rounded-lg px-2 text-[10px] font-mono outline-none focus:border-[#174F43]"
+                          className="w-full h-7 bg-white border border-line rounded-lg px-2 text-[10px] font-mono outline-none focus:border-brand-700"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Slot 2: Hover Image */}
-                  <div className="p-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-2">
+                  <div className="p-3.5 bg-slate-50/70 border border-line rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-[#174F43]">
+                      <span className="font-extrabold text-xs text-brand-700">
                         2. صورة التفاعل (Hover Image)
                       </span>
                       <span className="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-md">
@@ -947,7 +947,7 @@ export default function ProductsPage() {
                     <p className="text-[10px] text-slate-400">تظهر بسلاسة عند تمرير الماوس فوق كارت العطر</p>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                      <div className="w-16 h-16 rounded-xl bg-white border border-line p-1 flex items-center justify-center overflow-hidden shrink-0">
                         {formData.hoverImage?.url ? (
                           <img src={formData.hoverImage.url} alt="Hover Preview" className="w-full h-full object-contain" />
                         ) : (
@@ -958,7 +958,7 @@ export default function ProductsPage() {
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center gap-1.5">
                           <label className="flex-1 cursor-pointer">
-                            <span className="w-full h-8 bg-white border border-slate-200 hover:bg-slate-100 text-[#174F43] rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                            <span className="w-full h-8 bg-white border border-line hover:bg-slate-100 text-brand-700 rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
                               {uploadingRole === 'hoverImage' ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
                               <span>رفع صورة من الجهاز</span>
                             </span>
@@ -987,16 +987,16 @@ export default function ProductsPage() {
                           value={formData.hoverImage?.url || ''}
                           onChange={(e) => handleImageUrlChange('hoverImage', e.target.value)}
                           placeholder="أو ضع رابط الصورة المباشر..."
-                          className="w-full h-7 bg-white border border-slate-200 rounded-lg px-2 text-[10px] font-mono outline-none focus:border-[#174F43]"
+                          className="w-full h-7 bg-white border border-line rounded-lg px-2 text-[10px] font-mono outline-none focus:border-brand-700"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Slot 3: Fragrance Pyramid Image */}
-                  <div className="p-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-2">
+                  <div className="p-3.5 bg-slate-50/70 border border-line rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-[#174F43]">
+                      <span className="font-extrabold text-xs text-brand-700">
                         3. صورة الهرم العطري (Pyramid Image)
                       </span>
                       <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md">
@@ -1006,7 +1006,7 @@ export default function ProductsPage() {
                     <p className="text-[10px] text-slate-400">تظهر في معرض صور العطر لشرح المكونات</p>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                      <div className="w-16 h-16 rounded-xl bg-white border border-line p-1 flex items-center justify-center overflow-hidden shrink-0">
                         {formData.pyramidImage?.url ? (
                           <img src={formData.pyramidImage.url} alt="Pyramid Preview" className="w-full h-full object-contain" />
                         ) : (
@@ -1017,7 +1017,7 @@ export default function ProductsPage() {
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center gap-1.5">
                           <label className="flex-1 cursor-pointer">
-                            <span className="w-full h-8 bg-white border border-slate-200 hover:bg-slate-100 text-[#174F43] rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                            <span className="w-full h-8 bg-white border border-line hover:bg-slate-100 text-brand-700 rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
                               {uploadingRole === 'pyramidImage' ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
                               <span>رفع صورة من الجهاز</span>
                             </span>
@@ -1046,16 +1046,16 @@ export default function ProductsPage() {
                           value={formData.pyramidImage?.url || ''}
                           onChange={(e) => handleImageUrlChange('pyramidImage', e.target.value)}
                           placeholder="أو ضع رابط الصورة المباشر..."
-                          className="w-full h-7 bg-white border border-slate-200 rounded-lg px-2 text-[10px] font-mono outline-none focus:border-[#174F43]"
+                          className="w-full h-7 bg-white border border-line rounded-lg px-2 text-[10px] font-mono outline-none focus:border-brand-700"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Slot 4: Packaging Image */}
-                  <div className="p-3.5 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-2">
+                  <div className="p-3.5 bg-slate-50/70 border border-line rounded-2xl space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs text-[#174F43]">
+                      <span className="font-extrabold text-xs text-brand-700">
                         4. صورة التغليف الفاخر (Packaging Image)
                       </span>
                       <span className="text-[10px] bg-cyan-100 text-cyan-800 font-bold px-2 py-0.5 rounded-md">
@@ -1065,7 +1065,7 @@ export default function ProductsPage() {
                     <p className="text-[10px] text-slate-400">تظهر في المعرض لعرض العلبة الفاخرة والكيس</p>
 
                     <div className="flex items-center gap-3">
-                      <div className="w-16 h-16 rounded-xl bg-white border border-slate-200 p-1 flex items-center justify-center overflow-hidden shrink-0">
+                      <div className="w-16 h-16 rounded-xl bg-white border border-line p-1 flex items-center justify-center overflow-hidden shrink-0">
                         {formData.packagingImage?.url ? (
                           <img src={formData.packagingImage.url} alt="Packaging Preview" className="w-full h-full object-contain" />
                         ) : (
@@ -1076,7 +1076,7 @@ export default function ProductsPage() {
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center gap-1.5">
                           <label className="flex-1 cursor-pointer">
-                            <span className="w-full h-8 bg-white border border-slate-200 hover:bg-slate-100 text-[#174F43] rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
+                            <span className="w-full h-8 bg-white border border-line hover:bg-slate-100 text-brand-700 rounded-xl text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors shadow-2xs">
                               {uploadingRole === 'packagingImage' ? <Loader2 size={13} className="animate-spin" /> : <Upload size={13} />}
                               <span>رفع صورة من الجهاز</span>
                             </span>
@@ -1105,7 +1105,7 @@ export default function ProductsPage() {
                           value={formData.packagingImage?.url || ''}
                           onChange={(e) => handleImageUrlChange('packagingImage', e.target.value)}
                           placeholder="أو ضع رابط الصورة المباشر..."
-                          className="w-full h-7 bg-white border border-slate-200 rounded-lg px-2 text-[10px] font-mono outline-none focus:border-[#174F43]"
+                          className="w-full h-7 bg-white border border-line rounded-lg px-2 text-[10px] font-mono outline-none focus:border-brand-700"
                         />
                       </div>
                     </div>
@@ -1114,18 +1114,18 @@ export default function ProductsPage() {
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-4 border-t border-slate-200 flex justify-end gap-2 shrink-0">
+              <div className="pt-4 border-t border-line flex justify-end gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold h-10"
+                  className="px-4 py-2 border border-line rounded-xl hover:bg-slate-50 text-slate-700 font-semibold h-10"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2 bg-[#174F43] text-white rounded-xl hover:bg-[#0F3830] h-10 font-bold disabled:opacity-50 shadow-sm"
+                  className="px-6 py-2 bg-brand-700 text-white rounded-xl hover:bg-brand-900 h-10 font-bold disabled:opacity-50 shadow-sm"
                 >
                   {submitting ? 'جاري الحفظ...' : editingId ? 'تحديث العطر' : 'حفظ ونشر العطر'}
                 </button>

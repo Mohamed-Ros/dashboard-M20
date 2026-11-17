@@ -222,11 +222,11 @@ export default function MarketingPage() {
     <div className={`space-y-6 ${isRTL ? "font-['Cairo',sans-serif] text-right" : "font-sans text-left"} pb-12`}>
       
       {/* 1. Header Bar (Zero Tinted Circles, 1px Border) */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line">
         <div>
           <div className="flex items-center gap-2">
-            <Target size={20} className="text-[#174F43]" />
-            <h1 className="text-xl font-bold text-[#174F43]">
+            <Target size={20} className="text-brand-700" />
+            <h1 className="text-xl font-bold text-brand-700">
               {lang === 'ar' ? 'تحليلات التسويق والإعلانات' : 'Marketing & Ads Analytics'}
             </h1>
           </div>
@@ -243,17 +243,17 @@ export default function MarketingPage() {
             type="button"
             onClick={() => loadData(true)}
             disabled={refreshing}
-            className="px-3 py-2 border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3 py-2 border border-line bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-control flex items-center gap-1.5 transition-colors cursor-pointer"
             title={lang === 'ar' ? 'تحديث البيانات' : 'Refresh Data'}
           >
-            <RefreshCw size={13} className={refreshing ? 'animate-spin text-[#174F43]' : 'text-slate-500'} />
+            <RefreshCw size={13} className={refreshing ? 'animate-spin text-brand-700' : 'text-slate-500'} />
             <span>{lang === 'ar' ? 'تحديث' : 'Refresh'}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowUrlBuilder(!showUrlBuilder)}
-            className="px-3.5 py-2 border border-[#174F43]/30 bg-white hover:bg-[#174F43]/5 text-[#174F43] text-xs font-semibold rounded-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3.5 py-2 border border-brand-700/30 bg-white hover:bg-brand-700/5 text-brand-700 text-xs font-semibold rounded-control flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <ExternalLink size={13} />
             <span>{lang === 'ar' ? 'مولد روابط الحملات (UTM)' : 'Campaign URL Generator'}</span>
@@ -262,16 +262,16 @@ export default function MarketingPage() {
           <button
             type="button"
             onClick={() => setShowSpendModal(true)}
-            className="px-4 py-2 bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold rounded-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2 bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold rounded-control flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Plus size={14} className="text-[#FF9D00]" />
+            <Plus size={14} className="text-accent" />
             <span>{lang === 'ar' ? 'تسجيل إنفاق إعلاني' : 'Log Ad Spend'}</span>
           </button>
         </div>
       </div>
 
       {/* 2. Interactive Filters Bar (Date Range & Platform) */}
-      <div className="bg-white border border-slate-200 rounded-sm p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-surface rounded-card border border-line shadow-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Platform Selector Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
           <span className="text-xs font-bold text-slate-500 shrink-0 mx-1">
@@ -287,10 +287,10 @@ export default function MarketingPage() {
               key={item.id}
               type="button"
               onClick={() => setPlatform(item.id)}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-sm transition-colors cursor-pointer shrink-0 border ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-control transition-colors cursor-pointer shrink-0 border ${
                 platform === item.id
-                  ? 'bg-[#174F43] text-white border-[#174F43]'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-brand-700 text-white border-brand-700'
+                  : 'bg-white text-slate-600 border-line hover:bg-slate-50'
               }`}
             >
               {lang === 'ar' ? item.labelAr : item.labelEn}
@@ -307,7 +307,7 @@ export default function MarketingPage() {
           <select
             value={rangeKey}
             onChange={(e) => setRangeKey(e.target.value)}
-            className="h-8 border border-slate-200 rounded-sm px-3 text-xs font-semibold bg-white text-slate-800 outline-none focus:border-[#174F43] cursor-pointer"
+            className="h-8 border border-line rounded-control px-3 text-xs font-semibold bg-white text-slate-800 outline-none focus:border-brand-700 cursor-pointer"
           >
             <option value="today">{lang === 'ar' ? 'اليوم' : 'Today'}</option>
             <option value="yesterday">{lang === 'ar' ? 'أمس' : 'Yesterday'}</option>
@@ -321,11 +321,11 @@ export default function MarketingPage() {
 
       {/* 3. Campaign URL Generator (Collapsible Tool) */}
       {showUrlBuilder && (
-        <div className="bg-white border border-[#174F43]/30 rounded-sm p-5 space-y-4">
+        <div className="bg-white border border-brand-700/30 rounded-control p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <ExternalLink size={16} className="text-[#174F43]" />
-              <h3 className="text-xs font-bold text-[#174F43]">
+              <ExternalLink size={16} className="text-brand-700" />
+              <h3 className="text-xs font-bold text-brand-700">
                 {lang === 'ar' ? 'مولد روابط الحملات الإعلانية (Campaign URL Builder)' : 'Campaign URL Generator (UTM Builder)'}
               </h3>
             </div>
@@ -346,7 +346,7 @@ export default function MarketingPage() {
               <select
                 value={utmForm.platform}
                 onChange={(e) => setUtmForm({ ...utmForm, platform: e.target.value })}
-                className="w-full h-8 border border-slate-200 rounded-sm px-2 text-xs font-semibold bg-white outline-none focus:border-[#174F43]"
+                className="w-full h-8 border border-line rounded-control px-2 text-xs font-semibold bg-white outline-none focus:border-brand-700"
               >
                 <option value="meta">Meta (Facebook & Instagram)</option>
                 <option value="tiktok">TikTok Ads</option>
@@ -361,7 +361,7 @@ export default function MarketingPage() {
               <select
                 value={utmForm.destination}
                 onChange={(e) => setUtmForm({ ...utmForm, destination: e.target.value })}
-                className="w-full h-8 border border-slate-200 rounded-sm px-2 text-xs font-semibold bg-white outline-none focus:border-[#174F43]"
+                className="w-full h-8 border border-line rounded-control px-2 text-xs font-semibold bg-white outline-none focus:border-brand-700"
               >
                 <option value="/">{lang === 'ar' ? 'الرئيسية (/)' : 'Homepage (/)'}</option>
                 <option value="/shop">{lang === 'ar' ? 'الكتالوج الكامل (/shop)' : 'All Fragrances (/shop)'}</option>
@@ -386,7 +386,7 @@ export default function MarketingPage() {
                 placeholder="e.g. summer_launch_2026"
                 value={utmForm.campaignName}
                 onChange={(e) => setUtmForm({ ...utmForm, campaignName: e.target.value })}
-                className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-8 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
 
@@ -399,7 +399,7 @@ export default function MarketingPage() {
                 placeholder="e.g. video_hook_oud_50ml"
                 value={utmForm.adContent}
                 onChange={(e) => setUtmForm({ ...utmForm, adContent: e.target.value })}
-                className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-8 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
           </div>
@@ -414,12 +414,12 @@ export default function MarketingPage() {
                 type="text"
                 readOnly
                 value={generatedCampaignUrl}
-                className="flex-1 h-9 bg-slate-50 border border-slate-200 rounded-sm px-3 text-xs font-mono text-slate-800 select-all outline-none"
+                className="flex-1 h-9 bg-slate-50 border border-line rounded-control px-3 text-xs font-mono text-slate-800 select-all outline-none"
               />
               <button
                 type="button"
                 onClick={copyToClipboard}
-                className="h-9 px-4 bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold rounded-sm flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                className="h-9 px-4 bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold rounded-control flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
               >
                 {copiedUrl ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
                 <span>{copiedUrl ? (lang === 'ar' ? 'تم النسخ!' : 'Copied!') : (lang === 'ar' ? 'نسخ الرابط' : 'Copy URL')}</span>
@@ -432,7 +432,7 @@ export default function MarketingPage() {
       {/* 4. Top-Level Marketing KPI Cards (Strict DESIGN_RULES: 1px border, 0 gradients, 0 shadows, 0 tinted circles) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
         {/* Card 1: Total Ad Spend */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'إجمالي الإنفاق الإعلاني' : 'Total Ad Spend'}</span>
             <DollarSign size={14} className="text-slate-400" />
@@ -446,12 +446,12 @@ export default function MarketingPage() {
         </div>
 
         {/* Card 2: Ad-Attributed Revenue */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'مبيعات الإعلانات المؤكدة' : 'Attributed Revenue'}</span>
             <TrendingUp size={14} className="text-slate-400" />
           </div>
-          <div className="text-lg font-bold font-mono text-[#174F43]">
+          <div className="text-lg font-bold font-mono text-brand-700">
             {formatCurrency(kpis.deliveredRevenue)}
           </div>
           <p className="text-[10px] text-slate-400 truncate" title={`Placed: ${formatCurrency(kpis.totalPlacedRevenue)}`}>
@@ -462,7 +462,7 @@ export default function MarketingPage() {
         </div>
 
         {/* Card 3: ROAS */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'العائد على الإنفاق (ROAS)' : 'Delivered ROAS'}</span>
             <Percent size={14} className="text-slate-400" />
@@ -476,7 +476,7 @@ export default function MarketingPage() {
         </div>
 
         {/* Card 4: CPA */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'تكلفة الأوردر (CPA)' : 'Cost Per Order (CPA)'}</span>
             <ShoppingCart size={14} className="text-slate-400" />
@@ -494,7 +494,7 @@ export default function MarketingPage() {
         </div>
 
         {/* Card 5: AOV */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'متوسط قيمة الطلب (AOV)' : 'Average Order (AOV)'}</span>
             <ArrowUpRight size={14} className="text-slate-400" />
@@ -508,12 +508,12 @@ export default function MarketingPage() {
         </div>
 
         {/* Card 6: Net Campaign Profit */}
-        <div className="bg-white border border-slate-200 rounded-sm p-4 space-y-1">
+        <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-1">
           <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
             <span>{lang === 'ar' ? 'صافي ربح الحملات' : 'Net Campaign Profit'}</span>
-            <span className="w-2 h-2 rounded-full bg-[#174F43]" />
+            <span className="w-2 h-2 rounded-full bg-brand-700" />
           </div>
-          <div className={`text-lg font-bold font-mono ${kpis.netCampaignProfit >= 0 ? 'text-[#174F43]' : 'text-rose-700'}`}>
+          <div className={`text-lg font-bold font-mono ${kpis.netCampaignProfit >= 0 ? 'text-brand-700' : 'text-rose-700'}`}>
             {formatCurrency(kpis.netCampaignProfit)}
           </div>
           <p className="text-[10px] text-slate-400 truncate" title={`COGS: ${formatCurrency(kpis.totalCogs)} | Shipping: ${formatCurrency(kpis.totalShippingExpenses)}`}>
@@ -523,10 +523,10 @@ export default function MarketingPage() {
       </div>
 
       {/* 5. E-Commerce Conversion Funnel Breakdown (قمع التحويل) */}
-      <div className="bg-white border border-slate-200 rounded-sm p-5 space-y-4">
+      <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
           <div>
-            <h3 className="text-xs font-bold text-[#174F43] flex items-center gap-1.5">
+            <h3 className="text-xs font-bold text-brand-700 flex items-center gap-1.5">
               <Layers size={15} />
               <span>{lang === 'ar' ? 'قمع التحويل ومعدلات التسرب (Conversion Funnel)' : 'E-Commerce Conversion Funnel Breakdown'}</span>
             </h3>
@@ -537,11 +537,11 @@ export default function MarketingPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-sm">
+          <div className="flex items-center gap-2 bg-slate-50 border border-line px-3 py-1.5 rounded-control">
             <span className="text-xs font-bold text-slate-600">
               {lang === 'ar' ? 'معدل التحويل الكلي:' : 'Overall Conversion Rate:'}
             </span>
-            <span className="font-mono font-bold text-xs text-[#174F43]">
+            <span className="font-mono font-bold text-xs text-brand-700">
               {funnel.overallConversionRate}%
             </span>
           </div>
@@ -550,9 +550,9 @@ export default function MarketingPage() {
         {/* Horizontal Visual Funnel Steps */}
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
           {funnel.steps.map((st, idx) => (
-            <div key={st.step} className="border border-slate-200 rounded-sm p-3 bg-white space-y-2 relative">
+            <div key={st.step} className="border border-line rounded-control p-3 bg-white space-y-2 relative">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#174F43] font-mono">0{st.step}</span>
+                <span className="font-bold text-brand-700 font-mono">0{st.step}</span>
                 {idx > 0 && (
                   <span className="text-[10px] text-slate-400 font-mono">
                     {st.dropRate > 0 ? `-${st.dropRate}%` : '0%'}
@@ -572,7 +572,7 @@ export default function MarketingPage() {
               {/* Progress visual bar */}
               <div className="w-full h-1.5 bg-slate-100 rounded-xs overflow-hidden">
                 <div 
-                  className="h-full bg-[#174F43] rounded-xs transition-all duration-300"
+                  className="h-full bg-brand-700 rounded-xs transition-all duration-300"
                   style={{ width: `${Math.max(8, Math.min(100, st.conversionToNext || 100))}%` }}
                 />
               </div>
@@ -587,17 +587,17 @@ export default function MarketingPage() {
       </div>
 
       {/* 6. Breakdown Tables Section with Navigation Tabs */}
-      <div className="bg-white border border-slate-200 rounded-sm p-5 space-y-4">
+      <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
         {/* Breakdown Tabs Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3">
           <div className="flex items-center gap-2 overflow-x-auto">
             <button
               type="button"
               onClick={() => setBreakdownTab('campaigns')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-sm border transition-colors cursor-pointer shrink-0 ${
+              className={`px-3 py-1.5 text-xs font-bold rounded-control border transition-colors cursor-pointer shrink-0 ${
                 breakdownTab === 'campaigns'
-                  ? 'bg-[#174F43] text-white border-[#174F43]'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-brand-700 text-white border-brand-700'
+                  : 'bg-white text-slate-600 border-line hover:bg-slate-50'
               }`}
             >
               {lang === 'ar' ? 'أداء الحملات والإعلانات' : 'Campaigns & Creatives Performance'}
@@ -606,10 +606,10 @@ export default function MarketingPage() {
             <button
               type="button"
               onClick={() => setBreakdownTab('promoCodes')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-sm border transition-colors cursor-pointer shrink-0 ${
+              className={`px-3 py-1.5 text-xs font-bold rounded-control border transition-colors cursor-pointer shrink-0 ${
                 breakdownTab === 'promoCodes'
-                  ? 'bg-[#174F43] text-white border-[#174F43]'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-brand-700 text-white border-brand-700'
+                  : 'bg-white text-slate-600 border-line hover:bg-slate-50'
               }`}
             >
               {lang === 'ar' ? 'أداء كوبونات الخصم والشحن المجاني' : 'Promo Codes & Shipping Subsidies'}
@@ -618,10 +618,10 @@ export default function MarketingPage() {
             <button
               type="button"
               onClick={() => setBreakdownTab('fragrances')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-sm border transition-colors cursor-pointer shrink-0 ${
+              className={`px-3 py-1.5 text-xs font-bold rounded-control border transition-colors cursor-pointer shrink-0 ${
                 breakdownTab === 'fragrances'
-                  ? 'bg-[#174F43] text-white border-[#174F43]'
-                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  ? 'bg-brand-700 text-white border-brand-700'
+                  : 'bg-white text-slate-600 border-line hover:bg-slate-50'
               }`}
             >
               {lang === 'ar' ? 'العطور الأكثر مبيعاً حسب القناة' : 'Best-Selling Fragrances by Channel'}
@@ -640,7 +640,7 @@ export default function MarketingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-right border-collapse">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
+                <tr className="bg-slate-50 border-b border-line text-slate-600 font-bold">
                   <th className="p-2.5">{lang === 'ar' ? 'المنصة' : 'Platform'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'اسم الحملة (Campaign)' : 'Campaign'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'الإعلان (Creative)' : 'Creative'}</th>
@@ -653,7 +653,7 @@ export default function MarketingPage() {
                   <th className="p-2.5">{lang === 'ar' ? 'صافي الربح' : 'Net Profit'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {campaigns.length === 0 ? (
                   <tr>
                     <td colSpan="10" className="p-8 text-center text-slate-400">
@@ -669,7 +669,7 @@ export default function MarketingPage() {
                             ? 'bg-blue-50 text-blue-800 border-blue-200'
                             : camp.platform === 'tiktok'
                             ? 'bg-slate-900 text-white border-slate-900'
-                            : 'bg-slate-100 text-slate-700 border-slate-200'
+                            : 'bg-slate-100 text-slate-700 border-line'
                         }`}>
                           {camp.platform.toUpperCase()}
                         </span>
@@ -681,12 +681,12 @@ export default function MarketingPage() {
                         {camp.ordersCount} <span className="text-slate-400 text-[10px]">({camp.deliveredCount})</span>
                       </td>
                       <td className="p-2.5 font-mono text-slate-600">{camp.returnRate}%</td>
-                      <td className="p-2.5 font-mono font-bold text-[#174F43]">{formatCurrency(camp.deliveredRevenue)}</td>
+                      <td className="p-2.5 font-mono font-bold text-brand-700">{formatCurrency(camp.deliveredRevenue)}</td>
                       <td className="p-2.5 font-mono text-slate-800">{camp.cpa > 0 ? formatCurrency(camp.cpa) : '-'}</td>
                       <td className="p-2.5 font-mono font-bold text-slate-900">
                         {camp.roas > 0 ? `${camp.roas}x` : '-'}
                       </td>
-                      <td className={`p-2.5 font-mono font-bold ${camp.netProfit >= 0 ? 'text-[#174F43]' : 'text-rose-700'}`}>
+                      <td className={`p-2.5 font-mono font-bold ${camp.netProfit >= 0 ? 'text-brand-700' : 'text-rose-700'}`}>
                         {formatCurrency(camp.netProfit)}
                       </td>
                     </tr>
@@ -702,7 +702,7 @@ export default function MarketingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-right border-collapse">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
+                <tr className="bg-slate-50 border-b border-line text-slate-600 font-bold">
                   <th className="p-2.5">{lang === 'ar' ? 'كود الخصم / الكوبون' : 'Promo Code'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'مرات الاستخدام' : 'Times Used'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'الطلبات المسلمة' : 'Delivered Orders'}</th>
@@ -711,7 +711,7 @@ export default function MarketingPage() {
                   <th className="p-2.5">{lang === 'ar' ? 'صافي المبيعات بعد دعم الشحن' : 'Net After Subsidy'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {promoCodes.length === 0 ? (
                   <tr>
                     <td colSpan="6" className="p-8 text-center text-slate-400">
@@ -728,7 +728,7 @@ export default function MarketingPage() {
                       </td>
                       <td className="p-2.5 font-mono font-bold text-slate-800">{promo.timesUsed}</td>
                       <td className="p-2.5 font-mono text-slate-700">{promo.deliveredOrders}</td>
-                      <td className="p-2.5 font-mono font-bold text-[#174F43]">{formatCurrency(promo.revenueGenerated)}</td>
+                      <td className="p-2.5 font-mono font-bold text-brand-700">{formatCurrency(promo.revenueGenerated)}</td>
                       <td className="p-2.5 font-mono text-amber-900 font-semibold">{formatCurrency(promo.shippingSubsidized)}</td>
                       <td className="p-2.5 font-mono font-bold text-slate-900">{formatCurrency(promo.netProfit)}</td>
                     </tr>
@@ -744,7 +744,7 @@ export default function MarketingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-right border-collapse">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
+                <tr className="bg-slate-50 border-b border-line text-slate-600 font-bold">
                   <th className="p-2.5">{lang === 'ar' ? 'العطر' : 'Fragrance'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'مبيعات Meta (زجاجة)' : 'Meta Bottles'}</th>
                   <th className="p-2.5">{lang === 'ar' ? 'مبيعات TikTok (زجاجة)' : 'TikTok Bottles'}</th>
@@ -754,10 +754,10 @@ export default function MarketingPage() {
                   <th className="p-2.5">{lang === 'ar' ? 'توزيع الأحجام الأكثر طلباً' : 'Bottle Sizes'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {fragrances.map((frag, idx) => (
                   <tr key={idx} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="p-2.5 font-bold font-serif text-[#174F43] text-sm">
+                    <td className="p-2.5 font-bold font-serif text-brand-700 text-sm">
                       {frag.name}
                     </td>
                     <td className="p-2.5 font-mono text-blue-900 font-bold">
@@ -768,7 +768,7 @@ export default function MarketingPage() {
                     </td>
                     <td className="p-2.5 font-mono text-slate-700">{frag.organic}</td>
                     <td className="p-2.5 font-mono font-bold text-slate-900">{frag.totalBottles}</td>
-                    <td className="p-2.5 font-mono font-bold text-[#174F43]">{formatCurrency(frag.revenue)}</td>
+                    <td className="p-2.5 font-mono font-bold text-brand-700">{formatCurrency(frag.revenue)}</td>
                     <td className="p-2.5 font-mono text-slate-600 text-[11px]">
                       30ml: {frag.sizes['30ml']} | 50ml: {frag.sizes['50ml']} | 100ml: {frag.sizes['100ml']}
                     </td>
@@ -781,10 +781,10 @@ export default function MarketingPage() {
       </div>
 
       {/* 7. Logged Ad Spend Records History Section */}
-      <div className="bg-white border border-slate-200 rounded-sm p-5 space-y-3">
+      <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-3">
         <div className="flex items-center justify-between pb-2 border-b border-slate-100">
           <h3 className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
-            <DollarSign size={15} className="text-[#174F43]" />
+            <DollarSign size={15} className="text-brand-700" />
             <span>{lang === 'ar' ? 'سجل التكاليف الإعلانية المسجلة ومصادر الدفع' : 'Logged Ad Spend Records'}</span>
           </h3>
           <span className="text-xs text-slate-500 font-mono">
@@ -795,7 +795,7 @@ export default function MarketingPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-right border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold">
+              <tr className="bg-slate-50 border-b border-line text-slate-600 font-bold">
                 <th className="p-2">{lang === 'ar' ? 'التاريخ' : 'Date'}</th>
                 <th className="p-2">{lang === 'ar' ? 'المنصة' : 'Platform'}</th>
                 <th className="p-2">{lang === 'ar' ? 'اسم الحملة' : 'Campaign'}</th>
@@ -805,7 +805,7 @@ export default function MarketingPage() {
                 <th className="p-2 text-center">{lang === 'ar' ? 'إجراء' : 'Action'}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-line">
               {adSpendsList.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="p-6 text-center text-slate-400">
@@ -824,13 +824,13 @@ export default function MarketingPage() {
                           ? 'bg-blue-50 text-blue-800 border-blue-200'
                           : spend.platform === 'tiktok'
                           ? 'bg-slate-900 text-white border-slate-900'
-                          : 'bg-slate-100 text-slate-700 border-slate-200'
+                          : 'bg-slate-100 text-slate-700 border-line'
                       }`}>
                         {spend.platform.toUpperCase()}
                       </span>
                     </td>
                     <td className="p-2 font-mono font-semibold text-slate-800">{spend.campaignName}</td>
-                    <td className="p-2 font-mono font-bold text-[#174F43]">{formatCurrency(spend.amountEGP)}</td>
+                    <td className="p-2 font-mono font-bold text-brand-700">{formatCurrency(spend.amountEGP)}</td>
                     <td className="p-2 font-mono text-slate-700">
                       {spend.paymentAccountName || spend.paymentAccount?.name || '-'}
                     </td>
@@ -856,9 +856,9 @@ export default function MarketingPage() {
       {/* 8. Modal: Log Ad Spend (Zero Tinted Circles, 1px Border) */}
       {showSpendModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white rounded-sm border border-slate-200 w-full max-w-md p-6 space-y-4">
+          <div className="bg-surface rounded-card border border-line shadow-card w-full max-w-md p-6 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-[#174F43] flex items-center gap-1.5">
+              <h3 className="text-sm font-bold text-brand-700 flex items-center gap-1.5">
                 <Plus size={16} />
                 <span>{lang === 'ar' ? 'تسجيل إنفاق إعلاني جديد' : 'Log New Ad Spend'}</span>
               </h3>
@@ -879,7 +879,7 @@ export default function MarketingPage() {
                 <select
                   value={spendForm.platform}
                   onChange={(e) => setSpendForm({ ...spendForm, platform: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs bg-white outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs bg-white outline-none focus:border-brand-700"
                 >
                   <option value="meta">Meta (Facebook & Instagram)</option>
                   <option value="tiktok">TikTok Ads</option>
@@ -897,7 +897,7 @@ export default function MarketingPage() {
                   required
                   value={spendForm.campaignName}
                   onChange={(e) => setSpendForm({ ...spendForm, campaignName: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -913,7 +913,7 @@ export default function MarketingPage() {
                   required
                   value={spendForm.amountEGP}
                   onChange={(e) => setSpendForm({ ...spendForm, amountEGP: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -926,7 +926,7 @@ export default function MarketingPage() {
                   required
                   value={spendForm.startDate}
                   onChange={(e) => setSpendForm({ ...spendForm, startDate: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -937,7 +937,7 @@ export default function MarketingPage() {
                 <select
                   value={spendForm.paymentAccountId}
                   onChange={(e) => setSpendForm({ ...spendForm, paymentAccountId: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs bg-white outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs bg-white outline-none focus:border-brand-700"
                 >
                   <option value="">{lang === 'ar' ? 'بدون خصم من الخزائن (تسجيل تحليلي فقط)' : 'None (Analytics only, no cash deduction)'}</option>
                   {cashAccounts.map((acc) => (
@@ -962,7 +962,7 @@ export default function MarketingPage() {
                   placeholder={lang === 'ar' ? 'مثال: إعلانات فيديو تيك توك 50 مل' : 'Optional notes'}
                   value={spendForm.notes}
                   onChange={(e) => setSpendForm({ ...spendForm, notes: e.target.value })}
-                  className="w-full h-8 border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full h-8 border border-line rounded-control px-3 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -970,14 +970,14 @@ export default function MarketingPage() {
                 <button
                   type="button"
                   onClick={() => setShowSpendModal(false)}
-                  className="px-3 py-1.5 border border-slate-200 text-slate-600 rounded-sm hover:bg-slate-50 transition-colors cursor-pointer"
+                  className="px-3 py-1.5 border border-line text-slate-600 rounded-control hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={submittingSpend}
-                  className="px-4 py-1.5 bg-[#174F43] hover:bg-[#0F3830] text-white font-semibold rounded-sm transition-colors cursor-pointer disabled:opacity-50"
+                  className="px-4 py-1.5 bg-brand-700 hover:bg-brand-900 text-white font-semibold rounded-control transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {submittingSpend ? (lang === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (lang === 'ar' ? 'تسجيل الإنفاق' : 'Save Spend')}
                 </button>

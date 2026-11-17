@@ -13,7 +13,7 @@ const MOVEMENT_TYPE_MAP = {
   order_cancel_restock: { label: 'استرجاع إلغاء (+)', bg: 'bg-teal-50 text-teal-700 border-teal-200' },
   waste: { label: 'هالك إنتاج (-)', bg: 'bg-orange-50 text-orange-700 border-orange-200' },
   damaged: { label: 'تلف تخزين (-)', bg: 'bg-rose-50 text-rose-700 border-rose-200' },
-  correction: { label: 'تسوية جرد', bg: 'bg-slate-100 text-slate-700 border-slate-200' },
+  correction: { label: 'تسوية جرد', bg: 'bg-slate-100 text-slate-700 border-line' },
   return: { label: 'مرتجع عميل (+)', bg: 'bg-purple-50 text-purple-700 border-purple-200' },
 };
 
@@ -45,10 +45,10 @@ export default function StockMovementsPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <History size={20} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <History size={20} strokeWidth={1.5} className="text-brand-700" />
             <span>سجل حركات وتدقيق المخزون (Stock Movement Audit Log)</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -59,7 +59,7 @@ export default function StockMovementsPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={fetchMovements}
-            className="p-2 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors"
             title="تحديث"
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
@@ -68,14 +68,14 @@ export default function StockMovementsPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-white rounded-sm p-3 border border-slate-200 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-white rounded-control p-3 border border-line flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-500">نوع الصنف:</span>
             <select
               value={itemTypeFilter}
               onChange={(e) => setItemTypeFilter(e.target.value)}
-              className="h-9 bg-[#F8FAFC] border border-slate-200 rounded-sm px-2 text-xs outline-none"
+              className="h-9 bg-canvas border border-line rounded-control px-2 text-xs outline-none"
             >
               <option value="">الكل (خام ومنتج تام)</option>
               <option value="raw_material">مواد خام وزيوت (g)</option>
@@ -88,7 +88,7 @@ export default function StockMovementsPage() {
             <select
               value={movementTypeFilter}
               onChange={(e) => setMovementTypeFilter(e.target.value)}
-              className="h-9 bg-[#F8FAFC] border border-slate-200 rounded-sm px-2 text-xs outline-none"
+              className="h-9 bg-canvas border border-line rounded-control px-2 text-xs outline-none"
             >
               <option value="">جميع أنواع الحركات</option>
               {Object.entries(MOVEMENT_TYPE_MAP).map(([k, v]) => (
@@ -104,10 +104,10 @@ export default function StockMovementsPage() {
       </div>
 
       {/* Movements Table */}
-      <div className="bg-white rounded-sm border border-slate-200 overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-[#F8FAFC] text-slate-700 font-semibold border-b border-slate-200">
+            <thead className="bg-canvas text-slate-700 font-semibold border-b border-line">
               <tr>
                 <th className="py-3 px-4">التاريخ والوقت</th>
                 <th className="py-3 px-4">الصنف</th>
@@ -118,12 +118,12 @@ export default function StockMovementsPage() {
                 <th className="py-3 px-4">البيان والسبب</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-normal text-slate-700">
+            <tbody className="divide-y divide-line font-normal text-slate-700">
               {loading ? (
                 <tr>
                   <td colSpan="7" className="py-8 text-center text-slate-400">
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-[#174F43] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-brand-700 border-t-transparent rounded-full animate-spin"></div>
                       <span>جاري تحميل سجل الحركات...</span>
                     </div>
                   </td>
@@ -136,7 +136,7 @@ export default function StockMovementsPage() {
                 </tr>
               ) : (
                 movements.map((mov) => {
-                  const typeInfo = MOVEMENT_TYPE_MAP[mov.movementType] || { label: mov.movementType, bg: 'bg-slate-100 text-slate-700 border-slate-200' };
+                  const typeInfo = MOVEMENT_TYPE_MAP[mov.movementType] || { label: mov.movementType, bg: 'bg-slate-100 text-slate-700 border-line' };
                   const isPositive = mov.quantityChange > 0;
                   const itemName = mov.rawMaterial?.name || (mov.product ? `${mov.product.name} (${mov.variantSize || ''})` : 'صنف غير محدد');
 
@@ -154,7 +154,7 @@ export default function StockMovementsPage() {
                       </td>
 
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-0.5 rounded-sm border text-[10px] font-medium ${typeInfo.bg}`}>
+                        <span className={`px-2 py-0.5 rounded-control border text-[10px] font-medium ${typeInfo.bg}`}>
                           {typeInfo.label}
                         </span>
                       </td>

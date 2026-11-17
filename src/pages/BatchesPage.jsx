@@ -13,7 +13,7 @@ import { showSuccess, showError, showConfirm, showWarning, showToast, customSwal
 
 
 const STATUS_MAP = {
-  draft: { label: 'مسودة (Draft)', bg: 'bg-slate-100 text-slate-700 border-slate-200' },
+  draft: { label: 'مسودة (Draft)', bg: 'bg-slate-100 text-slate-700 border-line' },
   confirmed: { label: 'تم الخلط والحسم (Confirmed)', bg: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
   matured: { label: 'مكتمل التعتيق (Matured)', bg: 'bg-slate-100 text-slate-800 border-slate-300' },
   bottled: { label: 'تمت التعبئة (Bottled)', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
@@ -336,10 +336,10 @@ export default function BatchesPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <Package size={20} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <Package size={20} strokeWidth={1.5} className="text-brand-700" />
             <span>التشغيلات ودفعات الإنتاج (Production Batches)</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -350,7 +350,7 @@ export default function BatchesPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenCreate}
-            className="px-3.5 py-2 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
+            className="px-3.5 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
           >
             <Plus size={14} />
             <span>إنشاء تشغيلة إنتاج جديدة</span>
@@ -358,7 +358,7 @@ export default function BatchesPage() {
 
           <button
             onClick={fetchData}
-            className="p-2 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors"
             title="تحديث"
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
@@ -367,10 +367,10 @@ export default function BatchesPage() {
       </div>
 
       {/* Batches Table */}
-      <div className="bg-white rounded-sm border border-slate-200 overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-right text-xs">
-            <thead className="bg-[#F8FAFC] text-slate-700 font-semibold border-b border-slate-200">
+            <thead className="bg-canvas text-slate-700 font-semibold border-b border-line">
               <tr>
                 <th className="py-3 px-4">رقم التشغيلة (Batch Code)</th>
                 <th className="py-3 px-4">اسم التركيبة</th>
@@ -383,12 +383,12 @@ export default function BatchesPage() {
                 <th className="py-3 px-4 text-center">الإجراءات</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-normal text-slate-700">
+            <tbody className="divide-y divide-line font-normal text-slate-700">
               {loading ? (
                 <tr>
                   <td colSpan="9" className="py-8 text-center text-slate-400">
                     <div className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-[#174F43] border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-brand-700 border-t-transparent rounded-full animate-spin"></div>
                       <span>جاري تحميل التشغيلات...</span>
                     </div>
                   </td>
@@ -435,18 +435,18 @@ export default function BatchesPage() {
                         {batch.costPerGram?.toFixed(3)} ج.م/g
                       </td>
 
-                      <td className="py-3 px-4 text-center font-mono font-bold text-[#15803d]">
+                      <td className="py-3 px-4 text-center font-mono font-bold text-success">
                         {Math.round(batch.totalBatchCost || 0).toLocaleString()} ج.م
                       </td>
 
                       <td className="py-3 px-4 text-center font-mono">
-                        <span className={`font-bold ${(batch.remainingLiquidGrams ?? batch.finalBatchWeight ?? 0) > 0 ? 'text-[#174F43]' : 'text-slate-400'}`}>
+                        <span className={`font-bold ${(batch.remainingLiquidGrams ?? batch.finalBatchWeight ?? 0) > 0 ? 'text-brand-700' : 'text-slate-400'}`}>
                           {(batch.remainingLiquidGrams ?? batch.finalBatchWeight ?? 0)?.toLocaleString()} g
                         </span>
                       </td>
 
                       <td className="py-3 px-4 text-center">
-                        <span className={`px-2 py-0.5 rounded-sm border text-[11px] font-medium ${statusInfo.bg}`}>
+                        <span className={`px-2 py-0.5 rounded-control border text-[11px] font-medium ${statusInfo.bg}`}>
                           {statusInfo.label}
                         </span>
                       </td>
@@ -457,7 +457,7 @@ export default function BatchesPage() {
                             <button
                               onClick={() => handleConfirmBatch(batch)}
                               title="تأكيد الخلط وحسم المواد من المخزون"
-                              className="px-2.5 py-1 bg-[#174F43] hover:bg-[#0F3830] text-white rounded-sm text-[11px] font-medium transition-colors"
+                              className="px-2.5 py-1 bg-brand-700 hover:bg-brand-900 text-white rounded-control text-[11px] font-medium transition-colors"
                             >
                               تأكيد وخصم
                             </button>
@@ -467,9 +467,9 @@ export default function BatchesPage() {
                             <button
                               onClick={() => handleOpenBottling(batch)}
                               title="تعبئة زجاجات تامة الصنع"
-                              className="px-2.5 py-1 bg-[#174F43] hover:bg-[#0F3830] text-white rounded-sm text-[11px] font-medium flex items-center gap-1 transition-colors"
+                              className="px-2.5 py-1 bg-brand-700 hover:bg-brand-900 text-white rounded-control text-[11px] font-medium flex items-center gap-1 transition-colors"
                             >
-                              <Box size={12} className="text-[#FF9D00]" />
+                              <Box size={12} className="text-accent" />
                               <span>تعبئة وتغليف</span>
                             </button>
                           )}
@@ -498,9 +498,9 @@ export default function BatchesPage() {
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
           <div className="fixed inset-0 bg-black/40" onClick={() => setShowCreateModal(false)} />
-          <div className="relative w-full max-w-2xl bg-white rounded-sm border border-slate-200 overlay-shadow z-10 max-h-[90vh] flex flex-col overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between shrink-0">
-              <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
+          <div className="relative w-full max-w-2xl bg-surface rounded-card border border-line shadow-card overlay-shadow z-10 max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between shrink-0">
+              <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                 <FlaskConical size={16} />
                 <span>إنشاء دفعة إنتاج جديدة (Production Batch)</span>
               </h2>
@@ -517,7 +517,7 @@ export default function BatchesPage() {
                     value={batchForm.formulaId}
                     onChange={(e) => handleFormulaSelect(e.target.value)}
                     required
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none focus:border-brand-700"
                   >
                     <option value="">-- اختر التركيبة --</option>
                     {formulas.map(f => (
@@ -535,19 +535,19 @@ export default function BatchesPage() {
                     required
                     value={batchForm.batchCode}
                     onChange={(e) => setBatchForm({ ...batchForm, batchCode: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
               </div>
 
               {/* Production Mode Switcher */}
-              <div className="bg-slate-100 p-1 rounded-sm flex items-center gap-1 border border-slate-200">
+              <div className="bg-slate-100 p-1 rounded-control flex items-center gap-1 border border-line">
                 <button
                   type="button"
                   onClick={() => setProductionMode('bottle_count')}
-                  className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-sm transition-colors ${
+                  className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-control transition-colors ${
                     productionMode === 'bottle_count'
-                      ? 'bg-[#174F43] text-white'
+                      ? 'bg-brand-700 text-white'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -556,9 +556,9 @@ export default function BatchesPage() {
                 <button
                   type="button"
                   onClick={() => setProductionMode('bulk_weight')}
-                  className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-sm transition-colors ${
+                  className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-control transition-colors ${
                     productionMode === 'bulk_weight'
-                      ? 'bg-[#174F43] text-white'
+                      ? 'bg-brand-700 text-white'
                       : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
@@ -568,7 +568,7 @@ export default function BatchesPage() {
 
               {/* Mode 1: Bottle Count Inputs */}
               {productionMode === 'bottle_count' && (
-                <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm space-y-2">
+                <div className="p-3 bg-slate-50 border border-line rounded-control space-y-2">
                   <div className="text-[11px] font-semibold text-slate-700">
                     أدخل أعداد الزجاجات المستهدفة (مع حساب صافي السائل + 1 جم فاقد نقل/تعبئة لكل زجاجة):
                   </div>
@@ -583,7 +583,7 @@ export default function BatchesPage() {
                         step="1"
                         value={bottleCounts['30ml'] ?? 0}
                         onChange={(e) => setBottleCounts({ ...bottleCounts, '30ml': Math.max(0, parseInt(e.target.value) || 0) })}
-                        className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs font-mono outline-none focus:border-[#174F43]"
+                        className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-mono outline-none focus:border-brand-700"
                       />
                     </div>
                     <div>
@@ -596,7 +596,7 @@ export default function BatchesPage() {
                         step="1"
                         value={bottleCounts['50ml'] ?? 0}
                         onChange={(e) => setBottleCounts({ ...bottleCounts, '50ml': Math.max(0, parseInt(e.target.value) || 0) })}
-                        className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs font-mono outline-none focus:border-[#174F43]"
+                        className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-mono outline-none focus:border-brand-700"
                       />
                     </div>
                     <div>
@@ -609,7 +609,7 @@ export default function BatchesPage() {
                         step="1"
                         value={bottleCounts['100ml'] ?? 0}
                         onChange={(e) => setBottleCounts({ ...bottleCounts, '100ml': Math.max(0, parseInt(e.target.value) || 0) })}
-                        className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs font-mono outline-none focus:border-[#174F43]"
+                        className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-mono outline-none focus:border-brand-700"
                       />
                     </div>
                   </div>
@@ -629,7 +629,7 @@ export default function BatchesPage() {
                       value={batchForm.totalWeightGrams}
                       onChange={(e) => setBatchForm({ ...batchForm, totalWeightGrams: e.target.value })}
                       placeholder="1000"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                     />
                   </div>
                 </div>
@@ -647,7 +647,7 @@ export default function BatchesPage() {
                     value={batchForm.concentrationPercent}
                     onChange={(e) => setBatchForm({ ...batchForm, concentrationPercent: e.target.value })}
                     placeholder="25"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
 
@@ -657,7 +657,7 @@ export default function BatchesPage() {
                     value={batchForm.alcoholRawMaterialId}
                     onChange={(e) => setBatchForm({ ...batchForm, alcoholRawMaterialId: e.target.value })}
                     required
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     <option value="">-- اختر كحول --</option>
                     {alcoholMaterials.map(m => (
@@ -671,22 +671,22 @@ export default function BatchesPage() {
 
               {/* Instant Calculation Preview Card & Cumulative Scale Guide */}
               {previewData && (
-                <div className="border border-slate-200 rounded-sm p-3.5 bg-slate-50 space-y-3">
+                <div className="border border-line rounded-control p-3.5 bg-slate-50 space-y-3">
                   {/* Cumulative Scale Weighing Guide */}
-                  <div className="border border-[#174F43]/20 bg-white rounded-sm p-3 space-y-2.5">
+                  <div className="border border-brand-700/20 bg-white rounded-control p-3 space-y-2.5">
                     <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                      <span className="font-bold text-[#174F43] text-xs flex items-center gap-1.5">
-                        <Scale size={15} className="text-[#FF9D00]" />
+                      <span className="font-bold text-brand-700 text-xs flex items-center gap-1.5">
+                        <Scale size={15} className="text-accent" />
                         <span>دليل ميزان الخلط التراكمي (Cumulative Scale Guide)</span>
                       </span>
-                      <span className="font-mono text-xs font-bold text-[#174F43]">
+                      <span className="font-mono text-xs font-bold text-brand-700">
                         إجمالي التحضير: {previewData.batchWeight}g
                       </span>
                     </div>
 
                     <div className="space-y-2 text-[11px] leading-relaxed">
-                      <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm flex items-start gap-2">
-                        <span className="w-5 h-5 rounded-full bg-[#174F43] text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                      <div className="p-2 bg-slate-50 border border-line rounded-control flex items-start gap-2">
+                        <span className="w-5 h-5 rounded-full bg-brand-700 text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                           1
                         </span>
                         <div className="flex-1">
@@ -696,14 +696,14 @@ export default function BatchesPage() {
                           <span className="text-slate-600">
                             ضع البيكر/الإناء على الميزان وقم بتصفيره (Tare 0.00g). صب الزيت العطري حتى قراءة الميزان:
                           </span>
-                          <span className="font-mono font-bold text-[#174F43] text-xs mr-1 ml-1 px-1.5 py-0.5 bg-slate-100 rounded-sm border border-slate-200">
+                          <span className="font-mono font-bold text-brand-700 text-xs mr-1 ml-1 px-1.5 py-0.5 bg-slate-100 rounded-control border border-line">
                             {previewData.scaleReadings?.scaleStep1ReadingGrams || previewData.fragranceOilWeight} g
                           </span>
                         </div>
                       </div>
 
-                      <div className="p-2 bg-slate-50 border border-slate-200 rounded-sm flex items-start gap-2">
-                        <span className="w-5 h-5 rounded-full bg-[#FF9D00] text-slate-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                      <div className="p-2 bg-slate-50 border border-line rounded-control flex items-start gap-2">
+                        <span className="w-5 h-5 rounded-full bg-accent text-slate-900 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                           2
                         </span>
                         <div className="flex-1">
@@ -713,7 +713,7 @@ export default function BatchesPage() {
                           <span className="text-slate-600">
                             دون تصفير الميزان، صب الكحول مباشرة فوق الزيت حتى تصبح قراءة الميزان التراكمية:
                           </span>
-                          <span className="font-mono font-bold text-[#174F43] text-xs mr-1 ml-1 px-1.5 py-0.5 bg-slate-100 rounded-sm border border-slate-200">
+                          <span className="font-mono font-bold text-brand-700 text-xs mr-1 ml-1 px-1.5 py-0.5 bg-slate-100 rounded-control border border-line">
                             {previewData.scaleReadings?.scaleStep2ReadingGrams || previewData.batchWeight} g
                           </span>
                           <div className="text-[10px] text-slate-500 font-mono mt-1">
@@ -726,19 +726,19 @@ export default function BatchesPage() {
 
                   {/* Weight Summary Metrics */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                    <div className="bg-white p-2 rounded-sm border border-slate-200">
+                    <div className="bg-white p-2 rounded-control border border-line">
                       <span className="text-[10px] text-slate-500 block">إجمالي وزن التحضير</span>
                       <strong className="text-xs font-mono text-slate-900">{previewData.batchWeight} g</strong>
                     </div>
-                    <div className="bg-white p-2 rounded-sm border border-slate-200">
+                    <div className="bg-white p-2 rounded-control border border-line">
                       <span className="text-[10px] text-slate-500 block">صافي السائل النهائي</span>
-                      <strong className="text-xs font-mono text-[#174F43]">{previewData.netUsableWeightGrams} g</strong>
+                      <strong className="text-xs font-mono text-brand-700">{previewData.netUsableWeightGrams} g</strong>
                     </div>
-                    <div className="bg-white p-2 rounded-sm border border-slate-200">
+                    <div className="bg-white p-2 rounded-control border border-line">
                       <span className="text-[10px] text-slate-500 block">فاقد النقل والتعبئة</span>
                       <strong className="text-xs font-mono text-slate-600">{previewData.batchWeight - previewData.netUsableWeightGrams} g</strong>
                     </div>
-                    <div className="bg-white p-2 rounded-sm border border-slate-200">
+                    <div className="bg-white p-2 rounded-control border border-line">
                       <span className="text-[10px] text-slate-500 block">تكلفة الجرام</span>
                       <strong className="text-xs font-mono text-slate-900">{previewData.costPerGram?.toFixed(3)} ج.م/g</strong>
                     </div>
@@ -751,8 +751,8 @@ export default function BatchesPage() {
                         تفاصيل تكلفة وهوامش ربح الزجاجات التامة (Official M20 Specs):
                       </span>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-right text-[11px] bg-white border border-slate-200 rounded-sm">
-                          <thead className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                        <table className="w-full text-right text-[11px] bg-surface rounded-card border border-line shadow-card">
+                          <thead className="bg-slate-100 text-slate-700 border-b border-line">
                             <tr>
                               <th className="p-1.5">الحجم</th>
                               <th className="p-1.5 text-center">صافي السائل</th>
@@ -764,7 +764,7 @@ export default function BatchesPage() {
                               <th className="p-1.5 text-center">هامش الربح</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-slate-100 font-mono">
+                          <tbody className="divide-y divide-line font-mono">
                             {previewData.sizeEstimations.map((s, idx) => (
                               <tr key={idx} className="hover:bg-slate-50">
                                 <td className="p-1.5 font-bold text-slate-900">{s.size}</td>
@@ -772,7 +772,7 @@ export default function BatchesPage() {
                                 <td className="p-1.5 text-center text-slate-500">{s.totalPrepWeightGrams}g</td>
                                 <td className="p-1.5 text-center">{s.liquidCost} ج.م</td>
                                 <td className="p-1.5 text-center">{s.packagingCost} ج.م</td>
-                                <td className="p-1.5 text-center font-bold text-[#174F43]">{s.totalUnitCost} ج.م</td>
+                                <td className="p-1.5 text-center font-bold text-brand-700">{s.totalUnitCost} ج.م</td>
                                 <td className="p-1.5 text-center text-slate-900">{s.sellingPrice} ج.م</td>
                                 <td className="p-1.5 text-center font-bold text-emerald-700">%{s.estimatedProfitMargin}</td>
                               </tr>
@@ -788,7 +788,7 @@ export default function BatchesPage() {
                     <span className="text-[11px] font-semibold text-slate-700 block">حالة توفر الخامات المطلوبة للدفعة:</span>
                     <div className="max-h-28 overflow-y-auto space-y-1 pr-1">
                       {(previewData.ingredients || []).map((ing, iIdx) => (
-                        <div key={iIdx} className="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-sm border border-slate-200 text-[11px]">
+                        <div key={iIdx} className="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-control border border-line text-[11px]">
                           <span className="font-medium text-slate-800">{ing.rawMaterialName} ({ing.percentage}%)</span>
                           <div className="flex items-center gap-3 font-mono">
                             <span className="text-slate-600">مطلوب: <strong>{ing.gramsNeeded?.toFixed(2)} g</strong></span>
@@ -810,22 +810,22 @@ export default function BatchesPage() {
                   value={batchForm.notes}
                   onChange={(e) => setBatchForm({ ...batchForm, notes: e.target.value })}
                   placeholder="ملاحظات حول وقت الخلط، درجة الحرارة، فترة التعتيق المستهدفة..."
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2 shrink-0">
+              <div className="pt-3 border-t border-line flex justify-end gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting || !batchForm.formulaId}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] h-9 font-medium disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 h-9 font-medium disabled:opacity-50"
                 >
                   {submitting ? 'جاري الحفظ...' : 'إنشاء مسودة التشغيلة'}
                 </button>
@@ -839,9 +839,9 @@ export default function BatchesPage() {
       {showBottlingModal && selectedBatch && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
           <div className="fixed inset-0 bg-black/40" onClick={() => setShowBottlingModal(false)} />
-          <div className="relative w-full max-w-xl bg-white rounded-sm border border-slate-200 overlay-shadow z-10 max-h-[90vh] flex flex-col overflow-hidden">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between shrink-0">
-              <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
+          <div className="relative w-full max-w-xl bg-surface rounded-card border border-line shadow-card overlay-shadow z-10 max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between shrink-0">
+              <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                 <Box size={16} />
                 <span>تعبئة وتحويل لمنتج نهائي (Finished Product Bottling)</span>
               </h2>
@@ -851,14 +851,14 @@ export default function BatchesPage() {
             </div>
 
             <form onSubmit={handleSubmitBottling} className="p-5 space-y-4 text-xs overflow-y-auto flex-1">
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-sm flex items-center justify-between">
+              <div className="p-3 bg-slate-50 border border-line rounded-control flex items-center justify-between">
                 <div>
                   <span className="text-slate-500 text-[11px] block">رقم التشغيلة المصدر:</span>
                   <span className="font-mono font-bold text-slate-900">{selectedBatch.batchCode}</span>
                 </div>
                 <div className="text-left">
                   <span className="text-slate-500 text-[11px] block">السائل المتاح:</span>
-                  <span className="font-mono font-bold text-[#174F43]">{selectedBatch.remainingLiquidGrams} g</span>
+                  <span className="font-mono font-bold text-brand-700">{selectedBatch.remainingLiquidGrams} g</span>
                 </div>
               </div>
 
@@ -869,7 +869,7 @@ export default function BatchesPage() {
                     value={bottlingForm.productId}
                     onChange={(e) => setBottlingForm({ ...bottlingForm, productId: e.target.value })}
                     required
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     <option value="">-- اختر المنتج --</option>
                     {products.map(p => (
@@ -884,7 +884,7 @@ export default function BatchesPage() {
                     value={bottlingForm.variantSize}
                     onChange={(e) => setBottlingForm({ ...bottlingForm, variantSize: e.target.value })}
                     required
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs font-mono outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs font-mono outline-none"
                   >
                     <option value="50ml">50ml</option>
                     <option value="100ml">100ml</option>
@@ -903,7 +903,7 @@ export default function BatchesPage() {
                     required
                     value={bottlingForm.unitsBottled}
                     onChange={(e) => setBottlingForm({ ...bottlingForm, unitsBottled: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
 
@@ -917,13 +917,13 @@ export default function BatchesPage() {
                     value={bottlingForm.targetWeightGramsPerUnit}
                     onChange={(e) => setBottlingForm({ ...bottlingForm, targetWeightGramsPerUnit: e.target.value })}
                     placeholder="45"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
               </div>
 
               {/* Packaging Materials Selection */}
-              <div className="border border-slate-200 rounded-sm p-3 bg-[#F8FAFC] space-y-2.5">
+              <div className="border border-line rounded-control p-3 bg-canvas space-y-2.5">
                 <span className="font-semibold text-slate-800 text-xs block">مواد التغليف المستخدمة (يتم خصمها وحساب تكلفتها):</span>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -932,7 +932,7 @@ export default function BatchesPage() {
                     <select
                       value={bottlingForm.packagingBottleId}
                       onChange={(e) => setBottlingForm({ ...bottlingForm, packagingBottleId: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                      className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                     >
                       <option value="">-- بدون زجاجة مسجلة --</option>
                       {packagingMaterials.filter(m => ['bottle', 'packaging_bottle'].includes(m.category) || m.name?.includes('زجاج') || m.name?.includes('ازاز') || m.name?.toLowerCase().includes('bottle')).map(m => (
@@ -946,7 +946,7 @@ export default function BatchesPage() {
                     <select
                       value={bottlingForm.packagingBoxId}
                       onChange={(e) => setBottlingForm({ ...bottlingForm, packagingBoxId: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                      className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                     >
                       <option value="">-- بدون علبة --</option>
                       {packagingMaterials.filter(m => ['box', 'packaging_box'].includes(m.category) || m.name?.includes('علب') || m.name?.includes('كرتون') || m.name?.includes('بكدج') || m.name?.includes('باكدج') || m.name?.toLowerCase().includes('box') || m.name?.toLowerCase().includes('package')).map(m => (
@@ -962,7 +962,7 @@ export default function BatchesPage() {
                     <select
                       value={bottlingForm.packagingCapId}
                       onChange={(e) => setBottlingForm({ ...bottlingForm, packagingCapId: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                      className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                     >
                       <option value="">-- بدون غطاء --</option>
                       {packagingMaterials.filter(m => ['cap', 'packaging_cap', 'other'].includes(m.category) || m.name?.includes('غطا') || m.name?.includes('كاب') || m.name?.toLowerCase().includes('cap')).map(m => (
@@ -976,7 +976,7 @@ export default function BatchesPage() {
                     <select
                       value={bottlingForm.packagingStickerId}
                       onChange={(e) => setBottlingForm({ ...bottlingForm, packagingStickerId: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                      className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                     >
                       <option value="">-- بدون ستيكر --</option>
                       {packagingMaterials.filter(m => ['sticker', 'label_sticker'].includes(m.category) || m.name?.includes('ستيكر') || m.name?.includes('ليبل') || m.name?.includes('ملصق') || m.name?.toLowerCase().includes('sticker') || m.name?.toLowerCase().includes('label')).map(m => (
@@ -990,7 +990,7 @@ export default function BatchesPage() {
                     <select
                       value={bottlingForm.packagingBagId}
                       onChange={(e) => setBottlingForm({ ...bottlingForm, packagingBagId: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                      className="w-full h-8 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                     >
                       <option value="">-- بدون كيس --</option>
                       {packagingMaterials.filter(m => ['bag', 'packaging_bag'].includes(m.category) || m.name?.includes('كيس') || m.name?.includes('شنطة') || m.name?.toLowerCase().includes('bag')).map(m => (
@@ -1002,7 +1002,7 @@ export default function BatchesPage() {
               </div>
 
               {/* Total Calculated Unit Cost Breakdown */}
-              <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-sm space-y-1.5 text-xs">
+              <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-control space-y-1.5 text-xs">
                 <div className="flex items-center justify-between text-emerald-900 font-semibold pb-1 border-b border-emerald-200">
                   <span>حساب تكلفة الوحدة التامة (COGS Per Unit):</span>
                   <span className="font-mono text-sm font-bold text-emerald-950">
@@ -1015,18 +1015,18 @@ export default function BatchesPage() {
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2 shrink-0">
+              <div className="pt-3 border-t border-line flex justify-end gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowBottlingModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] h-9 font-medium disabled:opacity-50 flex items-center justify-center gap-1.5"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 h-9 font-medium disabled:opacity-50 flex items-center justify-center gap-1.5"
                 >
                   {submitting ? 'جاري التعبئة...' : 'تأكيد التعبئة وإضافة المخزون التام'}
                 </button>

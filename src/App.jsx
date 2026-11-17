@@ -22,6 +22,7 @@ import CashAccountsPage from './pages/CashAccountsPage';
 import StockMovementsPage from './pages/StockMovementsPage';
 import ReportsPage from './pages/ReportsPage';
 import MarketingPage from './pages/MarketingPage';
+import DesignSystemPage from './pages/DesignSystemPage';
 
 // Protected Route Wrapper for Admin Access
 const ProtectedRoute = ({ children }) => {
@@ -204,6 +205,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <CMSPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/design-system"
+            element={
+              <ProtectedRoute>
+                <DesignSystemPage />
               </ProtectedRoute>
             }
           />

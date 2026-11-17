@@ -15,7 +15,7 @@ const ACCOUNT_TYPE_MAP = {
   instapay: { label: 'إنستاباي (InstaPay)', icon: Smartphone, color: 'text-purple-700 bg-purple-50 border-purple-200' },
   bank: { label: 'حساب بنكي', icon: Building2, color: 'text-blue-700 bg-blue-50 border-blue-200' },
   cod_courier: { label: 'تحصيلات مناديب الشحن', icon: CreditCard, color: 'text-amber-700 bg-amber-50 border-amber-200' },
-  other: { label: 'حساب آخر', icon: Wallet, color: 'text-slate-700 bg-slate-50 border-slate-200' },
+  other: { label: 'حساب آخر', icon: Wallet, color: 'text-slate-700 bg-slate-50 border-line' },
 };
 
 export default function CashAccountsPage() {
@@ -128,10 +128,10 @@ export default function CashAccountsPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <Wallet size={20} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <Wallet size={20} strokeWidth={1.5} className="text-brand-700" />
             <span>الخزائن وحسابات الدفع (Cash & Wallets Treasury)</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -142,7 +142,7 @@ export default function CashAccountsPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenAdd}
-            className="px-3.5 py-2 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
+            className="px-3.5 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
           >
             <Plus size={14} />
             <span>إضافة خزينة / محفظة جديدة</span>
@@ -150,7 +150,7 @@ export default function CashAccountsPage() {
 
           <button
             onClick={fetchAccounts}
-            className="p-2 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors"
             title="تحديث"
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
@@ -159,7 +159,7 @@ export default function CashAccountsPage() {
       </div>
 
       {/* Total Treasury Summary Header */}
-      <div className="bg-[#174F43] text-white rounded-sm p-5 border border-[#174F43] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-brand-700 text-white rounded-control p-5 border border-brand-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs text-white/70 block">إجمالي السيولة النقدية المتاحة (Total Liquid Funds)</span>
           <h2 className="text-2xl font-bold font-mono text-white mt-1">
@@ -168,7 +168,7 @@ export default function CashAccountsPage() {
         </div>
 
         <div className="flex items-center gap-4 text-xs">
-          <div className="bg-white/10 px-3 py-2 rounded-sm border border-white/15">
+          <div className="bg-white/10 px-3 py-2 rounded-control border border-white/15">
             <span className="text-white/60 block text-[10px]">عدد الخزائن والمحافظ</span>
             <span className="font-bold text-white text-sm">{accounts.length} حسابات</span>
           </div>
@@ -180,12 +180,12 @@ export default function CashAccountsPage() {
         {loading ? (
           <div className="col-span-full py-12 text-center text-slate-400">
             <div className="flex items-center justify-center gap-2">
-              <div className="w-5 h-5 border-2 border-[#174F43] border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-5 h-5 border-2 border-brand-700 border-t-transparent rounded-full animate-spin"></div>
               <span>جاري تحميل الخزائن...</span>
             </div>
           </div>
         ) : accounts.length === 0 ? (
-          <div className="col-span-full py-12 text-center text-slate-400 bg-white rounded-sm border border-slate-200">
+          <div className="col-span-full py-12 text-center text-slate-400 bg-surface rounded-card border border-line shadow-card">
             لا توجد حسابات خزينة مسجلة. اضغط "إضافة خزينة / محفظة جديدة".
           </div>
         ) : (
@@ -194,10 +194,10 @@ export default function CashAccountsPage() {
             const Icon = typeInfo.icon;
 
             return (
-              <div key={account._id} className="bg-white rounded-sm border border-slate-200 p-4 space-y-3 flex flex-col justify-between hover:border-slate-300 transition-shadow duration-150">
+              <div key={account._id} className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3 flex flex-col justify-between hover:border-slate-300 transition-shadow duration-150">
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className={`px-2 py-0.5 rounded-sm border text-[11px] font-medium flex items-center gap-1.5 ${typeInfo.color}`}>
+                    <span className={`px-2 py-0.5 rounded-control border text-[11px] font-medium flex items-center gap-1.5 ${typeInfo.color}`}>
                       <Icon size={13} />
                       <span>{typeInfo.label}</span>
                     </span>
@@ -232,7 +232,7 @@ export default function CashAccountsPage() {
 
                   <button
                     onClick={() => handleOpenAdjust(account)}
-                    className="px-3 py-1 bg-slate-100 hover:bg-[#174F43] hover:text-white text-slate-700 rounded-sm text-xs font-medium flex items-center gap-1 transition-colors"
+                    className="px-3 py-1 bg-slate-100 hover:bg-brand-700 hover:text-white text-slate-700 rounded-control text-xs font-medium flex items-center gap-1 transition-colors"
                   >
                     <ArrowUpDown size={12} />
                     <span>تعديل الرصيد</span>
@@ -248,9 +248,9 @@ export default function CashAccountsPage() {
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
           <div className="fixed inset-0 bg-black/40" onClick={() => setShowAddModal(false)} />
-          <div className="relative w-full max-w-md bg-white rounded-sm border border-slate-200 overlay-shadow z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
+          <div className="relative w-full max-w-md bg-surface rounded-card border border-line shadow-card overlay-shadow z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                 <Wallet size={16} />
                 <span>إضافة خزينة / محفظة نقدية جديدة</span>
               </h2>
@@ -268,7 +268,7 @@ export default function CashAccountsPage() {
                   value={addForm.accountName}
                   onChange={(e) => setAddForm({ ...addForm, accountName: e.target.value })}
                   placeholder="مثال: محفظة فودافون كاش الرئيسية"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -278,7 +278,7 @@ export default function CashAccountsPage() {
                   <select
                     value={addForm.accountType}
                     onChange={(e) => setAddForm({ ...addForm, accountType: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                   >
                     {Object.entries(ACCOUNT_TYPE_MAP).map(([k, v]) => (
                       <option key={k} value={k}>{v.label}</option>
@@ -293,7 +293,7 @@ export default function CashAccountsPage() {
                     value={addForm.accountIdentifier}
                     onChange={(e) => setAddForm({ ...addForm, accountIdentifier: e.target.value })}
                     placeholder="010XXXXXXXX"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                   />
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function CashAccountsPage() {
                   value={addForm.openingBalance}
                   onChange={(e) => setAddForm({ ...addForm, openingBalance: e.target.value })}
                   placeholder="0"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -317,22 +317,22 @@ export default function CashAccountsPage() {
                   value={addForm.notes}
                   onChange={(e) => setAddForm({ ...addForm, notes: e.target.value })}
                   placeholder="ملاحظات حول حدود السحب اليومي، المسؤول عن المحفظة..."
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] h-9 font-medium disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 h-9 font-medium disabled:opacity-50"
                 >
                   {submitting ? 'جاري الحفظ...' : 'إضافة الحساب'}
                 </button>
@@ -346,9 +346,9 @@ export default function CashAccountsPage() {
       {showAdjustModal && selectedAccount && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
           <div className="fixed inset-0 bg-black/40" onClick={() => setShowAdjustModal(false)} />
-          <div className="relative w-full max-w-sm bg-white rounded-sm border border-slate-200 overlay-shadow z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[#174F43]">
+          <div className="relative w-full max-w-sm bg-surface rounded-card border border-line shadow-card overlay-shadow z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-brand-700">
                 تعديل رصيد: {selectedAccount.accountName}
               </h2>
               <button onClick={() => setShowAdjustModal(false)} className="p-1 text-slate-400 hover:text-slate-700">
@@ -357,7 +357,7 @@ export default function CashAccountsPage() {
             </div>
 
             <form onSubmit={handleAdjustBalance} className="p-5 space-y-3.5 text-xs">
-              <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-sm">
+              <div className="p-2.5 bg-slate-50 border border-line rounded-control">
                 <span className="text-slate-500 text-[11px] block">الرصيد الحالي:</span>
                 <span className="text-base font-bold font-mono text-slate-900">
                   {selectedAccount.currentBalance?.toLocaleString()} ج.م
@@ -369,7 +369,7 @@ export default function CashAccountsPage() {
                 <select
                   value={adjustForm.type}
                   onChange={(e) => setAdjustForm({ ...adjustForm, type: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
                 >
                   <option value="deposit">إيداع / تحويل وارد (+)</option>
                   <option value="withdrawal">سحب / تحويل صادر (-)</option>
@@ -387,7 +387,7 @@ export default function CashAccountsPage() {
                   value={adjustForm.amountChange}
                   onChange={(e) => setAdjustForm({ ...adjustForm, amountChange: e.target.value })}
                   placeholder="500"
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -399,22 +399,22 @@ export default function CashAccountsPage() {
                   value={adjustForm.reason}
                   onChange={(e) => setAdjustForm({ ...adjustForm, reason: e.target.value })}
                   placeholder="مثال: سحب نقدي للمصروفات، تحصيل مندوب شركة الشحن..."
-                  className="w-full bg-white border border-slate-200 rounded-sm p-2 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-surface rounded-card border border-line shadow-card p-2 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowAdjustModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] h-9 font-medium disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 h-9 font-medium disabled:opacity-50"
                 >
                   {submitting ? 'جاري التأكيد...' : 'تأكيد تعديل الرصيد'}
                 </button>

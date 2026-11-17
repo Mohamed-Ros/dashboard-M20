@@ -274,10 +274,10 @@ export default function CMSPage() {
   return (
     <div className={`space-y-6 ${isRTL ? "font-['Cairo',sans-serif] text-right" : "font-sans text-left"} pb-8`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <Sliders size={20} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <Sliders size={20} strokeWidth={1.5} className="text-brand-700" />
             <span>{lang === 'ar' ? 'إعدادات المتجر والشحن' : 'Storefront & Shipping Settings'}</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -291,7 +291,7 @@ export default function CMSPage() {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="px-5 py-2.5 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold flex items-center gap-2 transition-all duration-150 h-9 self-start sm:self-auto disabled:opacity-50 shadow-sm cursor-pointer"
+          className="px-5 py-2.5 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-2 transition-all duration-150 h-9 self-start sm:self-auto disabled:opacity-50 shadow-sm cursor-pointer"
         >
           {success ? (
             <>
@@ -308,13 +308,13 @@ export default function CMSPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 gap-2">
+      <div className="flex border-b border-line gap-2">
         <button
           type="button"
           onClick={() => setActiveTab('shipping')}
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'shipping'
-              ? 'border-[#174F43] text-[#174F43]'
+              ? 'border-brand-700 text-brand-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -327,7 +327,7 @@ export default function CMSPage() {
           onClick={() => setActiveTab('banners')}
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'banners'
-              ? 'border-[#174F43] text-[#174F43]'
+              ? 'border-brand-700 text-brand-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -340,7 +340,7 @@ export default function CMSPage() {
           onClick={() => setActiveTab('contact')}
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'contact'
-              ? 'border-[#174F43] text-[#174F43]'
+              ? 'border-brand-700 text-brand-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -353,7 +353,7 @@ export default function CMSPage() {
           onClick={() => setActiveTab('tracking')}
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'tracking'
-              ? 'border-[#174F43] text-[#174F43]'
+              ? 'border-brand-700 text-brand-700'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -366,9 +366,9 @@ export default function CMSPage() {
       {activeTab === 'shipping' && (
         <div className="space-y-6">
           {/* Top Info Banner & Reset Action */}
-          <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-sm bg-[#174F43]/10 text-[#174F43] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-control bg-brand-700/10 text-brand-700 flex items-center justify-center shrink-0 mt-0.5">
                 <MapPin size={18} />
               </div>
               <div>
@@ -386,7 +386,7 @@ export default function CMSPage() {
             <button
               type="button"
               onClick={handleResetToTierDefaults}
-              className="px-3 py-1.5 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0 self-start sm:self-auto"
+              className="px-3 py-1.5 rounded-control border border-line hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0 self-start sm:self-auto"
             >
               <RotateCcw size={13} />
               <span>{lang === 'ar' ? 'استعادة أسعار المستويات الأصلية' : 'Reset to Giza Tier Defaults'}</span>
@@ -394,7 +394,7 @@ export default function CMSPage() {
           </div>
 
           {/* Metro Pickup Fee Setting */}
-          <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs flex items-center justify-between gap-4">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex items-center justify-between gap-4">
             <div>
               <h4 className="text-xs font-bold text-slate-800">
                 {lang === 'ar' ? 'رسوم الاستلام من محطات المترو' : 'Metro Station Pickup Fee'}
@@ -410,7 +410,7 @@ export default function CMSPage() {
                 step="1"
                 value={metroPickupFee}
                 onChange={(e) => setMetroPickupFee(Math.max(0, Math.round(Number(e.target.value))))}
-                className="w-24 h-8 px-2 border border-slate-200 rounded-sm text-xs font-mono font-bold text-center outline-none focus:border-[#174F43]"
+                className="w-24 h-8 px-2 border border-line rounded-control text-xs font-mono font-bold text-center outline-none focus:border-brand-700"
               />
               <span className="text-xs text-slate-500 font-semibold">{lang === 'ar' ? 'ج.م' : 'EGP'}</span>
             </div>
@@ -422,11 +422,11 @@ export default function CMSPage() {
             const govsInTier = EGYPT_GOVERNORATES.filter((g) => g.tier === tierNum);
 
             return (
-              <div key={tierNum} className="bg-white rounded-sm border border-slate-200 overflow-hidden shadow-xs">
+              <div key={tierNum} className="bg-surface rounded-card border border-line shadow-card overflow-hidden shadow-xs">
                 {/* Tier Header */}
-                <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div className="px-4 py-2.5 bg-slate-50 border-b border-line flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-[#174F43] text-white">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-brand-700 text-white">
                       Tier {tierNum}
                     </span>
                     <h3 className="text-xs font-bold text-slate-800">
@@ -440,7 +440,7 @@ export default function CMSPage() {
                 </div>
 
                 {/* Governorates Table */}
-                <div className="divide-y divide-slate-100">
+                <div className="divide-y divide-line">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
                     {govsInTier.map((gov) => {
                       const currentVal = shippingRates[gov.nameEn] ?? gov.defaultRate;
@@ -448,7 +448,7 @@ export default function CMSPage() {
                       return (
                         <div
                           key={gov.id}
-                          className="flex items-center justify-between p-2.5 bg-[#F8FAFC] border border-slate-200/80 rounded-sm hover:border-slate-300 transition-colors"
+                          className="flex items-center justify-between p-2.5 bg-canvas border border-line/80 rounded-control hover:border-slate-300 transition-colors"
                         >
                           <div>
                             <span className="text-xs font-bold text-slate-800 block">
@@ -466,7 +466,7 @@ export default function CMSPage() {
                               step="1"
                               value={currentVal}
                               onChange={(e) => handleRateChange(gov.nameEn, e.target.value)}
-                              className="w-16 h-7 px-1.5 border border-slate-200 rounded-sm text-xs font-mono font-bold text-center bg-white outline-none focus:border-[#174F43]"
+                              className="w-16 h-7 px-1.5 border border-line rounded-control text-xs font-mono font-bold text-center bg-white outline-none focus:border-brand-700"
                             />
                             <span className="text-[11px] text-slate-500 font-medium">
                               {lang === 'ar' ? 'ج.م' : 'EGP'}
@@ -487,11 +487,11 @@ export default function CMSPage() {
       {activeTab === 'banners' && (
         <div className="space-y-6">
           {/* Main Slider Section */}
-          <div className="bg-white rounded-sm border border-slate-200 p-5 space-y-4 shadow-xs">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-line">
               <div>
-                <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
-                  <Sparkles size={16} className="text-[#174F43]" />
+                <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
+                  <Sparkles size={16} className="text-brand-700" />
                   <span>{lang === 'ar' ? 'صور السلايدر الرئيسي (Hero Carousel)' : 'Hero Carousel Banners'}</span>
                 </h2>
                 <p className="text-xs text-slate-500">
@@ -499,7 +499,7 @@ export default function CMSPage() {
                 </p>
               </div>
 
-              <label className="px-3 py-1.5 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-colors">
+              <label className="px-3 py-1.5 rounded-control border border-line hover:bg-slate-50 text-slate-700 text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-colors">
                 <Upload size={14} />
                 <span>{uploading ? (lang === 'ar' ? 'جاري الرفع...' : 'Uploading...') : (lang === 'ar' ? 'إضافة صورة جديدة' : 'Add Image')}</span>
                 <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
@@ -508,11 +508,11 @@ export default function CMSPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {slides.map((slide) => (
-                <div key={slide.id} className="border border-slate-200 rounded-sm overflow-hidden bg-[#F8FAFC] flex flex-col justify-between">
+                <div key={slide.id} className="border border-line rounded-control overflow-hidden bg-canvas flex flex-col justify-between">
                   <div>
                     <div className="aspect-[16/9] bg-slate-200 relative">
                       <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" />
-                      <span className="absolute top-2 right-2 text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-sm font-medium">
+                      <span className="absolute top-2 right-2 text-[10px] bg-white border border-line px-1.5 py-0.5 rounded-control font-medium">
                         {slide.active ? (lang === 'ar' ? 'نشط' : 'Active') : (lang === 'ar' ? 'معطل' : 'Inactive')}
                       </span>
                     </div>
@@ -525,13 +525,13 @@ export default function CMSPage() {
                           value={slide.link || ''}
                           onChange={(e) => updateSlideLink(slide.id, e.target.value)}
                           placeholder="/offers"
-                          className="w-full h-7 border border-slate-200 rounded-sm px-2 text-xs bg-white outline-none focus:border-[#174F43]"
+                          className="w-full h-7 border border-line rounded-control px-2 text-xs bg-white outline-none focus:border-brand-700"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-2 border-t border-slate-200 bg-white flex items-center justify-between text-xs">
+                  <div className="p-2 border-t border-line bg-white flex items-center justify-between text-xs">
                     <button
                       type="button"
                       onClick={() => toggleSlide(slide.id)}
@@ -554,11 +554,11 @@ export default function CMSPage() {
           </div>
 
           {/* Announcement Bar */}
-          <div className="bg-white rounded-sm border border-slate-200 p-5 space-y-4 shadow-xs">
-            <div className="pb-3 border-b border-slate-200 flex items-center justify-between">
+          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+            <div className="pb-3 border-b border-line flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
-                  <BellRing size={16} className="text-[#174F43]" />
+                <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
+                  <BellRing size={16} className="text-brand-700" />
                   <span>{lang === 'ar' ? 'شريط الإعلانات العلوي (Announcement Bar)' : 'Announcement Bar'}</span>
                 </h2>
                 <p className="text-xs text-slate-500">
@@ -572,7 +572,7 @@ export default function CMSPage() {
                   id="announcementActive"
                   checked={announcement.active}
                   onChange={(e) => setAnnouncement({ ...announcement, active: e.target.checked })}
-                  className="h-4 w-4 rounded border-slate-300 text-[#174F43] focus:ring-[#174F43]"
+                  className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700"
                 />
                 <label htmlFor="announcementActive" className="text-xs font-medium text-slate-700 cursor-pointer">
                   {announcement.active ? (lang === 'ar' ? 'مفعل' : 'Active') : (lang === 'ar' ? 'معطل' : 'Disabled')}
@@ -588,7 +588,7 @@ export default function CMSPage() {
                 type="text"
                 value={announcement.text}
                 onChange={(e) => setAnnouncement({ ...announcement, text: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs bg-white outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs bg-white outline-none focus:border-brand-700"
               />
             </div>
           </div>
@@ -597,10 +597,10 @@ export default function CMSPage() {
 
       {/* TAB 3: CONTACT & SOCIAL */}
       {activeTab === 'contact' && (
-        <div className="bg-white rounded-sm border border-slate-200 p-5 space-y-4 shadow-xs">
-          <div className="pb-3 border-b border-slate-200">
-            <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-1.5">
-              <PhoneCall size={16} className="text-[#174F43]" />
+        <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+          <div className="pb-3 border-b border-line">
+            <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
+              <PhoneCall size={16} className="text-brand-700" />
               <span>{lang === 'ar' ? 'بيانات التواصل وحسابات السوشيال ميديا' : 'Contact Channels & Social Media'}</span>
             </h2>
             <p className="text-xs text-slate-500">
@@ -615,7 +615,7 @@ export default function CMSPage() {
                 type="text"
                 value={contact.whatsapp}
                 onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
             <div>
@@ -624,7 +624,7 @@ export default function CMSPage() {
                 type="text"
                 value={contact.phone}
                 onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
             <div>
@@ -633,7 +633,7 @@ export default function CMSPage() {
                 type="text"
                 value={contact.instagram}
                 onChange={(e) => setContact({ ...contact, instagram: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
             <div>
@@ -642,7 +642,7 @@ export default function CMSPage() {
                 type="text"
                 value={contact.tiktok}
                 onChange={(e) => setContact({ ...contact, tiktok: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
             <div className="sm:col-span-2">
@@ -651,7 +651,7 @@ export default function CMSPage() {
                 type="text"
                 value={contact.facebook}
                 onChange={(e) => setContact({ ...contact, facebook: e.target.value })}
-                className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
               />
             </div>
           </div>
@@ -662,9 +662,9 @@ export default function CMSPage() {
       {activeTab === 'tracking' && (
         <div className="space-y-6">
           {/* Top Info Banner */}
-          <div className="bg-white rounded-sm border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-sm bg-[#174F43]/10 text-[#174F43] flex items-center justify-center shrink-0 mt-0.5">
+              <div className="w-9 h-9 rounded-control bg-brand-700/10 text-brand-700 flex items-center justify-center shrink-0 mt-0.5">
                 <Target size={18} />
               </div>
               <div>
@@ -680,7 +680,7 @@ export default function CMSPage() {
             </div>
 
             {/* Global Enable Toggle */}
-            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-sm">
+            <div className="flex items-center gap-2 bg-slate-50 border border-line px-3 py-1.5 rounded-control">
               <span className="text-xs font-semibold text-slate-700">
                 {lang === 'ar' ? 'حالة التتبع:' : 'Tracking:'}
               </span>
@@ -688,7 +688,7 @@ export default function CMSPage() {
                 type="button"
                 onClick={() => setTracking({ ...tracking, enableTracking: !tracking.enableTracking })}
                 className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  tracking.enableTracking ? 'bg-[#174F43]' : 'bg-slate-300'
+                  tracking.enableTracking ? 'bg-brand-700' : 'bg-slate-300'
                 }`}
               >
                 <span
@@ -697,16 +697,16 @@ export default function CMSPage() {
                   }`}
                 />
               </button>
-              <span className={`text-xs font-bold ${tracking.enableTracking ? 'text-[#174F43]' : 'text-slate-400'}`}>
+              <span className={`text-xs font-bold ${tracking.enableTracking ? 'text-brand-700' : 'text-slate-400'}`}>
                 {tracking.enableTracking ? (lang === 'ar' ? 'مفعل' : 'Active') : (lang === 'ar' ? 'معطل' : 'Disabled')}
               </span>
             </div>
           </div>
 
           {/* Quick Launch Marketing & Ads Analytics Dashboard Banner */}
-          <div className="bg-[#174F43]/5 border border-[#174F43]/20 rounded-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-brand-700/5 border border-brand-700/20 rounded-control p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h4 className="text-xs font-bold text-[#174F43]">
+              <h4 className="text-xs font-bold text-brand-700">
                 {lang === 'ar' ? 'لوحة تحليلات التسويق والإعلانات المتقدمة (Marketing & Ads Analytics)' : 'Advanced Marketing & Ads Analytics Dashboard'}
               </h4>
               <p className="text-[11px] text-slate-500 mt-0.5">
@@ -717,19 +717,19 @@ export default function CMSPage() {
             </div>
             <Link
               to="/marketing"
-              className="px-4 py-2 bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold rounded-sm inline-flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+              className="px-4 py-2 bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold rounded-control inline-flex items-center gap-2 transition-colors cursor-pointer shrink-0"
             >
-              <Target size={14} className="text-[#FF9D00]" />
+              <Target size={14} className="text-accent" />
               <span>{lang === 'ar' ? 'فتح لوحة تحليلات الإعلانات' : 'Open Analytics Dashboard'}</span>
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Meta (Facebook & Instagram) Configuration */}
-            <div className="bg-white rounded-sm border border-slate-200 p-5 shadow-xs space-y-4">
+            <div className="bg-surface rounded-card border border-line shadow-card p-5 shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-sm bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-control bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
                     M
                   </div>
                   <div>
@@ -756,7 +756,7 @@ export default function CMSPage() {
                   placeholder="مثال: 123456789012345"
                   value={tracking.metaPixelId}
                   onChange={(e) => setTracking({ ...tracking, metaPixelId: e.target.value })}
-                  className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
                 <p className="text-[10px] text-slate-400 mt-1">
                   {lang === 'ar'
@@ -776,7 +776,7 @@ export default function CMSPage() {
                     placeholder="EAAG..."
                     value={tracking.metaCapiAccessToken}
                     onChange={(e) => setTracking({ ...tracking, metaCapiAccessToken: e.target.value })}
-                    className="w-full h-9 border border-slate-200 rounded-sm pl-3 pr-10 text-xs font-mono outline-none focus:border-[#174F43]"
+                    className="w-full h-9 border border-line rounded-control pl-3 pr-10 text-xs font-mono outline-none focus:border-brand-700"
                   />
                   <button
                     type="button"
@@ -795,10 +795,10 @@ export default function CMSPage() {
             </div>
 
             {/* TikTok Configuration */}
-            <div className="bg-white rounded-sm border border-slate-200 p-5 shadow-xs space-y-4">
+            <div className="bg-surface rounded-card border border-line shadow-card p-5 shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-sm bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-control bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
                     TT
                   </div>
                   <div>
@@ -825,7 +825,7 @@ export default function CMSPage() {
                   placeholder="مثال: C123456789ABCDEF"
                   value={tracking.tiktokPixelId}
                   onChange={(e) => setTracking({ ...tracking, tiktokPixelId: e.target.value })}
-                  className="w-full h-9 border border-slate-200 rounded-sm px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                  className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
                 />
                 <p className="text-[10px] text-slate-400 mt-1">
                   {lang === 'ar'
@@ -835,8 +835,8 @@ export default function CMSPage() {
               </div>
 
               {/* Deduplication & Attribution Info Box */}
-              <div className="bg-[#174F43]/5 border border-[#174F43]/15 rounded-sm p-3 space-y-1.5 text-slate-700 text-[11px]">
-                <div className="flex items-center gap-1.5 font-bold text-[#174F43]">
+              <div className="bg-brand-700/5 border border-brand-700/15 rounded-control p-3 space-y-1.5 text-slate-700 text-[11px]">
+                <div className="flex items-center gap-1.5 font-bold text-brand-700">
                   <ShieldCheck size={14} />
                   <span>{lang === 'ar' ? 'نظام منع التكرار التلقائي (Deduplication)' : 'Built-in Deduplication'}</span>
                 </div>

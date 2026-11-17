@@ -36,12 +36,12 @@ const formatGovernorate = (govStr, isRTL) => {
 };
 
 const statusConfig = {
-  all: { labelAr: 'جميع الطلبات', labelEn: 'All Orders', color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200' },
+  all: { labelAr: 'جميع الطلبات', labelEn: 'All Orders', color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-line' },
   pending: { labelAr: 'قيد الانتظار', labelEn: 'Pending', color: 'text-amber-800', bg: 'bg-amber-50', border: 'border-amber-200' },
-  confirmed: { labelAr: 'تم التأكيد', labelEn: 'Confirmed', color: 'text-[#174F43]', bg: 'bg-[#174F43]/10', border: 'border-[#174F43]/25' },
-  processing: { labelAr: 'جاري التجهيز', labelEn: 'Processing', color: 'text-[#B45309]', bg: 'bg-[#FF9D00]/15', border: 'border-[#FF9D00]/30' },
+  confirmed: { labelAr: 'تم التأكيد', labelEn: 'Confirmed', color: 'text-brand-700', bg: 'bg-brand-700/10', border: 'border-brand-700/25' },
+  processing: { labelAr: 'جاري التجهيز', labelEn: 'Processing', color: 'text-warning', bg: 'bg-accent/15', border: 'border-accent/30' },
   shipped: { labelAr: 'جاري الشحن', labelEn: 'Shipped', color: 'text-sky-800', bg: 'bg-sky-50', border: 'border-sky-200' },
-  delivered: { labelAr: 'تم التوصيل', labelEn: 'Delivered', color: 'text-[#174F43]', bg: 'bg-[#174F43]/15', border: 'border-[#174F43]/30' },
+  delivered: { labelAr: 'تم التوصيل', labelEn: 'Delivered', color: 'text-brand-700', bg: 'bg-brand-700/15', border: 'border-brand-700/30' },
   returned_from_shipping: { labelAr: 'مرتجع من الشحن', labelEn: 'Returned from Shipping', color: 'text-amber-900', bg: 'bg-amber-100/90', border: 'border-amber-300' },
   cancelled: { labelAr: 'ملغي', labelEn: 'Cancelled', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
 };
@@ -63,7 +63,7 @@ const renderPaymentMethodBadge = (method, isPaid, isRTL = true) => {
 
   return (
     <div className="flex items-center gap-1.5">
-      <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+      <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-line">
         {icon}
         <span>{label}</span>
       </span>
@@ -715,14 +715,14 @@ export default function OrdersPage() {
   return (
     <div className="space-y-6 text-right font-['Cairo',sans-serif]">
       {/* Screen Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200/80">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line/80">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#174F43] to-[#0F3830] text-white flex items-center justify-center shadow-md shadow-[#174F43]/10">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center shadow-md shadow-[#174F43]/10">
               <Truck size={20} strokeWidth={1.5} />
             </div>
             <div>
-              <h1 className="text-xl font-extrabold text-[#174F43] tracking-tight">
+              <h1 className="text-xl font-extrabold text-brand-700 tracking-tight">
                 إدارة الطلبات والشحنات والفواتير
               </h1>
               <p className="text-xs text-slate-500 font-medium">
@@ -735,7 +735,7 @@ export default function OrdersPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenCreateOrder}
-            className="px-4 py-2.5 rounded-xl bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm hover:shadow active:scale-95"
+            className="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-900 text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm hover:shadow active:scale-95"
           >
             <Plus size={16} />
             <span>إنشاء طلب يدوي جديد</span>
@@ -743,10 +743,10 @@ export default function OrdersPage() {
 
           <button
             onClick={fetchOrdersAndAccounts}
-            className="p-2.5 rounded-xl border border-slate-200 bg-white/80 backdrop-blur hover:bg-slate-50 text-slate-700 transition-all duration-150 shadow-xs"
+            className="p-2.5 rounded-xl border border-line bg-white/80 backdrop-blur hover:bg-slate-50 text-slate-700 transition-all duration-150 shadow-xs"
             title="تحديث"
           >
-            <RefreshCw size={14} strokeWidth={1.7} className={loading ? 'animate-spin text-[#174F43]' : ''} />
+            <RefreshCw size={14} strokeWidth={1.7} className={loading ? 'animate-spin text-brand-700' : ''} />
           </button>
         </div>
       </div>
@@ -756,10 +756,10 @@ export default function OrdersPage() {
         {[
           { key: 'all', label: 'الكل', count: statusCounts.all, icon: FileText },
           { key: 'pending', label: 'قيد المراجعة', count: statusCounts.pending, icon: Clock, color: 'text-amber-600' },
-          { key: 'confirmed', label: 'تم التأكيد', count: statusCounts.confirmed, icon: CheckCircle2, color: 'text-[#174F43]' },
-          { key: 'processing', label: 'جاري التجهيز', count: statusCounts.processing, icon: RefreshCw, color: 'text-[#FF9D00]' },
+          { key: 'confirmed', label: 'تم التأكيد', count: statusCounts.confirmed, icon: CheckCircle2, color: 'text-brand-700' },
+          { key: 'processing', label: 'جاري التجهيز', count: statusCounts.processing, icon: RefreshCw, color: 'text-accent' },
           { key: 'shipped', label: 'جاري الشحن', count: statusCounts.shipped, icon: Truck, color: 'text-sky-600' },
-          { key: 'delivered', label: 'تم التوصيل', count: statusCounts.delivered, icon: CheckCircle2, color: 'text-[#174F43]' },
+          { key: 'delivered', label: 'تم التوصيل', count: statusCounts.delivered, icon: CheckCircle2, color: 'text-brand-700' },
           { key: 'returned_from_shipping', label: 'مرتجع شحن', count: statusCounts.returned_from_shipping, icon: RotateCcw, color: 'text-amber-800' },
           { key: 'cancelled', label: 'ملغي', count: statusCounts.cancelled, icon: XCircle, color: 'text-rose-600' },
         ].map((item) => {
@@ -774,8 +774,8 @@ export default function OrdersPage() {
               }}
               className={`p-3.5 rounded-2xl border text-right transition-all duration-200 relative overflow-hidden ${
                 isActive 
-                  ? 'bg-[#174F43] text-white border-[#174F43] shadow-lg shadow-[#174F43]/20 scale-[1.02]' 
-                  : 'bg-white/80 backdrop-blur-md border-slate-200/90 text-slate-700 hover:border-slate-300 hover:bg-white shadow-xs'
+                  ? 'bg-brand-700 text-white border-brand-700 shadow-lg shadow-[#174F43]/20 scale-[1.02]' 
+                  : 'bg-white/80 backdrop-blur-md border-line/90 text-slate-700 hover:border-slate-300 hover:bg-white shadow-xs'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -791,11 +791,11 @@ export default function OrdersPage() {
       </div>
 
       {/* Marketing Attribution & Channels Analytics Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-3">
+      <div className="bg-white rounded-2xl p-4 border border-line/90 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#174F43]" />
-            <h3 className="text-xs font-bold text-[#174F43]">
+            <span className="w-2.5 h-2.5 rounded-full bg-brand-700" />
+            <h3 className="text-xs font-bold text-brand-700">
               {isRTL ? 'تحليلات قنوات التسويق والاستحواذ (Attribution & Campaigns)' : 'Marketing & Attribution Channels'}
             </h3>
           </div>
@@ -803,7 +803,7 @@ export default function OrdersPage() {
             <div className="text-[11px] text-slate-500 flex items-center gap-1.5 flex-wrap">
               <span className="font-semibold text-slate-700">{isRTL ? 'أبرز الحملات:' : 'Top Campaigns:'}</span>
               {marketingMetrics.topCampaigns.map(([camp, count]) => (
-                <span key={camp} className="px-2 py-0.5 rounded bg-slate-100 font-mono text-[10px] text-slate-700 border border-slate-200">
+                <span key={camp} className="px-2 py-0.5 rounded bg-slate-100 font-mono text-[10px] text-slate-700 border border-line">
                   {camp} ({count})
                 </span>
               ))}
@@ -818,8 +818,8 @@ export default function OrdersPage() {
             onClick={() => setSelectedChannel(selectedChannel === 'meta' ? 'all' : 'meta')}
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'meta'
-                ? 'bg-[#174F43]/10 border-[#174F43] ring-1 ring-[#174F43]'
-                : 'bg-slate-50/60 border-slate-200 hover:bg-slate-100/70'
+                ? 'bg-brand-700/10 border-brand-700 ring-1 ring-brand-700'
+                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
@@ -828,7 +828,7 @@ export default function OrdersPage() {
                 {marketingMetrics.channels.meta.orders} {isRTL ? 'طلب' : 'orders'}
               </span>
             </div>
-            <div className="font-mono font-black text-sm text-[#174F43]">
+            <div className="font-mono font-black text-sm text-brand-700">
               {marketingMetrics.channels.meta.revenue.toLocaleString()} ج.م
             </div>
             <span className="text-[10px] text-slate-400 block mt-0.5">
@@ -842,7 +842,7 @@ export default function OrdersPage() {
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'tiktok'
                 ? 'bg-black/10 border-black ring-1 ring-black'
-                : 'bg-slate-50/60 border-slate-200 hover:bg-slate-100/70'
+                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
@@ -865,7 +865,7 @@ export default function OrdersPage() {
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'google'
                 ? 'bg-sky-50 border-sky-600 ring-1 ring-sky-600'
-                : 'bg-slate-50/60 border-slate-200 hover:bg-slate-100/70'
+                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
@@ -888,7 +888,7 @@ export default function OrdersPage() {
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'direct'
                 ? 'bg-slate-200 border-slate-600 ring-1 ring-slate-600'
-                : 'bg-slate-50/60 border-slate-200 hover:bg-slate-100/70'
+                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
@@ -908,7 +908,7 @@ export default function OrdersPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-line/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1">
           <div className="relative w-full sm:w-80">
             <input
@@ -916,7 +916,7 @@ export default function OrdersPage() {
               placeholder="بحث برقم الطلب، اسم العميل، الهاتف، الإيميل أو الكوبون..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#F8FAFC] border border-slate-200 focus:border-[#174F43] rounded-xl px-4 py-2.5 pr-10 text-xs outline-none transition-all focus:bg-white focus:shadow-inner"
+              className="w-full bg-canvas border border-line focus:border-brand-700 rounded-xl px-4 py-2.5 pr-10 text-xs outline-none transition-all focus:bg-white focus:shadow-inner"
             />
             <Search size={16} className="text-slate-400 absolute right-3.5 top-3" />
           </div>
@@ -925,7 +925,7 @@ export default function OrdersPage() {
           <select
             value={selectedChannel}
             onChange={(e) => setSelectedChannel(e.target.value)}
-            className="w-full sm:w-auto h-9 px-3 text-xs font-semibold bg-[#F8FAFC] border border-slate-200 rounded-xl outline-none focus:border-[#174F43] cursor-pointer"
+            className="w-full sm:w-auto h-9 px-3 text-xs font-semibold bg-canvas border border-line rounded-xl outline-none focus:border-brand-700 cursor-pointer"
           >
             <option value="all">جميع قنوات التسويق</option>
             <option value="meta">Meta (Facebook & Instagram)</option>
@@ -940,7 +940,7 @@ export default function OrdersPage() {
           {(selectedStatus !== 'all' || selectedChannel !== 'all') && (
             <button
               onClick={() => { setSelectedStatus('all'); setSelectedChannel('all'); setSearchParams({}); }}
-              className="text-[#174F43] font-semibold hover:underline"
+              className="text-brand-700 font-semibold hover:underline"
             >
               إلغاء الفلترة
             </button>
@@ -950,21 +950,21 @@ export default function OrdersPage() {
 
       {/* Orders Table */}
       {loading ? (
-        <div className="py-20 text-center text-xs text-slate-500 bg-white/60 rounded-2xl border border-slate-200/60">
-          <RefreshCw size={24} className="animate-spin text-[#174F43] mx-auto mb-2" />
+        <div className="py-20 text-center text-xs text-slate-500 bg-white/60 rounded-2xl border border-line/60">
+          <RefreshCw size={24} className="animate-spin text-brand-700 mx-auto mb-2" />
           <span>جاري تحميل قائمة الطلبات والشحنات...</span>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-12 text-center text-slate-500 space-y-3">
+        <div className="bg-white rounded-2xl border border-line/80 p-12 text-center text-slate-500 space-y-3">
           <Truck size={36} className="mx-auto text-slate-300" strokeWidth={1.5} />
           <h3 className="text-sm font-bold text-slate-800">لا توجد طلبات مطابقة</h3>
           <p className="text-xs text-slate-400">يمكنك الضغط على "إنشاء طلب يدوي جديد" لتسجيل طلب جديد فوراً.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div className="bg-white rounded-2xl border border-line/80 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className="bg-[#F8FAFC] text-slate-500 border-b border-slate-200 font-bold">
+              <thead className="bg-canvas text-slate-500 border-b border-line font-bold">
                 <tr>
                   <th className="p-3.5">رقم الطلب</th>
                   <th className="p-3.5">العميل & الهاتف</th>
@@ -976,14 +976,14 @@ export default function OrdersPage() {
                   <th className="p-3.5 text-center">إجراءات</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {filteredOrders.map((order) => {
                   const isPaid = order.paymentStatus === 'paid';
                   const hasProof = !!(order.paymentScreenshot || order.paymentProofUrl);
                   return (
                     <tr key={order._id} className="hover:bg-slate-50/70 transition-colors">
                       {/* Order Number & Date */}
-                      <td className="p-3.5 font-mono font-bold text-[#174F43]">
+                      <td className="p-3.5 font-mono font-bold text-brand-700">
                         <button
                           onClick={() => setSelectedOrder(order)}
                           className="hover:underline flex items-center gap-1 text-xs"
@@ -1001,7 +1001,7 @@ export default function OrdersPage() {
                               ? 'bg-slate-900 text-white border-slate-900'
                               : order.attribution.channel === 'google'
                               ? 'bg-sky-50 text-sky-700 border-sky-200'
-                              : 'bg-slate-100 text-slate-600 border-slate-200'
+                              : 'bg-slate-100 text-slate-600 border-line'
                           }`}>
                             {order.attribution.channel.toUpperCase()}
                             {order.attribution.campaign ? ` : ${order.attribution.campaign}` : ''}
@@ -1070,7 +1070,7 @@ export default function OrdersPage() {
                           className={`text-[11px] font-bold px-2 py-1 rounded-lg border outline-none ${
                             statusConfig[order.orderStatus]?.bg || 'bg-slate-50'
                           } ${statusConfig[order.orderStatus]?.color || 'text-slate-800'} ${
-                            statusConfig[order.orderStatus]?.border || 'border-slate-200'
+                            statusConfig[order.orderStatus]?.border || 'border-line'
                           }`}
                         >
                           <option value="pending">قيد الانتظار</option>
@@ -1105,7 +1105,7 @@ export default function OrdersPage() {
                         <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => setSelectedOrder(order)}
-                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-[#174F43] hover:text-white text-slate-700 transition-colors"
+                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-brand-700 hover:text-white text-slate-700 transition-colors"
                             title="عرض تفاصيل الطلب والفاتورة"
                           >
                             <Eye size={14} />
@@ -1138,15 +1138,15 @@ export default function OrdersPage() {
       {/* CREATE MANUAL ORDER MODAL */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl bg-black/50 backdrop-blur-xs">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-slate-200 shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden">
+          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-line shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200/80 bg-[#F8FAFC] flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 border-b border-line/80 bg-canvas flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#174F43]/10 text-[#174F43] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-brand-700/10 text-brand-700 flex items-center justify-center">
                   <ShoppingBag size={18} />
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold text-[#174F43]">إنشاء طلب جديد يدوياً (Manual Order)</h2>
+                  <h2 className="text-sm font-bold text-brand-700">إنشاء طلب جديد يدوياً (Manual Order)</h2>
                   <p className="text-[11px] text-slate-400">تسجيل طلب مخصص، تحديد العطور والأحجام، وحساب الإجمالي</p>
                 </div>
               </div>
@@ -1159,8 +1159,8 @@ export default function OrdersPage() {
             {/* Modal Form */}
             <form onSubmit={handleSubmitCreateOrder} className="p-6 space-y-5 text-xs overflow-y-auto flex-1">
               {/* Section 1: Customer Information */}
-              <div className="p-4 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-3">
-                <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+              <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
+                <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                   <User size={15} />
                   <span>بيانات العميل (Customer Details)</span>
                 </span>
@@ -1174,7 +1174,7 @@ export default function OrdersPage() {
                       value={createFormData.customerName}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerName: e.target.value })}
                       placeholder="مثال: أحمد محمد"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -1186,7 +1186,7 @@ export default function OrdersPage() {
                       value={createFormData.customerPhone}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerPhone: e.target.value })}
                       placeholder="010xxxxxxxx"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs font-mono outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -1197,7 +1197,7 @@ export default function OrdersPage() {
                       value={createFormData.customerPhone2}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerPhone2: e.target.value })}
                       placeholder="011xxxxxxxx"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs font-mono outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs font-mono outline-none focus:border-brand-700"
                     />
                   </div>
 
@@ -1208,16 +1208,16 @@ export default function OrdersPage() {
                       value={createFormData.customerEmail}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerEmail: e.target.value })}
                       placeholder="customer@gmail.com"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 2: Delivery & Shipping Details */}
-              <div className="p-4 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-3">
+              <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <Truck size={15} />
                     <span>{isRTL ? 'طريقة التوصيل والعنوان' : 'Delivery Method & Address'}</span>
                   </span>
@@ -1231,7 +1231,7 @@ export default function OrdersPage() {
                         shipping: getGovernorateRate(createFormData.shippingAddress.governorate) || 65
                       })}
                       className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                        createFormData.deliveryMethod === 'home_delivery' ? 'bg-[#174F43] text-white shadow-2xs' : 'text-slate-600'
+                        createFormData.deliveryMethod === 'home_delivery' ? 'bg-brand-700 text-white shadow-2xs' : 'text-slate-600'
                       }`}
                     >
                       {isRTL ? 'توصيل منزلي' : 'Home Delivery'}
@@ -1263,7 +1263,7 @@ export default function OrdersPage() {
                             shippingAddress: { ...prev.shippingAddress, governorate: selGov }
                           }));
                         }}
-                        className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                       >
                         {EGYPT_GOVERNORATES.map(gov => (
                           <option key={gov.id} value={isRTL ? gov.nameAr : gov.nameEn}>
@@ -1284,7 +1284,7 @@ export default function OrdersPage() {
                           shippingAddress: { ...createFormData.shippingAddress, city: e.target.value }
                         })}
                         placeholder="مدينة نصر، التجمع، المهندسين..."
-                        className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                       />
                     </div>
 
@@ -1299,7 +1299,7 @@ export default function OrdersPage() {
                           shippingAddress: { ...createFormData.shippingAddress, street: e.target.value }
                         })}
                         placeholder="اسم الشارع، رقم العمارة، الدور، الشقة..."
-                        className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                       />
                     </div>
                   </div>
@@ -1316,7 +1316,7 @@ export default function OrdersPage() {
                           metroPickup: { ...createFormData.metroPickup, stationName: e.target.value }
                         })}
                         placeholder="محطة الشهداء، أنور السادات، الأوبرا..."
-                        className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                       />
                     </div>
 
@@ -1330,7 +1330,7 @@ export default function OrdersPage() {
                           metroPickup: { ...createFormData.metroPickup, notes: e.target.value }
                         })}
                         placeholder="مثال: من الساعة 3 إلى 6 مساءً"
-                        className="w-full h-9 bg-white border border-slate-200 rounded-xl px-3 text-xs outline-none focus:border-[#174F43]"
+                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
                       />
                     </div>
                   </div>
@@ -1338,9 +1338,9 @@ export default function OrdersPage() {
               </div>
 
               {/* Section 3: Ordered Items Builder */}
-              <div className="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
+              <div className="p-4 bg-white border border-line rounded-2xl space-y-3">
                 <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <Tag size={15} />
                     <span>العطور والمنتجات المطلوبة (Order Items)</span>
                   </span>
@@ -1348,7 +1348,7 @@ export default function OrdersPage() {
                   <button
                     type="button"
                     onClick={handleAddItemRow}
-                    className="px-3 py-1 bg-[#174F43] hover:bg-[#0F3830] text-white rounded-xl text-[11px] font-bold flex items-center gap-1 transition-colors shadow-2xs"
+                    className="px-3 py-1 bg-brand-700 hover:bg-brand-900 text-white rounded-xl text-[11px] font-bold flex items-center gap-1 transition-colors shadow-2xs"
                   >
                     <Plus size={13} />
                     <span>إضافة عطر آخر</span>
@@ -1357,14 +1357,14 @@ export default function OrdersPage() {
 
                 <div className="space-y-2.5">
                   {createFormData.items.map((item, idx) => (
-                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-line">
                       {/* Product Select */}
                       <div className="sm:col-span-5">
                         <label className="block text-[10px] font-bold text-slate-500 mb-0.5">العطر</label>
                         <select
                           value={item.productId}
                           onChange={(e) => handleItemProductOrSizeChange(idx, 'productId', e.target.value)}
-                          className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-bold outline-none focus:border-[#174F43]"
+                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none focus:border-brand-700"
                           required
                         >
                           <option value="">-- اختر العطر --</option>
@@ -1380,7 +1380,7 @@ export default function OrdersPage() {
                         <select
                           value={item.size}
                           onChange={(e) => handleItemProductOrSizeChange(idx, 'size', e.target.value)}
-                          className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-bold outline-none"
+                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
                         >
                           <option value="30ml">30ml</option>
                           <option value="50ml">50ml</option>
@@ -1396,7 +1396,7 @@ export default function OrdersPage() {
                           min="0"
                           value={item.price}
                           onChange={(e) => handleItemQtyOrPriceChange(idx, 'price', e.target.value)}
-                          className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
                           required
                         />
                       </div>
@@ -1409,7 +1409,7 @@ export default function OrdersPage() {
                           min="1"
                           value={item.quantity}
                           onChange={(e) => handleItemQtyOrPriceChange(idx, 'quantity', e.target.value)}
-                          className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
                           required
                         />
                       </div>
@@ -1433,8 +1433,8 @@ export default function OrdersPage() {
               {/* Section 4: Payment, Status & Financial Summary */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Payment & Status Settings */}
-                <div className="p-4 bg-slate-50/70 border border-slate-200 rounded-2xl space-y-3">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <Wallet size={15} />
                     <span>إعدادات السداد وحالة الطلب</span>
                   </span>
@@ -1445,7 +1445,7 @@ export default function OrdersPage() {
                       <select
                         value={createFormData.paymentMethod}
                         onChange={(e) => setCreateFormData({ ...createFormData, paymentMethod: e.target.value })}
-                        className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs outline-none"
+                        className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs outline-none"
                       >
                         <option value="cash_on_delivery">{isRTL ? 'عند الاستلام' : 'Cash on Delivery (COD)'}</option>
                         <option value="vodafone_cash">{isRTL ? 'فودافون كاش' : 'Vodafone Cash'}</option>
@@ -1459,7 +1459,7 @@ export default function OrdersPage() {
                       <select
                         value={createFormData.paymentStatus}
                         onChange={(e) => setCreateFormData({ ...createFormData, paymentStatus: e.target.value })}
-                        className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-bold outline-none"
+                        className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
                       >
                         <option value="pending">{isRTL ? 'معلق' : 'Pending'}</option>
                         <option value="paid">{isRTL ? 'مدفوع بالكامل' : 'Paid in Full'}</option>
@@ -1490,7 +1490,7 @@ export default function OrdersPage() {
                     <select
                       value={createFormData.orderStatus}
                       onChange={(e) => setCreateFormData({ ...createFormData, orderStatus: e.target.value })}
-                      className="w-full h-8 bg-white border border-slate-200 rounded-lg px-2 text-xs font-bold outline-none"
+                      className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
                     >
                       <option value="confirmed">{isRTL ? 'تم التأكيد' : 'Confirmed'}</option>
                       <option value="pending">{isRTL ? 'قيد المراجعة' : 'Pending Review'}</option>
@@ -1500,9 +1500,9 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Financial Summary Calculation */}
-                <div className="p-4 bg-[#F8FAFC] border border-slate-200 rounded-2xl flex flex-col justify-between space-y-3">
+                <div className="p-4 bg-canvas border border-line rounded-2xl flex flex-col justify-between space-y-3">
                   <div className="space-y-2">
-                    <span className="font-extrabold text-[#174F43] text-xs block pb-1 border-b border-slate-200">
+                    <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line">
                       {isRTL ? 'ملخص الحساب والفاتورة' : 'Order Financial Summary'}
                     </span>
 
@@ -1519,7 +1519,7 @@ export default function OrdersPage() {
                         step="1"
                         value={createFormData.shipping}
                         onChange={(e) => setCreateFormData({ ...createFormData, shipping: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
-                        className="w-20 h-7 bg-white border border-slate-200 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                        className="w-20 h-7 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
                       />
                     </div>
 
@@ -1531,14 +1531,14 @@ export default function OrdersPage() {
                         step="1"
                         value={createFormData.discount}
                         onChange={(e) => setCreateFormData({ ...createFormData, discount: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
-                        className="w-20 h-7 bg-white border border-slate-200 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none text-emerald-700"
+                        className="w-20 h-7 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none text-emerald-700"
                       />
                     </div>
                   </div>
 
-                  <div className="p-3 bg-white rounded-xl border border-slate-200/90 flex items-center justify-between">
-                    <span className="font-extrabold text-xs text-[#174F43]">{isRTL ? 'المبلغ الإجمالي النهائي:' : 'Total Amount:'}</span>
-                    <strong className="text-base font-black text-[#174F43] font-mono">
+                  <div className="p-3 bg-white rounded-xl border border-line/90 flex items-center justify-between">
+                    <span className="font-extrabold text-xs text-brand-700">{isRTL ? 'المبلغ الإجمالي النهائي:' : 'Total Amount:'}</span>
+                    <strong className="text-base font-black text-brand-700 font-mono">
                       {createOrderTotal.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}
                     </strong>
                   </div>
@@ -1546,18 +1546,18 @@ export default function OrdersPage() {
               </div>
 
               {/* Submit Buttons */}
-              <div className="pt-4 border-t border-slate-200 flex justify-end gap-2 shrink-0">
+              <div className="pt-4 border-t border-line flex justify-end gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl hover:bg-slate-50 text-slate-700 font-semibold h-10"
+                  className="px-4 py-2 border border-line rounded-xl hover:bg-slate-50 text-slate-700 font-semibold h-10"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={creatingOrder}
-                  className="px-6 py-2 bg-[#174F43] text-white rounded-xl hover:bg-[#0F3830] h-10 font-bold disabled:opacity-50 shadow-sm"
+                  className="px-6 py-2 bg-brand-700 text-white rounded-xl hover:bg-brand-900 h-10 font-bold disabled:opacity-50 shadow-sm"
                 >
                   {creatingOrder ? 'جاري إنشاء الطلب...' : 'تأكيد وحفظ الطلب'}
                 </button>
@@ -1570,21 +1570,21 @@ export default function OrdersPage() {
       {/* ORDER DETAILS MODAL (PREMIUM ATELIER REDESIGN) */}
       {selectedOrder && !printMode && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 rtl bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-slate-200/90 shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden font-['Cairo',sans-serif]">
+          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-line/90 shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden font-['Cairo',sans-serif]">
             
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-slate-200/80 bg-[#F8FAFC] flex flex-wrap items-center justify-between gap-3 shrink-0">
+            <div className="px-6 py-4 border-b border-line/80 bg-canvas flex flex-wrap items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#174F43] to-[#174F43] text-white flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-700 to-brand-700 text-white flex items-center justify-center shadow-sm">
                   <ShoppingBag size={20} strokeWidth={1.7} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-base font-extrabold text-[#174F43] font-mono tracking-tight">
+                    <h2 className="text-base font-extrabold text-brand-700 font-mono tracking-tight">
                       طلب #{selectedOrder.orderNumber}
                     </h2>
                     {/* Status Badge */}
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${statusConfig[selectedOrder.orderStatus]?.bg || 'bg-slate-100'} ${statusConfig[selectedOrder.orderStatus]?.color || 'text-slate-700'} ${statusConfig[selectedOrder.orderStatus]?.border || 'border-slate-200'}`}>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${statusConfig[selectedOrder.orderStatus]?.bg || 'bg-slate-100'} ${statusConfig[selectedOrder.orderStatus]?.color || 'text-slate-700'} ${statusConfig[selectedOrder.orderStatus]?.border || 'border-line'}`}>
                       {statusConfig[selectedOrder.orderStatus]?.[isRTL ? 'labelAr' : 'labelEn'] || selectedOrder.orderStatus}
                     </span>
                   </div>
@@ -1602,16 +1602,16 @@ export default function OrdersPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handlePrint('shipping')}
-                  className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs"
+                  className="px-3 py-1.5 rounded-xl border border-line bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs"
                   title={isRTL ? 'طباعة بوليصة شحن الشحنة' : 'Print Shipping Slip'}
                 >
-                  <Truck size={14} className="text-[#174F43]" />
+                  <Truck size={14} className="text-brand-700" />
                   <span>{isRTL ? 'بوليصة الشحن' : 'Shipping Slip'}</span>
                 </button>
 
                 <button
                   onClick={() => handlePrint('invoice')}
-                  className="px-3.5 py-1.5 rounded-xl bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="px-3.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
                   title={isRTL ? 'طباعة فاتورة حرارية 10×15 سم مع QR Code' : 'Print Thermal Invoice 10x15cm'}
                 >
                   <Printer size={14} />
@@ -1631,14 +1631,14 @@ export default function OrdersPage() {
             <div className="p-6 space-y-5 text-xs overflow-y-auto flex-1">
               
               {/* Order Status Control Strip */}
-              <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="p-3 bg-slate-50 rounded-2xl border border-line/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-[#174F43] text-xs">{isRTL ? 'تحديث مرحلة الطلب:' : 'Update Order Status:'}</span>
+                  <span className="font-extrabold text-brand-700 text-xs">{isRTL ? 'تحديث مرحلة الطلب:' : 'Update Order Status:'}</span>
                   <select
                     value={selectedOrder.orderStatus}
                     onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value)}
                     disabled={updatingStatus}
-                    className="h-8 bg-white border border-slate-300 rounded-xl px-2.5 text-xs font-bold text-slate-800 outline-none focus:border-[#174F43] shadow-2xs"
+                    className="h-8 bg-white border border-slate-300 rounded-xl px-2.5 text-xs font-bold text-slate-800 outline-none focus:border-brand-700 shadow-2xs"
                   >
                     <option value="pending">{isRTL ? 'قيد الانتظار والمراجعة' : 'Pending Review'}</option>
                     <option value="confirmed">{isRTL ? 'تم التأكيد من الأتيليه' : 'Confirmed by Atelier'}</option>
@@ -1725,7 +1725,7 @@ export default function OrdersPage() {
                   <div className="p-3 bg-white rounded-xl border border-amber-200 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-slate-900 text-[11px] flex items-center gap-1.5">
-                        <Archive size={14} className="text-[#174F43]" />
+                        <Archive size={14} className="text-brand-700" />
                         <span>حالة الفحص الفعلي واسترجاع المخزون:</span>
                       </span>
 
@@ -1754,7 +1754,7 @@ export default function OrdersPage() {
                           type="button"
                           onClick={() => handleConfirmRestock(selectedOrder, 'reusable')}
                           disabled={inspectingRestock}
-                          className="px-3.5 py-1.5 bg-[#174F43] hover:bg-[#0F3830] text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all disabled:opacity-50"
+                          className="px-3.5 py-1.5 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all disabled:opacity-50"
                         >
                           <Check size={14} />
                           <span>تأكيد فحص واسترجاع العطور للمخزون</span>
@@ -1773,7 +1773,7 @@ export default function OrdersPage() {
                     )}
 
                     {selectedOrder.returnDetails?.inspectionNotes && (
-                      <p className="text-[11px] text-slate-600 bg-slate-50 p-2 rounded-lg border border-slate-200 mt-1">
+                      <p className="text-[11px] text-slate-600 bg-slate-50 p-2 rounded-lg border border-line mt-1">
                         <strong>ملاحظات الفحص:</strong> {selectedOrder.returnDetails.inspectionNotes}
                       </p>
                     )}
@@ -1781,9 +1781,9 @@ export default function OrdersPage() {
 
                   {/* 3. Customer Refund Section if Payment Was Collected */}
                   {selectedOrder.paymentStatus === 'paid' && (
-                    <div className="p-3 bg-[#174F43]/10 rounded-xl border border-[#174F43]/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="p-3 bg-brand-700/10 rounded-xl border border-brand-700/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div>
-                        <span className="font-bold text-[#174F43] text-xs block">
+                        <span className="font-bold text-brand-700 text-xs block">
                           تم تحصيل قيمة الطلب مسبقاً ({selectedOrder.total?.toLocaleString()} ج.م)
                         </span>
                         <span className="text-[10px] text-slate-600">
@@ -1794,9 +1794,9 @@ export default function OrdersPage() {
                       <button
                         type="button"
                         onClick={() => handleOpenRefundModal(selectedOrder)}
-                        className="px-3.5 py-1.5 bg-[#174F43] hover:bg-[#0F3830] text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all shrink-0"
+                        className="px-3.5 py-1.5 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all shrink-0"
                       >
-                        <Undo2 size={14} className="text-[#FF9D00]" />
+                        <Undo2 size={14} className="text-accent" />
                         <span>معالجة استرداد المبلغ للعميل</span>
                       </button>
                     </div>
@@ -1841,12 +1841,12 @@ export default function OrdersPage() {
                         src={selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl}
                         alt="إيصال التحويل"
                         onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}
-                        className="w-14 h-14 object-cover rounded-lg border border-slate-200 cursor-pointer hover:opacity-90 transition-opacity shrink-0"
+                        className="w-14 h-14 object-cover rounded-lg border border-line cursor-pointer hover:opacity-90 transition-opacity shrink-0"
                       />
                       <div className="flex-1 space-y-0.5 text-[11px]">
                         <p className="font-bold text-slate-800">مرفق إشعار تحويل من العميل</p>
                         {selectedOrder.paymentSenderPhone && (
-                          <p className="text-slate-600">رقم المحفظة المحوّل منها: <strong className="font-mono text-[#174F43]">{selectedOrder.paymentSenderPhone}</strong></p>
+                          <p className="text-slate-600">رقم المحفظة المحوّل منها: <strong className="font-mono text-brand-700">{selectedOrder.paymentSenderPhone}</strong></p>
                         )}
                         <p className="text-indigo-600 font-medium cursor-pointer hover:underline" onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}>
                           اضغط لتكبير الصورة وفحص تفاصيل العملية
@@ -1860,7 +1860,7 @@ export default function OrdersPage() {
                     <select
                       value={selectedCashAccountId}
                       onChange={(e) => setSelectedCashAccountId(e.target.value)}
-                      className="w-full sm:flex-1 h-9 bg-white border border-amber-300 rounded-xl px-3 text-xs outline-none focus:border-[#174F43] font-medium"
+                      className="w-full sm:flex-1 h-9 bg-white border border-amber-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
                     >
                       <option value="">-- اختر خزينة / حساب التحويل المالي للإيداع --</option>
                       {cashAccounts.map(acc => (
@@ -1903,9 +1903,9 @@ export default function OrdersPage() {
                 
                 {/* Marketing Attribution & Ad Source Card */}
                 {selectedOrder.attribution && (
-                  <div className="p-4 bg-slate-50/90 border border-slate-200/90 rounded-2xl space-y-2.5 sm:col-span-2">
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-                      <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-2.5 sm:col-span-2">
+                    <div className="flex items-center justify-between pb-2 border-b border-line/80">
+                      <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                         <Target size={15} />
                         <span>مصدر الزيارة والتسويق (Attribution & Campaigns)</span>
                       </span>
@@ -1946,7 +1946,7 @@ export default function OrdersPage() {
                     </div>
 
                     {(selectedOrder.attribution.fbclid || selectedOrder.attribution.ttclid) && (
-                      <div className="pt-1.5 border-t border-slate-200/60 flex items-center gap-4 text-[11px] text-slate-500 font-mono">
+                      <div className="pt-1.5 border-t border-line/60 flex items-center gap-4 text-[11px] text-slate-500 font-mono">
                         {selectedOrder.attribution.fbclid && (
                           <span>fbclid: <span className="text-slate-700 truncate max-w-[200px] inline-block align-bottom">{selectedOrder.attribution.fbclid}</span></span>
                         )}
@@ -1959,9 +1959,9 @@ export default function OrdersPage() {
                 )}
 
                 {/* Customer Card */}
-                <div className="p-4 bg-slate-50/90 border border-slate-200/90 rounded-2xl space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-                    <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-line/80">
+                    <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                       <User size={15} />
                       <span>بيانات العميل (Customer Profile)</span>
                     </span>
@@ -1988,7 +1988,7 @@ export default function OrdersPage() {
                         </span>
                         <a 
                           href={`tel:${selectedOrder.customerPhone || selectedOrder.customer?.phone}`} 
-                          className="p-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:text-[#174F43]"
+                          className="p-1 rounded-md bg-white border border-line text-slate-600 hover:text-brand-700"
                           title="اتصال"
                         >
                           <Phone size={12} />
@@ -2019,7 +2019,7 @@ export default function OrdersPage() {
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-1 border-t border-slate-200/60">
+                    <div className="flex items-center justify-between pt-1 border-t border-line/60">
                       <span className="text-slate-500">طريقة الدفع:</span>
                       {renderPaymentMethodBadge(selectedOrder.paymentMethod, selectedOrder.paymentStatus === 'paid')}
                     </div>
@@ -2027,9 +2027,9 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Delivery & Shipping Card */}
-                <div className="p-4 bg-slate-50/90 border border-slate-200/90 rounded-2xl space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-                    <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-line/80">
+                    <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                       {selectedOrder.deliveryMethod === 'metro_pickup' ? <Train size={15} /> : <Home size={15} />}
                       <span>الشحن والتوصيل (Fulfillment)</span>
                     </span>
@@ -2047,7 +2047,7 @@ export default function OrdersPage() {
                       <>
                         <div className="flex items-center justify-between">
                           <span className="text-slate-500">{isRTL ? 'محطة المترو:' : 'Metro Station:'}</span>
-                          <strong className="text-[#174F43] font-bold">
+                          <strong className="text-brand-700 font-bold">
                             {selectedOrder.metroPickup?.stationNameAr || selectedOrder.metroPickup?.stationName || (isRTL ? 'محطة مترو' : 'Metro Station')}
                           </strong>
                         </div>
@@ -2057,7 +2057,7 @@ export default function OrdersPage() {
                             <span className="text-slate-800 font-medium">{selectedOrder.metroPickup?.line}</span>
                           </div>
                         )}
-                        <div className="p-2 bg-white rounded-xl border border-slate-200 text-slate-600 text-[11px] leading-relaxed">
+                        <div className="p-2 bg-white rounded-xl border border-line text-slate-600 text-[11px] leading-relaxed">
                           {selectedOrder.metroPickup?.pickupNote || (isRTL ? 'سيتم التواصل مع العميل لتحديد موعد ومكان المقابلة في المحطة.' : 'Customer will be contacted for meeting point.')}
                         </div>
                       </>
@@ -2072,7 +2072,7 @@ export default function OrdersPage() {
 
                         <div>
                           <span className="text-slate-500 block mb-0.5">{isRTL ? 'العنوان بالتفصيل:' : 'Full Address:'}</span>
-                          <p className="text-slate-800 font-semibold bg-white p-2 rounded-xl border border-slate-200 leading-snug">
+                          <p className="text-slate-800 font-semibold bg-white p-2 rounded-xl border border-line leading-snug">
                             {selectedOrder.shippingAddress?.street}
                             {selectedOrder.shippingAddress?.buildingNumber && ` (${isRTL ? 'مبنى' : 'Bldg'} ${selectedOrder.shippingAddress.buildingNumber})`}
                             {selectedOrder.shippingAddress?.floor && ` - ${isRTL ? 'دور' : 'Fl.'} ${selectedOrder.shippingAddress.floor}`}
@@ -2083,14 +2083,14 @@ export default function OrdersPage() {
                         {selectedOrder.shippingAddress?.deliveryNotes && (
                           <div>
                             <span className="text-slate-400 text-[10px] block">{isRTL ? 'ملاحظات / علامات مميزة:' : 'Delivery Notes:'}</span>
-                            <p className="text-slate-600 text-[11px] italic bg-slate-100 p-1.5 rounded-lg border border-slate-200/80">
+                            <p className="text-slate-600 text-[11px] italic bg-slate-100 p-1.5 rounded-lg border border-line/80">
                               {selectedOrder.shippingAddress.deliveryNotes}
                             </p>
                           </div>
                         )}
 
                         {/* Carrier & Outbound Cost Configuration */}
-                        <div className="pt-2.5 border-t border-slate-200/80 mt-2 space-y-2">
+                        <div className="pt-2.5 border-t border-line/80 mt-2 space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-slate-500 text-[11px] font-medium">
                               {isRTL ? 'رسوم الشحن على العميل:' : 'Customer Shipping Fee:'}
@@ -2113,10 +2113,10 @@ export default function OrdersPage() {
                             </div>
                           )}
 
-                          <div className="p-2.5 bg-white rounded-xl border border-slate-200 space-y-1.5 shadow-2xs">
+                          <div className="p-2.5 bg-white rounded-xl border border-line space-y-1.5 shadow-2xs">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <Truck size={13} className="text-[#174F43]" />
+                                <Truck size={13} className="text-brand-700" />
                                 <span className="text-slate-800 font-bold text-[11px]">
                                   {isRTL ? 'تكلفة الشحن الفعلية للشركة (مندوب الشحن):' : 'Carrier Cost Paid by M20:'}
                                 </span>
@@ -2125,7 +2125,7 @@ export default function OrdersPage() {
                                 <button
                                   type="button"
                                   onClick={() => setEditingCarrierCost(true)}
-                                  className="text-[10px] text-[#174F43] font-bold hover:underline"
+                                  className="text-[10px] text-brand-700 font-bold hover:underline"
                                 >
                                   {isRTL ? 'تعديل التكلفة' : 'Edit Cost'}
                                 </button>
@@ -2140,7 +2140,7 @@ export default function OrdersPage() {
                                   step="1"
                                   value={carrierCostInput}
                                   onChange={(e) => setCarrierCostInput(e.target.value)}
-                                  className="w-24 h-8 bg-slate-50 border border-slate-300 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none focus:border-[#174F43]"
+                                  className="w-24 h-8 bg-slate-50 border border-slate-300 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none focus:border-brand-700"
                                   placeholder="65"
                                 />
                                 <span className="text-xs text-slate-500 font-mono">{isRTL ? 'ج.م' : 'EGP'}</span>
@@ -2148,7 +2148,7 @@ export default function OrdersPage() {
                                   type="button"
                                   onClick={handleSaveCarrierCost}
                                   disabled={savingCarrierCost}
-                                  className="px-3 py-1.5 bg-[#174F43] text-white rounded-lg text-xs font-bold hover:bg-[#0F3830] transition-colors disabled:opacity-50 flex items-center gap-1"
+                                  className="px-3 py-1.5 bg-brand-700 text-white rounded-lg text-xs font-bold hover:bg-brand-900 transition-colors disabled:opacity-50 flex items-center gap-1"
                                 >
                                   {savingCarrierCost ? <RefreshCw size={12} className="animate-spin" /> : <Save size={12} />}
                                   <span>{isRTL ? 'حفظ' : 'Save'}</span>
@@ -2159,7 +2159,7 @@ export default function OrdersPage() {
                                     setCarrierCostInput(Math.round(Number(selectedOrder.actualOutboundShippingCost ?? selectedOrder.realShippingCost ?? getGovernorateRate(selectedOrder.shippingAddress?.governorate) ?? 65)));
                                     setEditingCarrierCost(false);
                                   }}
-                                  className="px-2.5 py-1.5 border border-slate-200 text-slate-600 rounded-lg text-xs hover:bg-slate-50"
+                                  className="px-2.5 py-1.5 border border-line text-slate-600 rounded-lg text-xs hover:bg-slate-50"
                                 >
                                   {isRTL ? 'إلغاء' : 'Cancel'}
                                 </button>
@@ -2186,16 +2186,16 @@ export default function OrdersPage() {
               {/* Order Products & Items Table */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-[#174F43] text-xs flex items-center gap-1.5">
+                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
                     <ShoppingBag size={15} />
                     <span>منتجات الطلب ({selectedOrder.items?.length || 0} عطور)</span>
                   </span>
                   <span className="text-[11px] text-slate-400 font-medium">الأسعار تشمل الضرائب والمصنعية</span>
                 </div>
 
-                <div className="border border-slate-200/90 rounded-2xl overflow-hidden shadow-2xs">
+                <div className="border border-line/90 rounded-2xl overflow-hidden shadow-2xs">
                   <table className="w-full text-right text-xs">
-                    <thead className="bg-[#F8FAFC] border-b border-slate-200 font-bold text-slate-600">
+                    <thead className="bg-canvas border-b border-line font-bold text-slate-600">
                       <tr>
                         <th className="p-3">العطر / المنتج</th>
                         <th className="p-3 text-center">الحجم</th>
@@ -2204,7 +2204,7 @@ export default function OrdersPage() {
                         <th className="p-3 text-left">الإجمالي</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white">
+                    <tbody className="divide-y divide-line bg-white">
                       {(selectedOrder.items || []).map((item, idx) => {
                         const imgSrc = getItemImage(item);
                         return (
@@ -2214,7 +2214,7 @@ export default function OrdersPage() {
                                 <img
                                   src={imgSrc}
                                   alt={item.productName}
-                                  className="w-12 h-12 object-contain rounded-xl border border-slate-200 bg-white p-1 shrink-0 shadow-2xs"
+                                  className="w-12 h-12 object-cover rounded-control bg-photo shrink-0"
                                   onError={(e) => { e.target.onerror = null; e.target.src = '/img/product.png'; }}
                                 />
                                 <div>
@@ -2226,7 +2226,7 @@ export default function OrdersPage() {
                               </div>
                             </td>
                             <td className="p-3 text-center">
-                              <span className="inline-block px-2 py-0.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-800 font-bold text-[11px] font-mono">
+                              <span className="inline-block px-2 py-0.5 rounded-lg bg-slate-100 border border-line text-slate-800 font-bold text-[11px] font-mono">
                                 {item.size}
                               </span>
                             </td>
@@ -2238,7 +2238,7 @@ export default function OrdersPage() {
                                 {item.quantity}
                               </span>
                             </td>
-                            <td className="p-3 text-left font-mono font-bold text-[#174F43] text-xs sm:text-sm">
+                            <td className="p-3 text-left font-mono font-bold text-brand-700 text-xs sm:text-sm">
                               {(item.price * item.quantity).toLocaleString()} ج.م
                             </td>
                           </tr>
@@ -2250,8 +2250,8 @@ export default function OrdersPage() {
               </div>
 
               {/* Financial Totals Breakdown */}
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                <span className="font-extrabold text-[#174F43] text-xs block pb-1 border-b border-slate-200/80">
+              <div className="p-4 bg-slate-50 rounded-2xl border border-line space-y-2">
+                <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line/80">
                   {isRTL ? 'ملخص الحسابات والمبالغ' : 'Financial Summary'}
                 </span>
 
@@ -2285,7 +2285,7 @@ export default function OrdersPage() {
                   </div>
                 )}
 
-                <div className="flex justify-between pt-2.5 border-t border-slate-200/90 text-sm font-black text-[#174F43]">
+                <div className="flex justify-between pt-2.5 border-t border-line/90 text-sm font-black text-brand-700">
                   <span className="text-sm">{isRTL ? 'المبلغ الإجمالي النهائي المطلوب:' : 'Total Amount Due:'}</span>
                   <span className="font-mono text-base">{selectedOrder.total?.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</span>
                 </div>
@@ -2293,13 +2293,13 @@ export default function OrdersPage() {
 
               {/* Order Status History Audit Trail */}
               {selectedOrder.statusHistory && selectedOrder.statusHistory.length > 0 && (
-                <div className="p-4 bg-slate-50/90 rounded-2xl border border-slate-200 space-y-2.5">
-                  <span className="font-extrabold text-[#174F43] text-xs block pb-1 border-b border-slate-200">
+                <div className="p-4 bg-slate-50/90 rounded-2xl border border-line space-y-2.5">
+                  <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line">
                     {isRTL ? 'سجل تتبع ومراحل الطلب' : 'Status Audit History'}
                   </span>
                   <div className="space-y-2 pt-1">
                     {selectedOrder.statusHistory.map((h, idx) => (
-                      <div key={idx} className="flex items-start justify-between text-xs border-r-2 border-[#174F43] pr-2.5 py-0.5">
+                      <div key={idx} className="flex items-start justify-between text-xs border-r-2 border-brand-700 pr-2.5 py-0.5">
                         <div>
                           <div className="flex items-center gap-1.5 font-bold text-slate-800">
                             <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] ${statusConfig[h.status]?.bg || 'bg-slate-100'} ${statusConfig[h.status]?.color || 'text-slate-800'}`}>
@@ -2323,7 +2323,7 @@ export default function OrdersPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-3 border-t border-slate-200 bg-[#F8FAFC] flex items-center justify-between shrink-0">
+            <div className="px-6 py-3 border-t border-line bg-canvas flex items-center justify-between shrink-0">
               <span className="text-[11px] text-slate-400 font-medium">
                 معرف الطلب الداخلي: {selectedOrder._id}
               </span>
@@ -2344,7 +2344,7 @@ export default function OrdersPage() {
       {/* RETURN FROM SHIPPING MODAL */}
       {returnModalOrder && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="relative w-full max-w-lg bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-lg bg-white rounded-2xl border border-line shadow-2xl overflow-hidden">
             {/* Modal Header */}
             <div className="px-6 py-4 bg-amber-500/10 border-b border-amber-200 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -2396,7 +2396,7 @@ export default function OrdersPage() {
                     required
                     value={returnForm.outboundShippingCost}
                     onChange={(e) => setReturnForm({ ...returnForm, outboundShippingCost: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                     placeholder="65"
                   />
                   <span className="text-[10px] text-slate-400 mt-0.5 block">{isRTL ? 'رسوم التوصيل الصادرة للعنوان' : 'Outbound delivery fee paid to courier'}</span>
@@ -2413,7 +2413,7 @@ export default function OrdersPage() {
                     required
                     value={returnForm.returnShippingCost}
                     onChange={(e) => setReturnForm({ ...returnForm, returnShippingCost: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                     placeholder="65"
                   />
                   <span className="text-[10px] text-slate-400 mt-0.5 block">{isRTL ? 'إذا كانت شركة الشحن تحاسب على العودة' : 'If carrier charges return fee'}</span>
@@ -2421,7 +2421,7 @@ export default function OrdersPage() {
               </div>
 
               {/* Total Calculation Display */}
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div className="p-3 bg-slate-50 rounded-xl border border-line flex items-center justify-between">
                 <span className="font-bold text-slate-700">{isRTL ? 'إجمالي تكلفة الشحن المتكبدة على M20:' : 'Total Carrier Shipping Cost:'}</span>
                 <span className="font-mono font-black text-sm text-rose-700">
                   {Math.round((Number(returnForm.outboundShippingCost) || 0) + (Number(returnForm.returnShippingCost) || 0)).toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}
@@ -2436,7 +2436,7 @@ export default function OrdersPage() {
                 <select
                   value={returnForm.returnReason}
                   onChange={(e) => setReturnForm({ ...returnForm, returnReason: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-[#174F43] font-medium"
+                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
                 >
                   <option value={isRTL ? 'رفض العميل الاستلام' : 'Customer Refused Delivery'}>
                     {isRTL ? 'رفض العميل الاستلام عند وصول المندوب' : 'Customer refused delivery upon courier arrival'}
@@ -2467,7 +2467,7 @@ export default function OrdersPage() {
                 <select
                   value={returnForm.paymentAccountId}
                   onChange={(e) => setReturnForm({ ...returnForm, paymentAccountId: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-[#174F43] font-medium"
+                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
                 >
                   <option value="">-- اختياري: سداد لاحق / غير مخصوم فوراً من الخزينة --</option>
                   {cashAccounts.map(acc => (
@@ -2489,12 +2489,12 @@ export default function OrdersPage() {
                   value={returnForm.notes}
                   onChange={(e) => setReturnForm({ ...returnForm, notes: e.target.value })}
                   placeholder="ملاحظات شركة الشحن، حالة الطرد الخارجي، إلخ..."
-                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
               {/* Modal Actions */}
-              <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-2.5">
+              <div className="pt-3 border-t border-line flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setReturnModalOrder(null)}
@@ -2505,7 +2505,7 @@ export default function OrdersPage() {
                 <button
                   type="submit"
                   disabled={submittingReturn}
-                  className="px-5 py-2 bg-[#174F43] hover:bg-[#0F3830] text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
                 >
                   {submittingReturn ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
                   <span>حفظ وتسجيل الشحنة المرتجعة</span>
@@ -2519,15 +2519,15 @@ export default function OrdersPage() {
       {/* CUSTOMER REFUND MODAL */}
       {refundModalOrder && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-md bg-white rounded-2xl border border-line shadow-2xl overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 bg-[#174F43]/10 border-b border-[#174F43]/20 flex items-center justify-between">
+            <div className="px-6 py-4 bg-brand-700/10 border-b border-brand-700/20 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-[#174F43]/15 flex items-center justify-center text-[#174F43]">
-                  <Undo2 size={18} className="text-[#FF9D00]" />
+                <div className="w-8 h-8 rounded-xl bg-brand-700/15 flex items-center justify-center text-brand-700">
+                  <Undo2 size={18} className="text-accent" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-[#174F43]">
+                  <h3 className="text-sm font-bold text-brand-700">
                     معالجة استرداد المبلغ للعميل (Refund)
                   </h3>
                   <span className="text-[11px] font-mono text-slate-600 font-semibold block">
@@ -2562,7 +2562,7 @@ export default function OrdersPage() {
                   required
                   value={refundForm.refundAmount}
                   onChange={(e) => setRefundForm({ ...refundForm, refundAmount: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -2574,7 +2574,7 @@ export default function OrdersPage() {
                   required
                   value={refundForm.cashAccountId}
                   onChange={(e) => setRefundForm({ ...refundForm, cashAccountId: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-[#174F43] font-medium"
+                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
                 >
                   <option value="">-- اختر الخزينة أو المحفظة --</option>
                   {cashAccounts.map(acc => (
@@ -2594,12 +2594,12 @@ export default function OrdersPage() {
                   value={refundForm.notes}
                   onChange={(e) => setRefundForm({ ...refundForm, notes: e.target.value })}
                   placeholder="رقم مرجع إنستاباي، فودافون كاش، إلخ..."
-                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-[#174F43]"
+                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-brand-700"
                 />
               </div>
 
               {/* Modal Actions */}
-              <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-2.5">
+              <div className="pt-3 border-t border-line flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setRefundModalOrder(null)}
@@ -2610,9 +2610,9 @@ export default function OrdersPage() {
                 <button
                   type="submit"
                   disabled={submittingRefund}
-                  className="px-5 py-2 bg-[#174F43] hover:bg-[#0F3830] text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+                  className="px-5 py-2 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
                 >
-                  {submittingRefund ? <RefreshCw size={14} className="animate-spin text-[#FF9D00]" /> : <Check size={14} className="text-[#FF9D00]" />}
+                  {submittingRefund ? <RefreshCw size={14} className="animate-spin text-accent" /> : <Check size={14} className="text-accent" />}
                   <span>تأكيد خصم وصرف الاسترداد</span>
                 </button>
               </div>
@@ -2642,7 +2642,7 @@ export default function OrdersPage() {
           <div className="no-print mb-4 flex items-center gap-3">
             <button 
               onClick={() => window.print()}
-              className="px-4 py-2 bg-[#174F43] text-white font-bold rounded-xl text-xs flex items-center gap-2"
+              className="px-4 py-2 bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center gap-2"
             >
               <Printer size={16} />
               <span>طباعة فورية</span>

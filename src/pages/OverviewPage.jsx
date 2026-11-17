@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { Button, Card, CardHeader, CardBody, Badge, PageHeader, StatCard, TableCard, Table, THead, Th, Tr, Td, EmptyState, ProductThumb } from '../components/ui';
 import { 
   AreaChart, 
   Area, 
@@ -9,12 +11,16 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { getOrders, getProducts, getUsers } from '../services/api';
-import { 
-  RefreshCw, Truck, CheckCircle2, Clock, XCircle, 
-  TrendingUp, Eye, ShoppingCart, ArrowLeft, MessageSquare 
+import {
+  RefreshCw, Truck, CheckCircle2, Clock, XCircle,
+  TrendingUp, Eye, ArrowRight, ArrowLeft, MessageSquare, Users as UsersIcon
 } from 'lucide-react';
 
 export default function OverviewPage() {
+  const { lang, isRTL } = useLanguage();
+  const tr = (ar, en) => (lang === 'ar' ? ar : en);
+  const Arrow = isRTL ? ArrowLeft : ArrowRight;
+  const EGP = tr('ج.م', 'EGP');
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
@@ -107,296 +113,206 @@ export default function OverviewPage() {
     cartAdds: [142, 98, 74, 52, 38][idx] || 30,
   }));
 
-  const trafficChartData = [
-    { day: 'السبت', visits: 920 },
-    { day: 'الأحد', visits: 1150 },
-    { day: 'الإثنين', visits: 1380 },
-    { day: 'الثلاثاء', visits: 1240 },
-    { day: 'الأربعاء', visits: 1600 },
-    { day: 'الخميس', visits: 2100 },
-    { day: 'الجمعة', visits: 2450 },
-  ];
+  const days = {
+    ar: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
+    en: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  }[lang === 'ar' ? 'ar' : 'en'];
+  const visitsSeries = [920, 1150, 1380, 1240, 1600, 2100, 2450];
+  const chartData = days.map((day, i) => ({ day, visits: visitsSeries[i] }));
+
+  const money = (n) => `${Number(n || 0).toLocaleString()} ${EGP}`;
 
   return (
-    <div className="space-y-6 text-right font-['Cairo',sans-serif]">
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
-        <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <span>لوحة المتابعة العامة</span>
-            <span className="text-[11px] font-medium px-2 py-0.5 rounded-sm bg-slate-100 text-slate-700 border border-slate-200">
-              متصل
-            </span>
-          </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            متابعة حركة الزيارات، اهتمامات الزوار، وحالة الطلبات والمبيعات.
-          </p>
-        </div>
+    <div>
+      <PageHeader
+        title={tr('لوحة المتابعة العامة', 'Overview')}
+        description={tr(
+          'متابعة حركة الزيارات، اهتمامات الزوار، وحالة الطلبات والمبيعات.',
+          'Traffic, visitor interest, and the live status of orders and sales.'
+        )}
+        badge={<Badge tone="success" dot>{tr('متصل', 'Live')}</Badge>}
+        actions={
+          <Button variant="secondary" icon={RefreshCw} onClick={fetchData} loading={loading}>
+            {tr('تحديث البيانات', 'Refresh')}
+          </Button>
+        }
+      />
 
-        <button
-          onClick={fetchData}
-          className="px-3.5 py-2 rounded-sm bg-white hover:bg-slate-50 text-[#174F43] border border-slate-200 text-xs font-medium flex items-center justify-center gap-2 transition-colors duration-150 self-start sm:self-auto"
-        >
-          <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
-          <span>تحديث البيانات</span>
-        </button>
-      </div>
-
-      {/* 1. Orders Status Breakdown */}
-      <div>
+      {/* Orders status */}
+      <section className="mb-8" aria-labelledby="orders-status">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-[#174F43] flex items-center gap-2">
-            <Truck size={16} strokeWidth={1.5} className="text-[#174F43]" />
-            <span>حالة الطلبات والشحنات</span>
-          </h2>
-          <Link to="/orders" className="text-xs text-[#174F43] hover:underline">عرض كل الشحنات</Link>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Shipped */}
-          <Link
-            to="/orders?status=shipped"
-            className="bg-white rounded-sm p-4 border border-slate-200 hover:border-slate-300 transition-colors duration-150 block"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-600">جاري الشحن</span>
-              <Truck size={16} strokeWidth={1.5} className="text-slate-500" />
-            </div>
-            <div className="mt-2">
-              <h3 className="text-xl font-bold text-[#174F43]">{orderMetrics.shipped.count}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                القيمة: <span className="font-semibold text-slate-700">{orderMetrics.shipped.total.toLocaleString()} ج.م</span>
-              </p>
-            </div>
-          </Link>
-
-          {/* Delivered */}
-          <Link
-            to="/orders?status=delivered"
-            className="bg-white rounded-sm p-4 border border-slate-200 hover:border-slate-300 transition-colors duration-150 block"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-600">تم التسليم</span>
-              <CheckCircle2 size={16} strokeWidth={1.5} className="text-[#15803d]" />
-            </div>
-            <div className="mt-2">
-              <h3 className="text-xl font-bold text-[#174F43]">{orderMetrics.delivered.count}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                إيرادات: <span className="font-semibold text-[#15803d]">{orderMetrics.delivered.total.toLocaleString()} ج.م</span>
-              </p>
-            </div>
-          </Link>
-
-          {/* Pending */}
-          <Link
-            to="/orders?status=pending"
-            className="bg-white rounded-sm p-4 border border-slate-200 hover:border-slate-300 transition-colors duration-150 block"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-600">قيد المراجعة</span>
-              <Clock size={16} strokeWidth={1.5} className="text-[#b45309]" />
-            </div>
-            <div className="mt-2">
-              <h3 className="text-xl font-bold text-[#174F43]">{orderMetrics.pending.count}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                قيد الانتظار: <span className="font-semibold text-[#b45309]">{orderMetrics.pending.total.toLocaleString()} ج.م</span>
-              </p>
-            </div>
-          </Link>
-
-          {/* Cancelled */}
-          <Link
-            to="/orders?status=cancelled"
-            className="bg-white rounded-sm p-4 border border-slate-200 hover:border-slate-300 transition-colors duration-150 block"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-600">ملغي</span>
-              <XCircle size={16} strokeWidth={1.5} className="text-[#b91c1c]" />
-            </div>
-            <div className="mt-2">
-              <h3 className="text-xl font-bold text-[#174F43]">{orderMetrics.cancelled.count}</h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                المبلغ: <span className="font-semibold text-[#b91c1c]">{orderMetrics.cancelled.total.toLocaleString()} ج.م</span>
-              </p>
-            </div>
+          <h2 id="orders-status" className="text-base font-semibold text-ink">{tr('حالة الطلبات والشحنات', 'Orders & shipments')}</h2>
+          <Link to="/orders" className="text-sm font-medium text-brand-700 hover:underline inline-flex items-center gap-1">
+            {tr('عرض كل الشحنات', 'View all')} <Arrow size={14} />
           </Link>
         </div>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          <StatCard to="/orders?status=shipped" icon={Truck} tone="info" loading={loading}
+            label={tr('جاري الشحن', 'Shipping')} value={orderMetrics.shipped.count}
+            hint={`${tr('القيمة', 'Value')}: ${money(orderMetrics.shipped.total)}`} />
+          <StatCard to="/orders?status=delivered" icon={CheckCircle2} tone="success" loading={loading}
+            label={tr('تم التسليم', 'Delivered')} value={orderMetrics.delivered.count}
+            hint={`${tr('إيرادات', 'Revenue')}: ${money(orderMetrics.delivered.total)}`} />
+          <StatCard to="/orders?status=pending" icon={Clock} tone="warning" loading={loading}
+            label={tr('قيد المراجعة', 'Pending')} value={orderMetrics.pending.count}
+            hint={`${tr('قيد الانتظار', 'Awaiting')}: ${money(orderMetrics.pending.total)}`} />
+          <StatCard to="/orders?status=cancelled" icon={XCircle} tone="danger" loading={loading}
+            label={tr('ملغي', 'Cancelled')} value={orderMetrics.cancelled.count}
+            hint={`${tr('المبلغ', 'Amount')}: ${money(orderMetrics.cancelled.total)}`} />
+        </div>
+      </section>
 
-      {/* 2. Traffic & Overview Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Visitors Chart */}
-        <div className="lg:col-span-2 bg-white rounded-sm p-5 border border-slate-200">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-slate-200">
-            <div>
+      {/* Traffic + top products */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <Card className="lg:col-span-2">
+          <CardHeader
+            icon={TrendingUp}
+            title={tr('حركة زيارات الموقع', 'Store traffic')}
+            description={tr('إحصائيات توافد الزوار يومياً', 'Daily visitor volume')}
+            action={
               <div className="flex items-center gap-2">
-                <TrendingUp size={16} strokeWidth={1.5} className="text-[#174F43]" />
-                <h2 className="text-sm font-semibold text-[#174F43]">حركة زيارات الموقع</h2>
+                <Badge tone="neutral">{tr('بيانات توضيحية', 'Sample data')}</Badge>
+                <Badge tone="accent" dot>{trafficStats.activeNow} {tr('زائر الآن', 'online now')}</Badge>
               </div>
-              <p className="text-xs text-slate-500">إحصائيات توافد الزوار يومياً</p>
-            </div>
-
-            <div className="text-xs font-semibold px-2.5 py-1 bg-[#FF9D00]/15 text-[#B45309] border border-[#FF9D00]/30 rounded-full flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#FF9D00] animate-pulse"></span>
-              <span>{trafficStats.activeNow} زائر يتصفح المتجر الآن</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-sm text-center">
-              <span className="text-xs text-slate-500 block">زيارات اليوم</span>
-              <span className="text-base font-bold text-[#174F43]">{trafficStats.todayVisits.toLocaleString()}</span>
-            </div>
-            <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-sm text-center">
-              <span className="text-xs text-slate-500 block">مشاهدات الصفحات</span>
-              <span className="text-base font-bold text-[#174F43]">{trafficStats.totalPageViews.toLocaleString()}</span>
-            </div>
-            <div className="p-3 bg-[#F8FAFC] border border-slate-200 rounded-sm text-center">
-              <span className="text-xs text-slate-500 block">معدل التحويل</span>
-              <span className="text-base font-bold text-[#15803d]">{trafficStats.conversionRate}</span>
-            </div>
-          </div>
-
-          <div className="h-60 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={trafficChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                <XAxis dataKey="day" stroke="#94a3b8" fontSize={11} tickLine={false} />
-                <YAxis stroke="#94a3b8" fontSize={11} tickLine={false} axisLine={false} />
-                <Tooltip 
-                  formatter={(value) => [value, 'الزيارات']}
-                  contentStyle={{ backgroundColor: '#ffffff', color: '#0f172a', borderRadius: '4px', border: '1px solid #e2e8f0', fontSize: '12px' }}
-                />
-                <Area type="monotone" dataKey="visits" stroke="#FF9D00" strokeWidth={2.5} fill="#FFF8EE" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Most Viewed Fragrances */}
-        <div className="bg-white rounded-sm p-5 border border-slate-200 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-3 pb-3 border-b border-slate-200">
-              <div className="flex items-center gap-2">
-                <Eye size={16} strokeWidth={1.5} className="text-[#174F43]" />
-                <h2 className="text-sm font-semibold text-[#174F43]">العطور الأكثر زيارة</h2>
-              </div>
-              <span className="text-xs text-slate-500">أعلى 5</span>
-            </div>
-
-            <div className="space-y-2.5">
-              {topViewedProducts.map((p, idx) => (
-                <div 
-                  key={p._id || idx}
-                  className="flex items-center justify-between p-2.5 rounded-sm bg-[#F8FAFC] border border-slate-200"
-                >
-                  <div className="flex items-center gap-2.5 overflow-hidden">
-                    <img src={p.image} alt={p.name} className="w-9 h-9 object-contain bg-white border border-slate-200 rounded-sm p-0.5 shrink-0" />
-                    <div className="truncate text-right">
-                      <h4 className="text-xs font-semibold text-slate-800 truncate">{p.name}</h4>
-                      <span className="text-[11px] text-slate-500 block">{p.price} ج.م</span>
-                    </div>
-                  </div>
-
-                  <div className="text-left shrink-0">
-                    <span className="text-xs font-semibold text-[#174F43] block">{p.viewsCount.toLocaleString()} زيارة</span>
-                    <span className="text-[11px] text-slate-500">{p.cartAdds} إضافة</span>
-                  </div>
+            }
+          />
+          <CardBody>
+            <div className="grid grid-cols-3 gap-3 mb-5">
+              {[
+                { l: tr('زيارات اليوم', 'Visits today'), v: trafficStats.todayVisits.toLocaleString() },
+                { l: tr('مشاهدات الصفحات', 'Page views'), v: trafficStats.totalPageViews.toLocaleString() },
+                { l: tr('معدل التحويل', 'Conversion'), v: trafficStats.conversionRate, good: true },
+              ].map((m) => (
+                <div key={m.l} className="rounded-control bg-canvas border border-line p-3">
+                  <p className="text-xs text-ink-2">{m.l}</p>
+                  <p className={`mt-0.5 text-xl font-semibold tabular-nums ${m.good ? 'text-success' : 'text-ink'}`}>{m.v}</p>
                 </div>
               ))}
             </div>
-          </div>
+            <div className="h-64 w-full" dir="ltr">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="visitsFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#FF9D00" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#FF9D00" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="day" stroke="#8A9893" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="#8A9893" fontSize={12} tickLine={false} axisLine={false} width={40} />
+                  <Tooltip
+                    formatter={(value) => [value, tr('الزيارات', 'Visits')]}
+                    contentStyle={{ backgroundColor: '#fff', borderRadius: 8, border: '1px solid #E3E8E5', fontSize: 12, boxShadow: '0 12px 32px -8px rgba(15,56,48,.18)' }}
+                  />
+                  <Area type="monotone" dataKey="visits" stroke="#FF9D00" strokeWidth={2.5} fill="url(#visitsFill)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </CardBody>
+        </Card>
 
-          <div className="pt-3 border-t border-slate-200 mt-3">
-            <Link
-              to="/products"
-              className="w-full py-2 px-3 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-medium flex items-center justify-center gap-2 transition-colors duration-150 h-9"
-            >
-              <span>إدارة كتالوج العطور</span>
-              <ArrowLeft size={14} />
-            </Link>
+        <Card className="flex flex-col">
+          <CardHeader icon={Eye} title={tr('العطور الأكثر زيارة', 'Most viewed fragrances')} action={<Badge>{tr('أعلى 5', 'Top 5')}</Badge>} />
+          <CardBody className="flex-1 py-2">
+            {topViewedProducts.length === 0 ? (
+              <EmptyState title={tr('لا توجد منتجات', 'No products yet')} />
+            ) : (
+              topViewedProducts.map((p, idx) => {
+                const maxViews = topViewedProducts[0]?.viewsCount || 1;
+                return (
+                  <div key={p._id || idx} className="flex items-center gap-3 py-2.5 border-b border-line last:border-b-0">
+                    <span className={`w-6 shrink-0 text-center text-sm font-semibold tabular-nums ${idx === 0 ? 'text-accent' : 'text-ink-3'}`}>
+                      {idx + 1}
+                    </span>
+                    <ProductThumb src={p.image} alt={p.name} size="lg" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="text-sm font-semibold text-ink truncate">{p.name}</p>
+                        <p className="text-sm font-semibold text-brand-700 tabular-nums shrink-0">{p.viewsCount.toLocaleString()}</p>
+                      </div>
+                      <p className="text-xs text-ink-2 truncate">{p.family} · {p.price} {EGP}</p>
+                      <div className="mt-2 h-1.5 rounded-full bg-canvas overflow-hidden">
+                        <div className="h-full rounded-full bg-brand-700" style={{ width: `${Math.max(6, Math.round((p.viewsCount / maxViews) * 100))}%` }} />
+                      </div>
+                      <p className="mt-1 text-xs text-ink-3">{p.cartAdds} {tr('إضافة للسلة', 'added to cart')}</p>
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </CardBody>
+          <div className="px-5 pb-5">
+            <Button as={Link} to="/products" className="w-full" iconEnd={Arrow}>
+              {tr('إدارة كتالوج العطور', 'Manage catalog')}
+            </Button>
           </div>
-        </div>
+        </Card>
       </div>
 
-      {/* 3. Customers Table */}
-      <div className="bg-white rounded-sm border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      {/* Customers */}
+      <section aria-labelledby="customers">
+        <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="text-sm font-semibold text-[#174F43]">
-              سجل العملاء والنشاط
-            </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              بيانات العملاء والزوار المسجلين
-            </p>
+            <h2 id="customers" className="text-base font-semibold text-ink">{tr('سجل العملاء والنشاط', 'Customers & activity')}</h2>
+            <p className="text-sm text-ink-2">{tr('بيانات العملاء والزوار المسجلين', 'Registered customers and visitors')}</p>
           </div>
-
-          <Link
-            to="/users"
-            className="text-xs text-[#174F43] hover:underline flex items-center gap-1"
-          >
-            <span>عرض كل العملاء</span>
-            <ArrowLeft size={12} />
+          <Link to="/users" className="text-sm font-medium text-brand-700 hover:underline inline-flex items-center gap-1">
+            {tr('عرض كل العملاء', 'View all')} <Arrow size={14} />
           </Link>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-right text-xs">
-            <thead className="bg-[#F8FAFC] text-slate-700 font-semibold border-b border-slate-200">
-              <tr>
-                <th className="py-2.5 px-4">العميل</th>
-                <th className="py-2.5 px-4">الهاتف</th>
-                <th className="py-2.5 px-4">الحالة</th>
-                <th className="py-2.5 px-4">المنتج المتصفح</th>
-                <th className="py-2.5 px-4 text-left">تواصل</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 font-normal text-slate-700">
-              {users.slice(0, 5).map((u, idx) => {
-                const hasOrders = (u.totalOrders || 0) > 0;
-                const viewedPerfumes = ['M20 Noir', 'Royal Vetiver', 'Soleil Blanc'][idx % 3];
-                const cleanPhone = (u.phone || '').replace(/[^0-9]/g, '');
-
-                return (
-                  <tr key={u._id || idx} className="hover:bg-slate-50 transition-colors duration-150">
-                    <td className="py-3 px-4 font-medium text-slate-800">
-                      {u.name || 'عميل'}
-                    </td>
-                    <td className="py-3 px-4 font-mono">
-                      {u.phone}
-                    </td>
-                    <td className="py-3 px-4">
-                      {hasOrders ? (
-                        <span className="text-[11px] font-medium text-[#15803d]">
-                          تم الشراء ({u.totalOrders} طلب)
-                        </span>
-                      ) : (
-                        <span className="text-[11px] font-medium text-[#b45309]">
-                          سلة انتظار
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-slate-600">
-                      {viewedPerfumes}
-                    </td>
-                    <td className="py-3 px-4 text-left">
-                      <a
-                        href={`https://wa.me/2${cleanPhone}?text=${encodeURIComponent(`مرحباً ${u.name || ''}، معك خدمة عملاء M20.`)}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-sm border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs transition-colors duration-150"
-                      >
-                        <MessageSquare size={12} />
-                        <span>مراسلة</span>
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <TableCard>
+          {users.length === 0 ? (
+            <EmptyState icon={UsersIcon} title={tr('لا يوجد عملاء بعد', 'No customers yet')} description={tr('سيظهر العملاء هنا عند تسجيلهم في المتجر.', 'Customers appear here once they register on the store.')} />
+          ) : (
+            <Table>
+              <THead>
+                <tr>
+                  <Th>{tr('العميل', 'Customer')}</Th>
+                  <Th>{tr('الهاتف', 'Phone')}</Th>
+                  <Th>{tr('الحالة', 'Status')}</Th>
+                  <Th>{tr('المنتج المتصفح', 'Browsing')}</Th>
+                  <Th align="end">{tr('تواصل', 'Contact')}</Th>
+                </tr>
+              </THead>
+              <tbody>
+                {users.slice(0, 5).map((u, idx) => {
+                  const hasOrders = (u.totalOrders || 0) > 0;
+                  const viewedPerfumes = ['M20 Noir', 'Royal Vetiver', 'Soleil Blanc'][idx % 3];
+                  const cleanPhone = (u.phone || '').replace(/[^0-9]/g, '');
+                  return (
+                    <Tr key={u._id || idx}>
+                      <Td className="font-medium">{u.name || tr('عميل', 'Customer')}</Td>
+                      <Td mono>{u.phone}</Td>
+                      <Td>
+                        {hasOrders ? (
+                          <Badge tone="success" dot>{tr(`تم الشراء (${u.totalOrders})`, `Purchased (${u.totalOrders})`)}</Badge>
+                        ) : (
+                          <Badge tone="warning" dot>{tr('سلة انتظار', 'Cart waiting')}</Badge>
+                        )}
+                      </Td>
+                      <Td className="text-ink-2">{viewedPerfumes}</Td>
+                      <Td align="end">
+                        <Button
+                          as="a"
+                          size="sm"
+                          variant="secondary"
+                          icon={MessageSquare}
+                          href={`https://wa.me/2${cleanPhone}?text=${encodeURIComponent(tr(`مرحباً ${u.name || ''}، معك خدمة عملاء M20.`, `Hello ${u.name || ''}, this is M20 customer care.`))}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {tr('مراسلة', 'Message')}
+                        </Button>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          )}
+        </TableCard>
+      </section>
     </div>
   );
 }
-

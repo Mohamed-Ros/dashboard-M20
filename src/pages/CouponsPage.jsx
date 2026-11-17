@@ -152,10 +152,10 @@ export default function CouponsPage() {
   return (
     <div className={`space-y-6 ${isRTL ? "font-['Cairo',sans-serif] text-right" : "font-sans text-left"}`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
         <div>
-          <h1 className="text-xl font-bold text-[#174F43] flex items-center gap-2">
-            <Tag size={18} strokeWidth={1.5} className="text-[#174F43]" />
+          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
+            <Tag size={18} strokeWidth={1.5} className="text-brand-700" />
             <span>{lang === 'ar' ? 'إدارة الكوبونات والخصومات' : 'Coupons & Promo Codes'}</span>
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -168,14 +168,14 @@ export default function CouponsPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={fetchCouponsList}
-            className="p-2 rounded-sm border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
+            className="p-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors"
             title={lang === 'ar' ? 'تحديث' : 'Refresh'}
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
           </button>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-3.5 py-2 rounded-sm bg-[#174F43] hover:bg-[#0F3830] text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
+            className="px-3.5 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-medium flex items-center gap-1.5 transition-colors duration-150 h-9"
           >
             <Plus size={14} strokeWidth={1.5} />
             <span>{lang === 'ar' ? 'إنشاء كود خصم جديد' : 'Create New Promo Code'}</span>
@@ -189,7 +189,7 @@ export default function CouponsPage() {
           {lang === 'ar' ? 'جاري تحميل الكوبونات...' : 'Loading promo codes...'}
         </div>
       ) : coupons.length === 0 ? (
-        <div className="bg-white rounded-sm p-10 text-center border border-slate-200 text-xs text-slate-500">
+        <div className="bg-white rounded-control p-10 text-center border border-line text-xs text-slate-500">
           {lang === 'ar' ? 'لا توجد كوبونات خصم حالياً.' : 'No promo codes found.'}
         </div>
       ) : (
@@ -201,13 +201,13 @@ export default function CouponsPage() {
             return (
               <div
                 key={coupon._id}
-                className="bg-white rounded-sm border border-slate-200 p-4 space-y-3 flex flex-col justify-between shadow-xs hover:border-slate-300 transition-colors"
+                className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3 flex flex-col justify-between shadow-xs hover:border-slate-300 transition-colors"
               >
                 <div>
                   {/* Top Bar: Code & Status */}
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-sm text-[#174F43] tracking-wider">{coupon.code}</span>
+                      <span className="font-mono font-bold text-sm text-brand-700 tracking-wider">{coupon.code}</span>
                       <button
                         onClick={() => handleCopy(coupon.code)}
                         className="p-1 text-slate-400 hover:text-slate-700"
@@ -224,7 +224,7 @@ export default function CouponsPage() {
                       className={`flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded transition-colors ${
                         coupon.active
                           ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
-                          : 'bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200'
+                          : 'bg-slate-100 text-slate-500 border border-line hover:bg-slate-200'
                       }`}
                     >
                       {coupon.active ? (
@@ -244,7 +244,7 @@ export default function CouponsPage() {
                   {/* Discount Type Banner */}
                   <div className="pt-2.5">
                     {isFreeShipping ? (
-                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#174F43]/10 text-[#174F43] border border-[#174F43]/20 w-fit">
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-brand-700/10 text-brand-700 border border-brand-700/20 w-fit">
                         <Truck size={13} className="shrink-0" />
                         <span className="text-xs font-bold">
                           {lang === 'ar' ? 'شحن مجاني مباشر (100%)' : 'Direct Free Shipping (100%)'}
@@ -301,7 +301,7 @@ export default function CouponsPage() {
 
                   <button
                     onClick={() => handleDelete(coupon._id, coupon.code)}
-                    className="p-1.5 rounded-sm border border-slate-200 hover:bg-rose-50 text-slate-400 hover:text-rose-700 transition-colors"
+                    className="p-1.5 rounded-control border border-line hover:bg-rose-50 text-slate-400 hover:text-rose-700 transition-colors"
                     title={lang === 'ar' ? 'حذف الكوبون' : 'Delete coupon'}
                   >
                     <Trash2 size={13} strokeWidth={1.5} />
@@ -318,9 +318,9 @@ export default function CouponsPage() {
         <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${isRTL ? 'rtl' : 'ltr'}`}>
           <div className="fixed inset-0 bg-black/40 transition-opacity duration-150" onClick={() => setIsModalOpen(false)} />
 
-          <div className="relative w-full max-w-md bg-white rounded-sm border border-slate-200 shadow-xl overflow-hidden z-10">
-            <div className="px-5 py-3.5 border-b border-slate-200 bg-[#F8FAFC] flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-[#174F43]">
+          <div className="relative w-full max-w-md bg-surface rounded-card border border-line shadow-card shadow-xl overflow-hidden z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-brand-700">
                 {lang === 'ar' ? 'إنشاء كود خصم جديد' : 'Create New Promo Code'}
               </h2>
               <button onClick={() => setIsModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-700">
@@ -330,7 +330,7 @@ export default function CouponsPage() {
 
             <form onSubmit={handleSubmit} className="p-5 space-y-3.5 text-xs">
               {error && (
-                <div className="p-2.5 rounded-sm bg-rose-50 border border-rose-200 text-rose-700 flex items-center gap-2">
+                <div className="p-2.5 rounded-control bg-rose-50 border border-rose-200 text-rose-700 flex items-center gap-2">
                   <AlertCircle size={14} className="shrink-0" />
                   <span>{error}</span>
                 </div>
@@ -347,7 +347,7 @@ export default function CouponsPage() {
                   value={formData.code}
                   onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase().trim() })}
                   placeholder={lang === 'ar' ? 'مثال: FREESHIP أو M20' : 'e.g. FREESHIP or M20'}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs font-mono uppercase tracking-wider outline-none focus:border-[#174F43]"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs font-mono uppercase tracking-wider outline-none focus:border-brand-700"
                 />
               </div>
 
@@ -360,7 +360,7 @@ export default function CouponsPage() {
                   <select
                     value={formData.discountType}
                     onChange={(e) => setFormData({ ...formData, discountType: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-2 text-xs outline-none focus:border-[#174F43]"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none focus:border-brand-700"
                   >
                     <option value="FREE_SHIPPING">
                       {lang === 'ar' ? 'شحن مجاني (100%)' : 'Free Shipping (100%)'}
@@ -379,7 +379,7 @@ export default function CouponsPage() {
                     {lang === 'ar' ? 'قيمة الخصم' : 'Discount Value'}
                   </label>
                   {formData.discountType === 'FREE_SHIPPING' ? (
-                    <div className="h-9 px-3 bg-emerald-50 border border-emerald-200 rounded-sm flex items-center text-emerald-800 text-xs font-semibold">
+                    <div className="h-9 px-3 bg-emerald-50 border border-emerald-200 rounded-control flex items-center text-emerald-800 text-xs font-semibold">
                       {lang === 'ar' ? '100% خصم الشحن' : '100% Free Shipping'}
                     </div>
                   ) : (
@@ -391,7 +391,7 @@ export default function CouponsPage() {
                       value={formData.discountAmount}
                       onChange={(e) => setFormData({ ...formData, discountAmount: Math.round(Number(e.target.value)) })}
                       placeholder="10"
-                      className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43] font-mono"
+                      className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700 font-mono"
                     />
                   )}
                 </div>
@@ -410,7 +410,7 @@ export default function CouponsPage() {
                     value={formData.minPurchaseAmount}
                     onChange={(e) => setFormData({ ...formData, minPurchaseAmount: Math.round(Number(e.target.value)) })}
                     placeholder="0"
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43] font-mono"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700 font-mono"
                   />
                 </div>
                 <div>
@@ -424,7 +424,7 @@ export default function CouponsPage() {
                     value={formData.usageLimit}
                     onChange={(e) => setFormData({ ...formData, usageLimit: e.target.value })}
                     placeholder={lang === 'ar' ? 'غير محدود' : 'Unlimited'}
-                    className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43] font-mono"
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700 font-mono"
                   />
                 </div>
               </div>
@@ -438,7 +438,7 @@ export default function CouponsPage() {
                   type="date"
                   value={formData.expiryDate}
                   onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-200 rounded-sm px-3 text-xs outline-none focus:border-[#174F43] font-mono"
+                  className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-3 text-xs outline-none focus:border-brand-700 font-mono"
                 />
               </div>
 
@@ -449,7 +449,7 @@ export default function CouponsPage() {
                   id="couponActiveCheckbox"
                   checked={formData.active}
                   onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
-                  className="h-4 w-4 rounded border-slate-300 text-[#174F43] focus:ring-[#174F43] cursor-pointer"
+                  className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700 cursor-pointer"
                 />
                 <label htmlFor="couponActiveCheckbox" className="font-medium text-slate-700 cursor-pointer select-none">
                   {lang === 'ar' ? 'تفعيل الكود فوراً' : 'Activate promo code immediately'}
@@ -457,18 +457,18 @@ export default function CouponsPage() {
               </div>
 
               {/* Actions */}
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-sm hover:bg-slate-50 text-slate-700 h-9 font-medium"
+                  className="px-4 py-2 border border-line rounded-control hover:bg-slate-50 text-slate-700 h-9 font-medium"
                 >
                   {lang === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-[#174F43] text-white rounded-sm hover:bg-[#0F3830] disabled:opacity-50 h-9 font-medium transition-colors"
+                  className="px-5 py-2 bg-brand-700 text-white rounded-control hover:bg-brand-900 disabled:opacity-50 h-9 font-medium transition-colors"
                 >
                   {submitting ? (lang === 'ar' ? 'جاري الإنشاء...' : 'Creating...') : (lang === 'ar' ? 'إنشاء الكود' : 'Create Code')}
                 </button>

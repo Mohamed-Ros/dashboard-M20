@@ -314,10 +314,10 @@ export default function PurchasesPage() {
     <div className="space-y-6">
       
       {/* Top Header & Metrics */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-5">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#174F43] tracking-tight flex items-center gap-2">
-            <Receipt className="text-[#174F43]" size={26} />
+          <h1 className="text-xl sm:text-2xl font-bold text-brand-700 tracking-tight flex items-center gap-2">
+            <Receipt className="text-brand-700" size={26} />
             <span>{isRTL ? 'فواتير المشتريات والتوريدات' : 'Purchase Invoices'}</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
@@ -329,7 +329,7 @@ export default function PurchasesPage() {
 
         <button
           onClick={handleOpenAdd}
-          className="inline-flex items-center justify-center gap-2 bg-[#174F43] hover:bg-[#0c312b] text-white px-4 py-2.5 rounded-sm text-xs font-semibold uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 bg-brand-700 hover:bg-brand-900 text-white px-4 py-2.5 rounded-control text-xs font-semibold uppercase tracking-wider transition-all shadow-sm cursor-pointer"
         >
           <Plus size={16} />
           <span>{isRTL ? 'تسجيل فاتورة شراء جديدة' : 'New Purchase Invoice'}</span>
@@ -338,7 +338,7 @@ export default function PurchasesPage() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white border border-slate-200 p-4 rounded-sm shadow-2xs">
+        <div className="bg-white border border-line p-4 rounded-control shadow-2xs">
           <span className="text-slate-500 text-xs font-medium block mb-1">
             {isRTL ? 'إجمالي الفواتير المسجلة' : 'Total Invoices'}
           </span>
@@ -347,16 +347,16 @@ export default function PurchasesPage() {
           </span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm shadow-2xs">
+        <div className="bg-white border border-line p-4 rounded-control shadow-2xs">
           <span className="text-slate-500 text-xs font-medium block mb-1">
             {isRTL ? 'إجمالي المشتريات الكلي' : 'Total Purchases Value'}
           </span>
-          <span className="text-2xl font-bold text-[#174F43] font-mono">
+          <span className="text-2xl font-bold text-brand-700 font-mono">
             {totalSpent.toLocaleString()} <span className="text-xs font-sans text-slate-500">{isRTL ? 'ج.م' : 'EGP'}</span>
           </span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-sm shadow-2xs">
+        <div className="bg-white border border-line p-4 rounded-control shadow-2xs">
           <span className="text-slate-500 text-xs font-medium block mb-1">
             {isRTL ? 'مستحقات الموردين غير المسددة' : 'Outstanding Supplier Payments'}
           </span>
@@ -367,7 +367,7 @@ export default function PurchasesPage() {
       </div>
 
       {/* Search & Filters */}
-      <div className="bg-white border border-slate-200 p-3 rounded-sm shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-white border border-line p-3 rounded-control shadow-2xs flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="relative w-full sm:w-80">
           <Search size={15} className={`absolute top-1/2 -translate-y-1/2 text-slate-400 ${isRTL ? 'right-3' : 'left-3'}`} />
           <input
@@ -375,18 +375,18 @@ export default function PurchasesPage() {
             placeholder={isRTL ? 'بحث برقم الفاتورة أو اسم المورد...' : 'Search by supplier, invoice #...'}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className={`w-full py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-sm focus:outline-none focus:border-[#174F43] ${
+            className={`w-full py-1.5 text-xs bg-slate-50 border border-line rounded-control focus:outline-none focus:border-brand-700 ${
               isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'
             }`}
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <div className="flex items-center bg-slate-100 rounded p-0.5 border border-slate-200 text-xs">
+          <div className="flex items-center bg-slate-100 rounded p-0.5 border border-line text-xs">
             <button
               onClick={() => setStatusFilter('all')}
               className={`px-3 py-1 rounded text-xs font-medium transition-all ${
-                statusFilter === 'all' ? 'bg-[#174F43] text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                statusFilter === 'all' ? 'bg-brand-700 text-white shadow-2xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               {isRTL ? 'الكل' : 'All'}
@@ -412,7 +412,7 @@ export default function PurchasesPage() {
           <button
             onClick={fetchData}
             title={isRTL ? 'تحديث' : 'Refresh'}
-            className="p-1.5 border border-slate-200 hover:bg-slate-50 rounded text-slate-600 cursor-pointer"
+            className="p-1.5 border border-line hover:bg-slate-50 rounded text-slate-600 cursor-pointer"
           >
             <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
           </button>
@@ -420,10 +420,10 @@ export default function PurchasesPage() {
       </div>
 
       {/* Purchases Table */}
-      <div className="bg-white border border-slate-200 rounded-sm shadow-2xs overflow-hidden">
+      <div className="bg-surface rounded-card border border-line shadow-card shadow-2xs overflow-hidden">
         {loading ? (
           <div className="p-12 text-center text-slate-500 text-xs">
-            <RefreshCw size={24} className="animate-spin mx-auto mb-2 text-[#174F43]" />
+            <RefreshCw size={24} className="animate-spin mx-auto mb-2 text-brand-700" />
             <span>{isRTL ? 'جاري تحميل فواتير الشراء...' : 'Loading invoices...'}</span>
           </div>
         ) : filteredPurchases.length === 0 ? (
@@ -440,7 +440,7 @@ export default function PurchasesPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase tracking-wider font-semibold text-[10px]">
+                <tr className="bg-slate-50/80 border-b border-line text-slate-500 uppercase tracking-wider font-semibold text-[10px]">
                   <th className="py-3 px-4">{isRTL ? 'رقم الفاتورة' : 'Invoice Ref'}</th>
                   <th className="py-3 px-4">{isRTL ? 'التاريخ' : 'Date'}</th>
                   <th className="py-3 px-4">{isRTL ? 'المورد' : 'Supplier'}</th>
@@ -451,7 +451,7 @@ export default function PurchasesPage() {
                   <th className="py-3 px-4 text-center">{isRTL ? 'الإجراءات' : 'Actions'}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-line">
                 {filteredPurchases.map((p) => {
                   const isPaid = p.paymentStatus === 'paid';
                   return (
@@ -478,7 +478,7 @@ export default function PurchasesPage() {
                           {(p.items || []).map((itm, idx) => (
                             <span 
                               key={idx}
-                              className="inline-flex items-center text-[10px] bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded text-slate-700"
+                              className="inline-flex items-center text-[10px] bg-slate-100 border border-line px-1.5 py-0.5 rounded text-slate-700"
                             >
                               {itm.rawMaterialName || itm.rawMaterial?.name} ({itm.quantity || itm.quantityGrams} {itm.unit || 'g'})
                             </span>
@@ -521,7 +521,7 @@ export default function PurchasesPage() {
                         <div className="inline-flex items-center gap-1.5">
                           <button
                             onClick={() => handleOpenEdit(p)}
-                            className="text-slate-500 hover:text-[#174F43] p-1 rounded hover:bg-slate-100 cursor-pointer"
+                            className="text-slate-500 hover:text-brand-700 p-1 rounded hover:bg-slate-100 cursor-pointer"
                             title={isRTL ? 'تعديل الفاتورة' : 'Edit Invoice'}
                           >
                             <Receipt size={14} />
@@ -547,12 +547,12 @@ export default function PurchasesPage() {
       {/* Invoice Entry / Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-2xs overflow-y-auto">
-          <div className="bg-white border border-slate-200 rounded-sm w-full max-w-3xl my-8 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="bg-surface rounded-card border border-line shadow-card w-full max-w-3xl my-8 shadow-xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             
             {/* Modal Header */}
-            <div className="px-5 py-4 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-line bg-slate-50/50 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Receipt className="text-[#174F43]" size={20} />
+                <Receipt className="text-brand-700" size={20} />
                 <h3 className="font-bold text-sm text-slate-900">
                   {editingId 
                     ? (isRTL ? 'تعديل فاتورة مشتريات' : 'Edit Purchase Invoice') 
@@ -583,7 +583,7 @@ export default function PurchasesPage() {
                     placeholder={isRTL ? 'مثال: شركة الزيوت الفرنسية' : 'e.g. French Fragrance Co.'}
                     value={formData.supplier}
                     onChange={(e) => setFormData(prev => ({ ...prev, supplier: e.target.value }))}
-                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none"
+                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none"
                   />
                 </div>
 
@@ -596,7 +596,7 @@ export default function PurchasesPage() {
                     placeholder="INV-2026-001"
                     value={formData.invoiceNumber}
                     onChange={(e) => setFormData(prev => ({ ...prev, invoiceNumber: e.target.value }))}
-                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none font-mono"
+                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none font-mono"
                   />
                 </div>
 
@@ -609,13 +609,13 @@ export default function PurchasesPage() {
                     required
                     value={formData.purchaseDate}
                     onChange={(e) => setFormData(prev => ({ ...prev, purchaseDate: e.target.value }))}
-                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none"
+                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Row 2: Payment Status & Account */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50 border border-line rounded-control">
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                     {isRTL ? 'حالة السداد *' : 'Payment Status *'}
@@ -623,7 +623,7 @@ export default function PurchasesPage() {
                   <select
                     value={formData.paymentStatus}
                     onChange={(e) => setFormData(prev => ({ ...prev, paymentStatus: e.target.value }))}
-                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none bg-white font-medium"
+                    className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none bg-white font-medium"
                   >
                     <option value="paid">{isRTL ? 'مسددة بالكامل (خصم من الخزينة)' : 'Paid (Deduct from Cash Account)'}</option>
                     <option value="unpaid">{isRTL ? 'آجلة / غير مسددة (مستحقات على المنشأة)' : 'Unpaid (Accounts Payable)'}</option>
@@ -638,7 +638,7 @@ export default function PurchasesPage() {
                     <select
                       value={formData.paymentAccount}
                       onChange={(e) => setFormData(prev => ({ ...prev, paymentAccount: e.target.value }))}
-                      className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none bg-white"
+                      className="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none bg-white"
                     >
                       {cashAccounts.map(acc => (
                         <option key={acc._id} value={acc._id}>
@@ -659,22 +659,22 @@ export default function PurchasesPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <Tag size={13} className="text-[#174F43]" />
+                    <Tag size={13} className="text-brand-700" />
                     <span>{isRTL ? 'البنود والأصناف المشتراة' : 'Purchased Items & Raw Materials'}</span>
                   </h4>
                   <button
                     type="button"
                     onClick={handleAddItemRow}
-                    className="inline-flex items-center gap-1 text-[11px] text-[#174F43] hover:text-[#0c312b] font-bold cursor-pointer"
+                    className="inline-flex items-center gap-1 text-[11px] text-brand-700 hover:text-brand-900 font-bold cursor-pointer"
                   >
                     <Plus size={13} />
                     <span>{isRTL ? 'إضافة بند آخر' : '+ Add Item'}</span>
                   </button>
                 </div>
 
-                <div className="space-y-2 border border-slate-200 rounded-sm p-2 bg-slate-50/40">
+                <div className="space-y-2 border border-line rounded-control p-2 bg-slate-50/40">
                   {formData.items.map((item, idx) => (
-                    <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2.5 border border-slate-200 rounded-sm shadow-2xs">
+                    <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-white p-2.5 border border-line rounded-control shadow-2xs">
                       
                       {/* Material Select / Type */}
                       <div className="col-span-12 sm:col-span-4">
@@ -684,7 +684,7 @@ export default function PurchasesPage() {
                         <select
                           value={item.rawMaterial || (item.rawMaterialName ? '__new__' : '')}
                           onChange={(e) => handleItemChange(idx, 'rawMaterial', e.target.value)}
-                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none bg-white mb-1"
+                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none bg-white mb-1"
                         >
                           <option value="">{isRTL ? '-- اختر مادة مسجلة --' : '-- Select Existing Material --'}</option>
                           {rawMaterials.map(m => (
@@ -703,12 +703,12 @@ export default function PurchasesPage() {
                               placeholder={isRTL ? 'اسم المادة الجديدة...' : 'New material name...'}
                               value={item.rawMaterialName}
                               onChange={(e) => handleItemChange(idx, 'rawMaterialName', e.target.value)}
-                              className="w-full text-[11px] px-2 py-0.5 border border-amber-300 bg-amber-50/40 rounded-sm focus:outline-none"
+                              className="w-full text-[11px] px-2 py-0.5 border border-amber-300 bg-amber-50/40 rounded-control focus:outline-none"
                             />
                             <select
                               value={item.category}
                               onChange={(e) => handleItemChange(idx, 'category', e.target.value)}
-                              className="text-[10px] px-1 py-0.5 border border-slate-300 rounded-sm bg-white"
+                              className="text-[10px] px-1 py-0.5 border border-slate-300 rounded-control bg-white"
                             >
                               {CATEGORIES.map(c => (
                                 <option key={c.value} value={c.value}>{isRTL ? c.labelAr : c.labelEn}</option>
@@ -732,12 +732,12 @@ export default function PurchasesPage() {
                             placeholder="100"
                             value={item.quantity}
                             onChange={(e) => handleItemChange(idx, 'quantity', e.target.value)}
-                            className="w-full text-xs px-2 py-1 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none font-mono"
+                            className="w-full text-xs px-2 py-1 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none font-mono"
                           />
                           <select
                             value={item.unit}
                             onChange={(e) => handleItemChange(idx, 'unit', e.target.value)}
-                            className="text-[11px] px-1.5 py-1 border border-slate-300 rounded-sm bg-white shrink-0 font-medium"
+                            className="text-[11px] px-1.5 py-1 border border-slate-300 rounded-control bg-white shrink-0 font-medium"
                           >
                             <option value="gram">g (جرام)</option>
                             <option value="ml">ml (مل)</option>
@@ -759,7 +759,7 @@ export default function PurchasesPage() {
                           placeholder="0.00"
                           value={item.unitCost}
                           onChange={(e) => handleItemChange(idx, 'unitCost', e.target.value)}
-                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none font-mono"
+                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none font-mono"
                         />
                       </div>
 
@@ -776,7 +776,7 @@ export default function PurchasesPage() {
                           placeholder="0.00"
                           value={item.totalCost}
                           onChange={(e) => handleItemChange(idx, 'totalCost', e.target.value)}
-                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-sm focus:border-[#174F43] focus:outline-none font-mono font-bold text-[#174F43]"
+                          className="w-full text-xs px-2 py-1 border border-slate-300 rounded-control focus:border-brand-700 focus:outline-none font-mono font-bold text-brand-700"
                         />
                       </div>
 
@@ -798,13 +798,13 @@ export default function PurchasesPage() {
               </div>
 
               {/* Invoice Image Upload (Cloudinary) */}
-              <div className="p-3 border border-dashed border-slate-300 rounded-sm bg-slate-50/50">
+              <div className="p-3 border border-dashed border-slate-300 rounded-control bg-slate-50/50">
                 <label className="block text-[11px] font-semibold text-slate-700 mb-1">
                   {isRTL ? 'صورة الفاتورة الأصلية (مستند الشراء)' : 'Original Invoice Image (Document Attachment)'}
                 </label>
                 <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-sm text-xs font-medium cursor-pointer shadow-2xs">
-                    <Upload size={14} className={uploadingImage ? 'animate-bounce text-[#174F43]' : 'text-slate-500'} />
+                  <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-control text-xs font-medium cursor-pointer shadow-2xs">
+                    <Upload size={14} className={uploadingImage ? 'animate-bounce text-brand-700' : 'text-slate-500'} />
                     <span>{uploadingImage ? (isRTL ? 'جاري الرفع لسحابة Cloudinary...' : 'Uploading...') : (isRTL ? 'اختيار صورة الفاتورة' : 'Select Invoice Image')}</span>
                     <input
                       type="file"
@@ -843,12 +843,12 @@ export default function PurchasesPage() {
               </div>
 
               {/* Total & Submit */}
-              <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="pt-3 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-baseline gap-2">
                   <span className="text-xs text-slate-500 font-medium">
                     {isRTL ? 'إجمالي قيمة الفاتورة:' : 'Invoice Grand Total:'}
                   </span>
-                  <span className="text-2xl font-bold font-mono text-[#174F43]">
+                  <span className="text-2xl font-bold font-mono text-brand-700">
                     {calculateTotal().toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
                   <span className="text-xs font-semibold text-slate-600">{isRTL ? 'ج.م' : 'EGP'}</span>
@@ -858,7 +858,7 @@ export default function PurchasesPage() {
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="w-full sm:w-auto px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-sm text-xs font-medium cursor-pointer"
+                    className="w-full sm:w-auto px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-control text-xs font-medium cursor-pointer"
                   >
                     {isRTL ? 'إلغاء' : 'Cancel'}
                   </button>
@@ -866,7 +866,7 @@ export default function PurchasesPage() {
                   <button
                     type="submit"
                     disabled={submitting || uploadingImage}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-[#174F43] hover:bg-[#0c312b] disabled:opacity-50 text-white px-5 py-2 rounded-sm text-xs font-bold uppercase tracking-wider shadow-sm cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-brand-700 hover:bg-brand-900 disabled:opacity-50 text-white px-5 py-2 rounded-control text-xs font-bold uppercase tracking-wider shadow-sm cursor-pointer"
                   >
                     {submitting ? (
                       <>
@@ -894,7 +894,7 @@ export default function PurchasesPage() {
           onClick={() => setPreviewImage(null)}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs cursor-pointer"
         >
-          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden bg-white p-2 rounded-sm shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-w-4xl max-h-[90vh] overflow-hidden bg-white p-2 rounded-control shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setPreviewImage(null)}
               className="absolute top-3 right-3 bg-black/70 hover:bg-black text-white p-1 rounded-full cursor-pointer z-10"
