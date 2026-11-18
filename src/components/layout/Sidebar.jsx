@@ -4,6 +4,7 @@ import { Store, LogOut, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 import { NAV_GROUPS, findActiveItem } from '../../config/navigation';
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
+import { STORE_URL } from '../../config/site';
 
 /**
  * Sidebar: generated from config/navigation.js.
@@ -103,7 +104,7 @@ export default function Sidebar({ collapsed = false, mobile = false, onToggle, o
           </button>
         )}
         <a
-          href="http://localhost:5173"
+          href={STORE_URL}
           target="_blank"
           rel="noreferrer"
           title={rail ? t('nav.previewStore', 'Preview M20 Store') : undefined}

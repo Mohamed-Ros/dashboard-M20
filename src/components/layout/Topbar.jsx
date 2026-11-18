@@ -4,6 +4,7 @@ import { Menu, ChevronRight, ChevronLeft, ExternalLink } from 'lucide-react';
 import { findActiveItem } from '../../config/navigation';
 import { useLanguage } from '../../context/LanguageContext';
 import { Segmented } from '../ui';
+import { STORE_URL } from '../../config/site';
 
 /** Topbar: menu button (mobile), breadcrumb from the nav config, connection state, language. */
 export default function Topbar({ onOpenMenu }) {
@@ -61,7 +62,7 @@ export default function Topbar({ onOpenMenu }) {
         </span>
 
         <a
-          href="http://localhost:5173"
+          href={STORE_URL}
           target="_blank"
           rel="noreferrer"
           className="hidden md:inline-flex items-center gap-1.5 h-8 px-3 rounded-control border border-line text-xs font-medium text-ink-2 hover:bg-brand-50 hover:text-brand-700 transition-colors"
