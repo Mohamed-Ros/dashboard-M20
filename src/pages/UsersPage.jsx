@@ -177,15 +177,15 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="space-y-6 text-right font-['Cairo',sans-serif]">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
-            <Users size={18} strokeWidth={1.5} className="text-brand-700" />
+          <h1 className="text-2xl font-semibold text-ink leading-tight">
+            
             <span>إدارة الحسابات والمستخدمين</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-sm text-ink-2 mt-1.5 max-w-2xl leading-relaxed">
             إدارة حسابات المدراء (Super Admin & Admin) وسجلات العملاء وقوائم التواصل.
           </p>
         </div>
@@ -193,7 +193,7 @@ export default function UsersPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenCreateModal}
-            className="px-3.5 py-2 rounded-control bg-brand-700 hover:bg-brand-900 text-white transition-colors duration-150 text-xs font-medium flex items-center justify-center gap-2"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
           >
             <UserPlus size={14} strokeWidth={1.5} />
             <span>إضافة حساب جديد</span>
@@ -201,7 +201,7 @@ export default function UsersPage() {
 
           <button
             onClick={fetchUsersList}
-            className="px-3.5 py-2 rounded-control border border-line hover:bg-slate-50 text-slate-700 transition-colors duration-150 text-xs font-medium flex items-center justify-center gap-2"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
             title="تحديث القائمة"
           >
             <RefreshCw size={14} strokeWidth={1.5} className={loading ? 'animate-spin' : ''} />
@@ -217,7 +217,7 @@ export default function UsersPage() {
           className={`p-3.5 rounded-control border text-right transition-colors duration-150 ${
             filterType === 'all'
               ? 'bg-brand-700 text-white border-brand-700'
-              : 'bg-white border-line hover:border-slate-300 text-slate-700'
+              : 'bg-surface border-line hover:border-line text-ink-2'
           }`}
         >
           <span className="text-xs block">جميع الحسابات</span>
@@ -229,7 +229,7 @@ export default function UsersPage() {
           className={`p-3.5 rounded-control border text-right transition-colors duration-150 ${
             filterType === 'admins'
               ? 'bg-brand-700 text-white border-brand-700'
-              : 'bg-white border-line hover:border-slate-300 text-slate-700'
+              : 'bg-surface border-line hover:border-line text-ink-2'
           }`}
         >
           <span className="text-xs block">المدراء والمسؤولين</span>
@@ -241,7 +241,7 @@ export default function UsersPage() {
           className={`p-3.5 rounded-control border text-right transition-colors duration-150 ${
             filterType === 'customers'
               ? 'bg-brand-700 text-white border-brand-700'
-              : 'bg-white border-line hover:border-slate-300 text-slate-700'
+              : 'bg-surface border-line hover:border-line text-ink-2'
           }`}
         >
           <span className="text-xs block">العملاء</span>
@@ -253,7 +253,7 @@ export default function UsersPage() {
           className={`p-3.5 rounded-control border text-right transition-colors duration-150 ${
             filterType === 'purchased'
               ? 'bg-brand-700 text-white border-brand-700'
-              : 'bg-white border-line hover:border-slate-300 text-slate-700'
+              : 'bg-surface border-line hover:border-line text-ink-2'
           }`}
         >
           <span className="text-xs block">قاموا بالشراء</span>
@@ -262,33 +262,33 @@ export default function UsersPage() {
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-control p-3.5 border border-line">
+      <div className="bg-surface rounded-control p-3.5 border border-line">
         <div className="relative w-full sm:w-80">
           <input
             type="text"
             placeholder="بحث بالاسم، الهاتف، أو البريد الإلكتروني..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-canvas border border-line focus:border-brand-700 rounded-control px-3.5 py-2 pr-9 text-xs outline-none transition-colors"
+            className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full pr-9"
           />
-          <Search size={14} className="text-slate-400 absolute right-3 top-2.5" />
+          <Search size={14} className="text-ink-3 absolute right-3 top-2.5" />
         </div>
       </div>
 
       {/* Table */}
       {loading ? (
-        <div className="py-16 text-center text-xs text-slate-500 bg-surface rounded-card border border-line shadow-card">
+        <div className="py-16 text-center text-xs text-ink-2 bg-surface rounded-card border border-line shadow-card">
           جاري تحميل بيانات الحسابات...
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="bg-white rounded-control p-10 text-center border border-line text-xs text-slate-500">
+        <div className="bg-surface rounded-card p-10 text-center border border-line text-xs text-ink-2 shadow-card">
           لا توجد نتائج مطابقة لخيارات البحث.
         </div>
       ) : (
         <div className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className="bg-canvas text-slate-700 font-semibold border-b border-line">
+              <thead className="bg-canvas text-ink-2 font-semibold border-b border-line">
                 <tr>
                   <th className="py-3 px-4">اسم الحساب</th>
                   <th className="py-3 px-4">الصلاحية / الدور</th>
@@ -299,17 +299,17 @@ export default function UsersPage() {
                   <th className="py-3 px-4 text-left">إجراءات</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line font-normal text-slate-700">
+              <tbody className="divide-y divide-line font-normal text-ink-2">
                 {filteredUsers.map((u, idx) => {
                   const hasOrders = (u.totalOrders || 0) > 0;
                   const cleanPhone = (u.phone || '').replace(/[^0-9]/g, '');
 
                   return (
-                    <tr key={u._id || idx} className="hover:bg-slate-50 transition-colors duration-150">
+                    <tr key={u._id || idx} className="hover:bg-canvas transition-colors duration-150">
                       <td className="py-3 px-4">
                         <div>
-                          <p className="font-semibold text-slate-900">{u.name || 'مستخدم'}</p>
-                          <span className="text-[11px] text-slate-400 font-mono">
+                          <p className="font-semibold text-ink">{u.name || 'مستخدم'}</p>
+                          <span className="text-xs text-ink-3 font-mono">
                             {u.userId || '-'}
                           </span>
                         </div>
@@ -317,19 +317,19 @@ export default function UsersPage() {
 
                       <td className="py-3 px-4">
                         {u.role === 'superadmin' ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-brand-700 text-white text-[11px] font-medium">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-brand-700 text-white text-xs font-medium">
                             <ShieldCheck size={12} />
                             <span>سوبر أدمن</span>
                           </span>
                         ) : u.role === 'admin' ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-slate-800 text-white text-[11px] font-medium">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-ink text-white text-xs font-medium">
                             <Shield size={12} />
                             <span>مسؤول (أدمن)</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-slate-100 text-slate-700 text-[11px]">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-control bg-canvas text-ink-2 text-xs">
                             <span>عميل</span>
-                            {u.isFirst100 && <span className="text-amber-700 font-bold mr-1">• عضو تأسيس</span>}
+                            {u.isFirst100 && <span className="text-warning font-semibold mr-1">• عضو تأسيس</span>}
                           </span>
                         )}
                       </td>
@@ -340,7 +340,7 @@ export default function UsersPage() {
                           {u.phone && (
                             <button
                               onClick={() => handleCopyPhone(u.phone, idx)}
-                              className="p-1 text-slate-400 hover:text-slate-700"
+                              className="p-1 text-ink-3 hover:text-ink-2"
                               title="نسخ الرقم"
                             >
                               {copiedIndex === idx ? <Check size={12} className="text-success" /> : <Copy size={12} />}
@@ -349,30 +349,30 @@ export default function UsersPage() {
                         </div>
                       </td>
 
-                      <td className="py-3 px-4 font-mono text-slate-600">
+                      <td className="py-3 px-4 font-mono text-ink-2">
                         {u.email ? (
                           <div className="flex items-center gap-1">
                             <span>{u.email}</span>
-                            {u.isEmailVerified && <CheckCircle2 size={12} className="text-emerald-600" title="مؤكد" />}
+                            {u.isEmailVerified && <CheckCircle2 size={12} className="text-success" title="مؤكد" />}
                           </div>
                         ) : (
-                          <span className="text-slate-400">-</span>
+                          <span className="text-ink-3">-</span>
                         )}
                       </td>
 
                       <td className="py-3 px-4">
                         {hasOrders ? (
-                          <span className="text-[11px] font-medium text-success">
+                          <span className="text-xs font-medium text-success">
                             {u.totalOrders} طلب (EGP {u.totalSpent || 0})
                           </span>
                         ) : (
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-xs text-ink-3">
                             لا توجد طلبات
                           </span>
                         )}
                       </td>
 
-                      <td className="py-3 px-4 text-slate-500 font-mono">
+                      <td className="py-3 px-4 text-ink-2 font-mono">
                         {u.createdAt ? new Date(u.createdAt).toLocaleDateString('ar-EG') : '-'}
                       </td>
 
@@ -383,7 +383,7 @@ export default function UsersPage() {
                               href={`https://wa.me/2${cleanPhone}?text=${encodeURIComponent(`مرحباً ${u.name || ''}، معك إدارة M20.`)}`}
                               target="_blank"
                               rel="noreferrer"
-                              className="p-1.5 rounded-control border border-line hover:bg-slate-100 text-slate-700 transition-colors duration-150"
+                              className="p-1.5 rounded-control border border-line hover:bg-canvas text-ink-2 transition-colors duration-150"
                               title="مراسلة واتساب"
                             >
                               <MessageSquare size={13} />
@@ -392,7 +392,7 @@ export default function UsersPage() {
 
                           <button
                             onClick={() => handleOpenEditModal(u)}
-                            className="p-1.5 rounded-control border border-line hover:bg-slate-100 text-slate-700 transition-colors duration-150"
+                            className="p-1.5 rounded-control border border-line hover:bg-canvas text-ink-2 transition-colors duration-150"
                             title="تعديل الحساب والصلاحية"
                           >
                             <Edit3 size={13} />
@@ -400,7 +400,7 @@ export default function UsersPage() {
 
                           <button
                             onClick={() => handleDeleteUser(u._id, u.name)}
-                            className="p-1.5 rounded-control border border-line hover:bg-rose-50 hover:text-rose-700 text-slate-400 transition-colors duration-150"
+                            className="p-1.5 rounded-control border border-line hover:bg-danger-50 hover:text-danger text-ink-3 transition-colors duration-150"
                             title="حذف الحساب"
                           >
                             <Trash2 size={13} />
@@ -419,11 +419,11 @@ export default function UsersPage() {
       {/* CREATE / EDIT USER MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-surface rounded-card border border-line shadow-card shadow-lg w-full max-w-md overflow-hidden text-right">
+          <div className="bg-surface rounded-card border border-line shadow-card w-full max-w-md overflow-hidden text-right">
             
             {/* Modal Header */}
             <div className="bg-brand-700 text-white p-4 flex items-center justify-between">
-              <h2 className="text-sm font-bold flex items-center gap-2">
+              <h2 className="text-sm font-semibold flex items-center gap-2">
                 <UserPlus size={16} />
                 <span>{modalMode === 'create' ? 'إنشاء حساب جديد بواسطة السوبر أدمن' : 'تعديل بيانات الحساب والصلاحية'}</span>
               </h2>
@@ -438,21 +438,21 @@ export default function UsersPage() {
             {/* Modal Body Form */}
             <form onSubmit={handleFormSubmit} className="p-5 space-y-4 text-xs">
               {formError && (
-                <div className="p-3 bg-rose-50 text-rose-800 border border-rose-200 rounded-control flex items-center gap-2">
+                <div className="p-3 bg-danger-50 text-danger border border-danger/20 rounded-control flex items-center gap-2">
                   <AlertCircle size={14} className="shrink-0" />
                   <span>{formError}</span>
                 </div>
               )}
               {formSuccess && (
-                <div className="p-3 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-control flex items-center gap-2">
-                  <CheckCircle2 size={14} className="shrink-0 text-emerald-600" />
+                <div className="p-3 bg-success-50 text-success border border-success/20 rounded-control flex items-center gap-2">
+                  <CheckCircle2 size={14} className="shrink-0 text-success" />
                   <span>{formSuccess}</span>
                 </div>
               )}
 
               {/* Name */}
               <div className="space-y-1">
-                <label className="font-semibold text-slate-700 block">
+                <label className="font-semibold text-ink-2 block">
                   الاسم الكامل *
                 </label>
                 <input
@@ -461,13 +461,13 @@ export default function UsersPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="مثال: أحمد محمد"
-                  className="w-full bg-canvas border border-slate-300 focus:border-brand-700 rounded-control p-2.5 outline-none transition-colors"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-10 text-sm w-full"
                 />
               </div>
 
               {/* Phone */}
               <div className="space-y-1">
-                <label className="font-semibold text-slate-700 block">
+                <label className="font-semibold text-ink-2 block">
                   رقم الهاتف *
                 </label>
                 <input
@@ -476,13 +476,13 @@ export default function UsersPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="01xxxxxxxxx"
-                  className="w-full bg-canvas border border-slate-300 focus:border-brand-700 rounded-control p-2.5 outline-none transition-colors font-mono"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-10 text-sm w-full"
                 />
               </div>
 
               {/* Email */}
               <div className="space-y-1">
-                <label className="font-semibold text-slate-700 block">
+                <label className="font-semibold text-ink-2 block">
                   البريد الإلكتروني (اختياري)
                 </label>
                 <input
@@ -490,13 +490,13 @@ export default function UsersPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="admin@m20fragrance.com"
-                  className="w-full bg-canvas border border-slate-300 focus:border-brand-700 rounded-control p-2.5 outline-none transition-colors font-mono"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-10 text-sm w-full"
                 />
               </div>
 
               {/* Password */}
               <div className="space-y-1">
-                <label className="font-semibold text-slate-700 block">
+                <label className="font-semibold text-ink-2 block">
                   {modalMode === 'create' ? 'كلمة المرور *' : 'تغيير كلمة المرور (اتركها فارغة للإبقاء على الحالية)'}
                 </label>
                 <input
@@ -506,19 +506,19 @@ export default function UsersPage() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="••••••••"
-                  className="w-full bg-canvas border border-slate-300 focus:border-brand-700 rounded-control p-2.5 outline-none transition-colors font-mono"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-10 text-sm w-full"
                 />
               </div>
 
               {/* Role Select */}
               <div className="space-y-1">
-                <label className="font-semibold text-slate-700 block">
+                <label className="font-semibold text-ink-2 block">
                   نوع الحساب والصلاحية *
                 </label>
                 <select
                   value={formData.role}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                  className="w-full bg-canvas border border-slate-300 focus:border-brand-700 rounded-control p-2.5 outline-none transition-colors"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-10 text-sm w-full"
                 >
                   <option value="superadmin">سوبر أدمن (صلاحيات إدارية كاملة)</option>
                   <option value="admin">مسؤول / أدمن (إدارة المنتجات والطلبات)</option>
@@ -527,18 +527,18 @@ export default function UsersPage() {
               </div>
 
               {/* Actions */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+              <div className="pt-3 border-t border-line flex items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-line hover:bg-slate-50 text-slate-700 rounded-control transition-colors duration-150"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-10 px-4 text-sm"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={formSubmitting}
-                  className="px-5 py-2 bg-brand-700 hover:bg-brand-900 text-white rounded-control transition-colors duration-150 font-medium flex items-center gap-1.5"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-10 px-4 text-sm"
                 >
                   {formSubmitting ? 'جاري الحفظ...' : modalMode === 'create' ? 'إنشاء الحساب' : 'حفظ التعديلات'}
                 </button>

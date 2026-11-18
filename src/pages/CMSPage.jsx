@@ -18,7 +18,8 @@ import {
   Activity,
   Eye,
   EyeOff,
-  Target
+  Target,
+  Power
 } from 'lucide-react';
 import { uploadImageToCloudinary, getAdminSettings, updateSettings } from '../services/api';
 import { EGYPT_GOVERNORATES, TIER_DESCRIPTIONS } from '../data/egyptGovernorates';
@@ -76,6 +77,14 @@ export default function CMSPage() {
   });
   const [showCapiToken, setShowCapiToken] = useState(false);
 
+  // Temporary store pause
+  const [storeStatus, setStoreStatus] = useState({
+    paused: false,
+    messageAr: 'المتجر متوقف مؤقتاً لأعمال الصيانة، نعود قريباً.',
+    messageEn: 'The store is temporarily paused for maintenance. We will be back soon.',
+    resumeAt: ''
+  });
+
   // Load saved settings on mount
   useEffect(() => {
     const loadSettings = async () => {
@@ -121,6 +130,14 @@ export default function CMSPage() {
               });
               setShippingRates(loadedRates);
             }
+          }
+          if (data.storeStatus) {
+            setStoreStatus((prev) => ({
+              paused: !!data.storeStatus.paused,
+              messageAr: data.storeStatus.messageAr || prev.messageAr,
+              messageEn: data.storeStatus.messageEn || prev.messageEn,
+              resumeAt: data.storeStatus.resumeAt ? String(data.storeStatus.resumeAt).slice(0, 16) : ''
+            }));
           }
           if (data.tracking) {
             setTracking({
@@ -244,6 +261,12 @@ export default function CMSPage() {
           metroPickupCustomerFee: Math.round(Number(metroPickupFee || 0)),
           defaultCustomerRate: 75
         },
+        storeStatus: {
+          paused: storeStatus.paused,
+          messageAr: (storeStatus.messageAr || '').trim(),
+          messageEn: (storeStatus.messageEn || '').trim(),
+          resumeAt: storeStatus.resumeAt || null
+        },
         tracking: {
           enableTracking: tracking.enableTracking,
           metaPixelId: (tracking.metaPixelId || '').trim(),
@@ -274,13 +297,13 @@ export default function CMSPage() {
   return (
     <div className={`space-y-6 ${isRTL ? "font-['Cairo',sans-serif] text-right" : "font-sans text-left"} pb-8`}>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-line">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-brand-700 flex items-center gap-2">
-            <Sliders size={20} strokeWidth={1.5} className="text-brand-700" />
+          <h1 className="text-2xl font-semibold text-ink leading-tight">
+            
             <span>{lang === 'ar' ? 'إعدادات المتجر والشحن' : 'Storefront & Shipping Settings'}</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-sm text-ink-2 mt-1.5 max-w-2xl leading-relaxed">
             {lang === 'ar'
               ? 'تكوين أسعار شحن المحافظات الـ 27 (انطلاق من الجيزة - أرقام صحيحة)، السلايدر الرئيسي، وبيانات التواصل.'
               : 'Configure 27 governorate shipping rates (origin: Giza - whole EGP integers only), banners, and contact channels.'}
@@ -291,11 +314,11 @@ export default function CMSPage() {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="px-5 py-2.5 rounded-control bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-2 transition-all duration-150 h-9 self-start sm:self-auto disabled:opacity-50 shadow-sm cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs self-start sm:self-auto"
         >
           {success ? (
             <>
-              <Check size={15} className="text-emerald-400" />
+              <Check size={15} className="text-success" />
               <span>{lang === 'ar' ? 'تم الحفظ' : 'Saved'}</span>
             </>
           ) : (
@@ -315,7 +338,7 @@ export default function CMSPage() {
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'shipping'
               ? 'border-brand-700 text-brand-700'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-ink-2 hover:text-ink'
           }`}
         >
           <Truck size={14} />
@@ -328,7 +351,7 @@ export default function CMSPage() {
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'banners'
               ? 'border-brand-700 text-brand-700'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-ink-2 hover:text-ink'
           }`}
         >
           <Sparkles size={14} />
@@ -341,7 +364,7 @@ export default function CMSPage() {
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'contact'
               ? 'border-brand-700 text-brand-700'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-ink-2 hover:text-ink'
           }`}
         >
           <PhoneCall size={14} />
@@ -354,28 +377,102 @@ export default function CMSPage() {
           className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
             activeTab === 'tracking'
               ? 'border-brand-700 text-brand-700'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
+              : 'border-transparent text-ink-2 hover:text-ink'
           }`}
         >
           <Activity size={14} />
           <span>{lang === 'ar' ? 'التتبع والإعلانات (Meta & TikTok)' : 'Ad Tracking & Pixels (Meta & TikTok)'}</span>
         </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('storeStatus')}
+          className={`px-4 py-2 text-xs font-bold border-b-2 transition-colors flex items-center gap-1.5 ${
+            activeTab === 'storeStatus'
+              ? 'border-brand-700 text-brand-700'
+              : 'border-transparent text-ink-2 hover:text-ink'
+          }`}
+        >
+          <Power size={14} />
+          <span>{lang === 'ar' ? 'حالة المتجر (إيقاف مؤقت)' : 'Store Status (Pause)'}</span>
+          {storeStatus.paused && <span className="w-2 h-2 rounded-full bg-danger" />}
+        </button>
       </div>
+
+      {/* TAB 5: TEMPORARY STORE PAUSE */}
+      {activeTab === 'storeStatus' && (
+        <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-5">
+          <div className={`flex items-center justify-between gap-4 p-4 rounded-2xl border ${storeStatus.paused ? 'bg-danger-50 border-danger/20' : 'bg-success-50 border-success/20'}`}>
+            <div>
+              <h3 className={`text-sm font-extrabold ${storeStatus.paused ? 'text-danger' : 'text-success'}`}>
+                {storeStatus.paused
+                  ? (lang === 'ar' ? '⛔ المتجر متوقف حالياً' : '⛔ Store is paused')
+                  : (lang === 'ar' ? '🟢 المتجر يعمل ويستقبل الطلبات' : '🟢 Store is live and taking orders')}
+              </h3>
+              <p className="text-xs text-ink-2 mt-1">
+                {lang === 'ar'
+                  ? 'عند الإيقاف تظهر للزوار صفحة "المتجر متوقف مؤقتاً" ولا يمكن إتمام أي طلب من الموقع. يمكنك إنشاء طلبات يدوياً من لوحة التحكم كالمعتاد.'
+                  : 'While paused, visitors see a "temporarily paused" page and cannot place orders. You can still create manual orders from the dashboard.'}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setStoreStatus({ ...storeStatus, paused: !storeStatus.paused })}
+              className={`relative inline-flex h-7 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${storeStatus.paused ? 'bg-danger' : 'bg-success'}`}
+              aria-label="toggle store pause"
+            >
+              <span className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-surface shadow transition ${storeStatus.paused ? (isRTL ? '-translate-x-7' : 'translate-x-7') : 'translate-x-0'}`} />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-xs font-semibold text-ink-2">{lang === 'ar' ? 'رسالة الإيقاف (عربي)' : 'Pause message (Arabic)'}</label>
+              <textarea
+                rows={3}
+                value={storeStatus.messageAr}
+                onChange={(e) => setStoreStatus({ ...storeStatus, messageAr: e.target.value })}
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="block text-xs font-semibold text-ink-2">{lang === 'ar' ? 'رسالة الإيقاف (إنجليزي)' : 'Pause message (English)'}</label>
+              <textarea
+                rows={3}
+                dir="ltr"
+                value={storeStatus.messageEn}
+                onChange={(e) => setStoreStatus({ ...storeStatus, messageEn: e.target.value })}
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="block text-xs font-semibold text-ink-2">{lang === 'ar' ? 'موعد العودة المتوقع (اختياري، للعرض فقط)' : 'Expected return (optional, display only)'}</label>
+              <input
+                type="datetime-local"
+                value={storeStatus.resumeAt}
+                onChange={(e) => setStoreStatus({ ...storeStatus, resumeAt: e.target.value })}
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
+              />
+              <p className="text-xs text-ink-3">{lang === 'ar' ? 'لا يعيد فتح المتجر تلقائياً؛ أعد التفعيل يدوياً.' : 'Does not reopen the store automatically; switch it back on manually.'}</p>
+            </div>
+          </div>
+          <p className="text-xs text-ink-2">{lang === 'ar' ? 'اضغط "حفظ التعديلات" بالأعلى لتطبيق التغيير.' : 'Click "Save Settings" at the top to apply.'}</p>
+        </div>
+      )}
 
       {/* TAB 1: SHIPPING RATES CONFIGURATION */}
       {activeTab === 'shipping' && (
         <div className="space-y-6">
           {/* Top Info Banner & Reset Action */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-control bg-brand-700/10 text-brand-700 flex items-center justify-center shrink-0 mt-0.5">
                 <MapPin size={18} />
               </div>
               <div>
-                <h3 className="text-xs font-bold text-slate-900">
+                <h3 className="text-xs font-semibold text-ink">
                   {lang === 'ar' ? 'نقطة الانطلاق: الجيزة (Giza Origin)' : 'Shipping Origin: Giza, Egypt'}
                 </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-xs text-ink-2 mt-0.5">
                   {lang === 'ar'
                     ? 'الأسعار محددة وفقاً لـ 6 مستويات جغرافية وبأرقام صحيحة فقط (بدون كسور عشرية). تستخدم في حساب رسوم العميل والتكلفة المسجلة لشركات الشحن.'
                     : 'Rates configured across 6 geographical tiers using strict whole EGP integers (no decimals). Used for checkout charging and carrier logistics recording.'}
@@ -386,7 +483,7 @@ export default function CMSPage() {
             <button
               type="button"
               onClick={handleResetToTierDefaults}
-              className="px-3 py-1.5 rounded-control border border-line hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0 self-start sm:self-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs shrink-0 self-start sm:self-auto"
             >
               <RotateCcw size={13} />
               <span>{lang === 'ar' ? 'استعادة أسعار المستويات الأصلية' : 'Reset to Giza Tier Defaults'}</span>
@@ -394,12 +491,12 @@ export default function CMSPage() {
           </div>
 
           {/* Metro Pickup Fee Setting */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex items-center justify-between gap-4">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 flex items-center justify-between gap-4">
             <div>
-              <h4 className="text-xs font-bold text-slate-800">
+              <h4 className="text-xs font-semibold text-ink">
                 {lang === 'ar' ? 'رسوم الاستلام من محطات المترو' : 'Metro Station Pickup Fee'}
               </h4>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-xs text-ink-2">
                 {lang === 'ar' ? 'القيمة التي يتحملها العميل عند اختيار الاستلام من محطة مترو (افتراضي 0 ج.م)' : 'Customer charge when selecting Metro station pickup (default: 0 EGP)'}
               </p>
             </div>
@@ -410,9 +507,9 @@ export default function CMSPage() {
                 step="1"
                 value={metroPickupFee}
                 onChange={(e) => setMetroPickupFee(Math.max(0, Math.round(Number(e.target.value))))}
-                className="w-24 h-8 px-2 border border-line rounded-control text-xs font-mono font-bold text-center outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-24"
               />
-              <span className="text-xs text-slate-500 font-semibold">{lang === 'ar' ? 'ج.م' : 'EGP'}</span>
+              <span className="text-xs text-ink-2 font-semibold">{lang === 'ar' ? 'ج.م' : 'EGP'}</span>
             </div>
           </div>
 
@@ -422,19 +519,19 @@ export default function CMSPage() {
             const govsInTier = EGYPT_GOVERNORATES.filter((g) => g.tier === tierNum);
 
             return (
-              <div key={tierNum} className="bg-surface rounded-card border border-line shadow-card overflow-hidden shadow-xs">
+              <div key={tierNum} className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
                 {/* Tier Header */}
-                <div className="px-4 py-2.5 bg-slate-50 border-b border-line flex items-center justify-between">
+                <div className="px-4 py-2.5 bg-canvas border-b border-line flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-brand-700 text-white">
+                    <span className="px-2 py-0.5 rounded-control text-xs font-semibold uppercase tracking-wider bg-brand-700 text-white">
                       Tier {tierNum}
                     </span>
-                    <h3 className="text-xs font-bold text-slate-800">
+                    <h3 className="text-xs font-semibold text-ink">
                       {lang === 'ar' ? tierInfo.nameAr : tierInfo.nameEn}
                     </h3>
                   </div>
 
-                  <span className="text-[11px] text-slate-500 font-mono font-semibold">
+                  <span className="text-xs text-ink-2 font-mono font-semibold">
                     {lang === 'ar' ? `السعر الافتراضي: ${tierInfo.defaultRate} ج.م` : `Default: ${tierInfo.defaultRate} EGP`}
                   </span>
                 </div>
@@ -448,13 +545,13 @@ export default function CMSPage() {
                       return (
                         <div
                           key={gov.id}
-                          className="flex items-center justify-between p-2.5 bg-canvas border border-line/80 rounded-control hover:border-slate-300 transition-colors"
+                          className="flex items-center justify-between p-2.5 bg-canvas border border-line rounded-control hover:border-line transition-colors"
                         >
                           <div>
-                            <span className="text-xs font-bold text-slate-800 block">
+                            <span className="text-xs font-semibold text-ink block">
                               {lang === 'ar' ? gov.nameAr : gov.nameEn}
                             </span>
-                            <span className="text-[10px] text-slate-400 font-mono">
+                            <span className="text-xs text-ink-3 font-mono">
                               {lang === 'ar' ? `المستوى ${gov.tier}` : `Tier ${gov.tier}`}
                             </span>
                           </div>
@@ -466,9 +563,9 @@ export default function CMSPage() {
                               step="1"
                               value={currentVal}
                               onChange={(e) => handleRateChange(gov.nameEn, e.target.value)}
-                              className="w-16 h-7 px-1.5 border border-line rounded-control text-xs font-mono font-bold text-center bg-white outline-none focus:border-brand-700"
+                              className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-16"
                             />
-                            <span className="text-[11px] text-slate-500 font-medium">
+                            <span className="text-xs text-ink-2 font-medium">
                               {lang === 'ar' ? 'ج.م' : 'EGP'}
                             </span>
                           </div>
@@ -487,19 +584,19 @@ export default function CMSPage() {
       {activeTab === 'banners' && (
         <div className="space-y-6">
           {/* Main Slider Section */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-line">
               <div>
                 <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                   <Sparkles size={16} className="text-brand-700" />
                   <span>{lang === 'ar' ? 'صور السلايدر الرئيسي (Hero Carousel)' : 'Hero Carousel Banners'}</span>
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-ink-2">
                   {lang === 'ar' ? 'الصور المعروضة في أعلى الصفحة الرئيسية للمتجر.' : 'Active promotional slides displayed on the storefront home header.'}
                 </p>
               </div>
 
-              <label className="px-3 py-1.5 rounded-control border border-line hover:bg-slate-50 text-slate-700 text-xs font-medium flex items-center gap-1.5 cursor-pointer transition-colors">
+              <label className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs">
                 <Upload size={14} />
                 <span>{uploading ? (lang === 'ar' ? 'جاري الرفع...' : 'Uploading...') : (lang === 'ar' ? 'إضافة صورة جديدة' : 'Add Image')}</span>
                 <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
@@ -510,39 +607,39 @@ export default function CMSPage() {
               {slides.map((slide) => (
                 <div key={slide.id} className="border border-line rounded-control overflow-hidden bg-canvas flex flex-col justify-between">
                   <div>
-                    <div className="aspect-[16/9] bg-slate-200 relative">
+                    <div className="aspect-[16/9] bg-line relative">
                       <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" />
-                      <span className="absolute top-2 right-2 text-[10px] bg-white border border-line px-1.5 py-0.5 rounded-control font-medium">
+                      <span className="absolute top-2 right-2 text-xs bg-surface border border-line px-1.5 py-0.5 rounded-control font-medium">
                         {slide.active ? (lang === 'ar' ? 'نشط' : 'Active') : (lang === 'ar' ? 'معطل' : 'Inactive')}
                       </span>
                     </div>
 
                     <div className="p-3 space-y-2 text-xs">
                       <div>
-                        <label className="block text-[11px] text-slate-500 mb-0.5">{lang === 'ar' ? 'الرابط عند النقر' : 'Target Link'}</label>
+                        <label className="block text-xs text-ink-2 mb-0.5">{lang === 'ar' ? 'الرابط عند النقر' : 'Target Link'}</label>
                         <input
                           type="text"
                           value={slide.link || ''}
                           onChange={(e) => updateSlideLink(slide.id, e.target.value)}
                           placeholder="/offers"
-                          className="w-full h-7 border border-line rounded-control px-2 text-xs bg-white outline-none focus:border-brand-700"
+                          className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-2 border-t border-line bg-white flex items-center justify-between text-xs">
+                  <div className="p-2 border-t border-line bg-surface flex items-center justify-between text-xs">
                     <button
                       type="button"
                       onClick={() => toggleSlide(slide.id)}
-                      className={`text-[11px] font-medium ${slide.active ? 'text-amber-800' : 'text-emerald-800'}`}
+                      className={`text-[11px] font-medium ${slide.active ? 'text-warning' : 'text-success'}`}
                     >
                       {slide.active ? (lang === 'ar' ? 'تعطيل' : 'Deactivate') : (lang === 'ar' ? 'تفعيل' : 'Activate')}
                     </button>
                     <button
                       type="button"
                       onClick={() => removeSlide(slide.id)}
-                      className="text-slate-400 hover:text-red-700"
+                      className="text-ink-3 hover:text-danger"
                       title={lang === 'ar' ? 'حذف' : 'Delete'}
                     >
                       <Trash2 size={13} strokeWidth={1.5} />
@@ -554,14 +651,14 @@ export default function CMSPage() {
           </div>
 
           {/* Announcement Bar */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+          <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
             <div className="pb-3 border-b border-line flex items-center justify-between">
               <div>
                 <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                   <BellRing size={16} className="text-brand-700" />
                   <span>{lang === 'ar' ? 'شريط الإعلانات العلوي (Announcement Bar)' : 'Announcement Bar'}</span>
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-ink-2">
                   {lang === 'ar' ? 'النص الترويجي المعروض في الشريط العلوي لكل صفحات المتجر.' : 'Top announcement banner text shown across all storefront pages.'}
                 </p>
               </div>
@@ -572,23 +669,23 @@ export default function CMSPage() {
                   id="announcementActive"
                   checked={announcement.active}
                   onChange={(e) => setAnnouncement({ ...announcement, active: e.target.checked })}
-                  className="h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700"
+                  className="h-4 w-4 rounded-control border-line text-brand-700 focus:ring-brand-700"
                 />
-                <label htmlFor="announcementActive" className="text-xs font-medium text-slate-700 cursor-pointer">
+                <label htmlFor="announcementActive" className="text-xs font-medium text-ink-2 cursor-pointer">
                   {announcement.active ? (lang === 'ar' ? 'مفعل' : 'Active') : (lang === 'ar' ? 'معطل' : 'Disabled')}
                 </label>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
+              <label className="block text-xs font-medium text-ink-2 mb-1">
                 {lang === 'ar' ? 'نص الإعلان' : 'Announcement Text'}
               </label>
               <input
                 type="text"
                 value={announcement.text}
                 onChange={(e) => setAnnouncement({ ...announcement, text: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs bg-white outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
           </div>
@@ -597,61 +694,61 @@ export default function CMSPage() {
 
       {/* TAB 3: CONTACT & SOCIAL */}
       {activeTab === 'contact' && (
-        <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4 shadow-xs">
+        <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
           <div className="pb-3 border-b border-line">
             <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
               <PhoneCall size={16} className="text-brand-700" />
               <span>{lang === 'ar' ? 'بيانات التواصل وحسابات السوشيال ميديا' : 'Contact Channels & Social Media'}</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-ink-2">
               {lang === 'ar' ? 'أرقام الواتساب والدعم الفني وروابط الحسابات الرسمية.' : 'Customer care numbers, official WhatsApp link, and social channels.'}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <label className="block font-medium text-slate-700 mb-1">{lang === 'ar' ? 'رقم الواتساب الرسمي (بدون +)' : 'WhatsApp Number (without +)'}</label>
+              <label className="block font-medium text-ink-2 mb-1">{lang === 'ar' ? 'رقم الواتساب الرسمي (بدون +)' : 'WhatsApp Number (without +)'}</label>
               <input
                 type="text"
                 value={contact.whatsapp}
                 onChange={(e) => setContact({ ...contact, whatsapp: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
             <div>
-              <label className="block font-medium text-slate-700 mb-1">{lang === 'ar' ? 'رقم هاتف الدعم الفني المباشر' : 'Customer Support Phone'}</label>
+              <label className="block font-medium text-ink-2 mb-1">{lang === 'ar' ? 'رقم هاتف الدعم الفني المباشر' : 'Customer Support Phone'}</label>
               <input
                 type="text"
                 value={contact.phone}
                 onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
             <div>
-              <label className="block font-medium text-slate-700 mb-1">Instagram</label>
+              <label className="block font-medium text-ink-2 mb-1">Instagram</label>
               <input
                 type="text"
                 value={contact.instagram}
                 onChange={(e) => setContact({ ...contact, instagram: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
             <div>
-              <label className="block font-medium text-slate-700 mb-1">TikTok</label>
+              <label className="block font-medium text-ink-2 mb-1">TikTok</label>
               <input
                 type="text"
                 value={contact.tiktok}
                 onChange={(e) => setContact({ ...contact, tiktok: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block font-medium text-slate-700 mb-1">Facebook</label>
+              <label className="block font-medium text-ink-2 mb-1">Facebook</label>
               <input
                 type="text"
                 value={contact.facebook}
                 onChange={(e) => setContact({ ...contact, facebook: e.target.value })}
-                className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
               />
             </div>
           </div>
@@ -662,16 +759,16 @@ export default function CMSPage() {
       {activeTab === 'tracking' && (
         <div className="space-y-6">
           {/* Top Info Banner */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-4 shadow-xs flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-start gap-3">
               <div className="w-9 h-9 rounded-control bg-brand-700/10 text-brand-700 flex items-center justify-center shrink-0 mt-0.5">
                 <Target size={18} />
               </div>
               <div>
-                <h3 className="text-xs font-bold text-slate-900">
+                <h3 className="text-xs font-semibold text-ink">
                   {lang === 'ar' ? 'تتبع الإعلانات والتحويلات (Meta Pixel + CAPI & TikTok)' : 'E-Commerce Tracking & Conversion APIs'}
                 </h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-xs text-ink-2 mt-0.5">
                   {lang === 'ar'
                     ? 'ربط بكسل ميتا وبكسل تيك توك مع نظام Conversions API المدمج من السيرفر لمنع تكرار التحويلات (Deduplication) وتتبع أرباح الحملات الإعلانية بدقة.'
                     : 'Configure Meta Pixel, TikTok Pixel, and server-side Conversions API (CAPI) with deduplicated purchase events (order_${orderNumber}) and EGP currency.'}
@@ -680,24 +777,24 @@ export default function CMSPage() {
             </div>
 
             {/* Global Enable Toggle */}
-            <div className="flex items-center gap-2 bg-slate-50 border border-line px-3 py-1.5 rounded-control">
-              <span className="text-xs font-semibold text-slate-700">
+            <div className="flex items-center gap-2 bg-canvas border border-line px-3 py-1.5 rounded-control">
+              <span className="text-xs font-semibold text-ink-2">
                 {lang === 'ar' ? 'حالة التتبع:' : 'Tracking:'}
               </span>
               <button
                 type="button"
                 onClick={() => setTracking({ ...tracking, enableTracking: !tracking.enableTracking })}
                 className={`relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  tracking.enableTracking ? 'bg-brand-700' : 'bg-slate-300'
+                  tracking.enableTracking ? 'bg-brand-700' : 'bg-ink-3'
                 }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-surface shadow-sm ring-0 transition duration-200 ease-in-out ${
                     tracking.enableTracking ? (isRTL ? '-translate-x-5' : 'translate-x-5') : 'translate-x-0'
                   }`}
                 />
               </button>
-              <span className={`text-xs font-bold ${tracking.enableTracking ? 'text-brand-700' : 'text-slate-400'}`}>
+              <span className={`text-xs font-bold ${tracking.enableTracking ? 'text-brand-700' : 'text-ink-3'}`}>
                 {tracking.enableTracking ? (lang === 'ar' ? 'مفعل' : 'Active') : (lang === 'ar' ? 'معطل' : 'Disabled')}
               </span>
             </div>
@@ -706,10 +803,10 @@ export default function CMSPage() {
           {/* Quick Launch Marketing & Ads Analytics Dashboard Banner */}
           <div className="bg-brand-700/5 border border-brand-700/20 rounded-control p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h4 className="text-xs font-bold text-brand-700">
+              <h4 className="text-xs font-semibold text-brand-700">
                 {lang === 'ar' ? 'لوحة تحليلات التسويق والإعلانات المتقدمة (Marketing & Ads Analytics)' : 'Advanced Marketing & Ads Analytics Dashboard'}
               </h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">
+              <p className="text-xs text-ink-2 mt-0.5">
                 {lang === 'ar'
                   ? 'عرض أداء الحملات الإعلانية، حساب ROAS و CPA، قمع التحويل بالكامل، وأرباح كل قناة تسويقية.'
                   : 'Track live Ad Spend, ROAS, CPA, conversion funnels, and net profit per acquisition channel.'}
@@ -717,7 +814,7 @@ export default function CMSPage() {
             </div>
             <Link
               to="/marketing"
-              className="px-4 py-2 bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold rounded-control inline-flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs shrink-0"
             >
               <Target size={14} className="text-accent" />
               <span>{lang === 'ar' ? 'فتح لوحة تحليلات الإعلانات' : 'Open Analytics Dashboard'}</span>
@@ -726,21 +823,21 @@ export default function CMSPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Meta (Facebook & Instagram) Configuration */}
-            <div className="bg-surface rounded-card border border-line shadow-card p-5 shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-line">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-control bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-control bg-info-50 text-info flex items-center justify-center font-semibold text-xs">
                     M
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">
+                    <h4 className="text-xs font-semibold text-ink">
                       {lang === 'ar' ? 'إعدادات Meta (Facebook & Instagram)' : 'Meta Pixel & Conversions API'}
                     </h4>
-                    <span className="text-[10px] text-slate-400 font-mono">fbq + Graph API v19.0</span>
+                    <span className="text-xs text-ink-3 font-mono">fbq + Graph API v19.0</span>
                   </div>
                 </div>
                 <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                  tracking.metaPixelId ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500'
+                  tracking.metaPixelId ? 'bg-success-50 text-success border border-success/20' : 'bg-canvas text-ink-2'
                 }`}>
                   {tracking.metaPixelId ? (lang === 'ar' ? 'مضبوط' : 'Configured') : (lang === 'ar' ? 'غير محدد' : 'Not set')}
                 </span>
@@ -748,7 +845,7 @@ export default function CMSPage() {
 
               {/* Meta Pixel ID */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
                   {lang === 'ar' ? 'معرف بكسل ميتا (Meta Pixel ID)' : 'Meta Pixel ID'}
                 </label>
                 <input
@@ -756,9 +853,9 @@ export default function CMSPage() {
                   placeholder="مثال: 123456789012345"
                   value={tracking.metaPixelId}
                   onChange={(e) => setTracking({ ...tracking, metaPixelId: e.target.value })}
-                  className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 />
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-xs text-ink-3 mt-1">
                   {lang === 'ar'
                     ? 'يتم حقنه تلقائياً في واجهة المتجر لإطلاق أحداث: PageView, ViewContent, AddToCart, InitiateCheckout, Purchase.'
                     : 'Injected into storefront for client-side events: PageView, ViewContent, AddToCart, InitiateCheckout, Purchase.'}
@@ -767,7 +864,7 @@ export default function CMSPage() {
 
               {/* Meta CAPI Access Token */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
                   {lang === 'ar' ? 'توكن واجهة التحويلات (Meta CAPI Access Token)' : 'Meta CAPI Access Token (Server-Side)'}
                 </label>
                 <div className="relative">
@@ -776,17 +873,17 @@ export default function CMSPage() {
                     placeholder="EAAG..."
                     value={tracking.metaCapiAccessToken}
                     onChange={(e) => setTracking({ ...tracking, metaCapiAccessToken: e.target.value })}
-                    className="w-full h-9 border border-line rounded-control pl-3 pr-10 text-xs font-mono outline-none focus:border-brand-700"
+                    className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full pl-3 pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowCapiToken(!showCapiToken)}
-                    className="absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                    className="absolute inset-y-0 right-0 px-3 flex items-center text-ink-3 hover:text-ink-2 cursor-pointer"
                   >
                     {showCapiToken ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-xs text-ink-3 mt-1">
                   {lang === 'ar'
                     ? 'سري ومحمي في السيرفر فقط (لا يظهر في كود المتجر). يُرسل حدث الشراء من السيرفر فورا عند تأكيد الطلب مع تشفير SHA-256 للبيانات.'
                     : 'Stored securely in backend only. Dispatches server-side Purchase event with SHA-256 hashed customer data on order creation.'}
@@ -795,21 +892,21 @@ export default function CMSPage() {
             </div>
 
             {/* TikTok Configuration */}
-            <div className="bg-surface rounded-card border border-line shadow-card p-5 shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="bg-surface rounded-card border border-line shadow-card p-5 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-line">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-control bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                  <div className="w-7 h-7 rounded-control bg-ink text-white flex items-center justify-center font-semibold text-xs">
                     TT
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900">
+                    <h4 className="text-xs font-semibold text-ink">
                       {lang === 'ar' ? 'إعدادات TikTok Pixel' : 'TikTok Pixel'}
                     </h4>
-                    <span className="text-[10px] text-slate-400 font-mono">ttq (E-Commerce Events)</span>
+                    <span className="text-xs text-ink-3 font-mono">ttq (E-Commerce Events)</span>
                   </div>
                 </div>
                 <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                  tracking.tiktokPixelId ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500'
+                  tracking.tiktokPixelId ? 'bg-success-50 text-success border border-success/20' : 'bg-canvas text-ink-2'
                 }`}>
                   {tracking.tiktokPixelId ? (lang === 'ar' ? 'مضبوط' : 'Configured') : (lang === 'ar' ? 'غير محدد' : 'Not set')}
                 </span>
@@ -817,7 +914,7 @@ export default function CMSPage() {
 
               {/* TikTok Pixel ID */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
                   {lang === 'ar' ? 'معرف بكسل تيك توك (TikTok Pixel ID)' : 'TikTok Pixel ID'}
                 </label>
                 <input
@@ -825,9 +922,9 @@ export default function CMSPage() {
                   placeholder="مثال: C123456789ABCDEF"
                   value={tracking.tiktokPixelId}
                   onChange={(e) => setTracking({ ...tracking, tiktokPixelId: e.target.value })}
-                  className="w-full h-9 border border-line rounded-control px-3 text-xs font-mono outline-none focus:border-brand-700"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 />
-                <p className="text-[10px] text-slate-400 mt-1">
+                <p className="text-xs text-ink-3 mt-1">
                   {lang === 'ar'
                     ? 'يتم حقن كود تيك توك تلقائياً لتسجيل تصفح العطور والإضافة للسلة وإتمام الشراء بعملة الجنيه المصري (EGP).'
                     : 'Injected into storefront for TikTok ad tracking: PageView, ViewContent, AddToCart, InitiateCheckout, Purchase.'}
@@ -835,12 +932,12 @@ export default function CMSPage() {
               </div>
 
               {/* Deduplication & Attribution Info Box */}
-              <div className="bg-brand-700/5 border border-brand-700/15 rounded-control p-3 space-y-1.5 text-slate-700 text-[11px]">
-                <div className="flex items-center gap-1.5 font-bold text-brand-700">
+              <div className="bg-brand-700/5 border border-brand-700/15 rounded-control p-3 space-y-1.5 text-ink-2 text-xs">
+                <div className="flex items-center gap-1.5 font-semibold text-brand-700">
                   <ShieldCheck size={14} />
                   <span>{lang === 'ar' ? 'نظام منع التكرار التلقائي (Deduplication)' : 'Built-in Deduplication'}</span>
                 </div>
-                <p className="leading-relaxed text-slate-600 text-[10px]">
+                <p className="leading-relaxed text-ink-2 text-xs">
                   {lang === 'ar'
                     ? 'يتم إرسال معرّف موحد للحدث (order_{orderNumber}) لكل من بكسل المتصفح وواجهة السيرفر CAPI، مما يتيح لميتا دمج الحدثين بدقة ومنع احتساب الشراء مرتين.'
                     : 'Identical event_id (order_${orderNumber}) is shared between client pixel and server CAPI, allowing Meta to deduplicate without double counting.'}

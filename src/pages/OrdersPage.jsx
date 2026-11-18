@@ -37,14 +37,14 @@ const formatGovernorate = (govStr, isRTL) => {
 };
 
 const statusConfig = {
-  all: { labelAr: 'جميع الطلبات', labelEn: 'All Orders', color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-line' },
-  pending: { labelAr: 'قيد الانتظار', labelEn: 'Pending', color: 'text-amber-800', bg: 'bg-amber-50', border: 'border-amber-200' },
+  all: { labelAr: 'جميع الطلبات', labelEn: 'All Orders', color: 'text-ink-2', bg: 'bg-canvas', border: 'border-line' },
+  pending: { labelAr: 'قيد الانتظار', labelEn: 'Pending', color: 'text-warning', bg: 'bg-warning-50', border: 'border-warning/20' },
   confirmed: { labelAr: 'تم التأكيد', labelEn: 'Confirmed', color: 'text-brand-700', bg: 'bg-brand-700/10', border: 'border-brand-700/25' },
   processing: { labelAr: 'جاري التجهيز', labelEn: 'Processing', color: 'text-warning', bg: 'bg-accent/15', border: 'border-accent/30' },
-  shipped: { labelAr: 'جاري الشحن', labelEn: 'Shipped', color: 'text-sky-800', bg: 'bg-sky-50', border: 'border-sky-200' },
+  shipped: { labelAr: 'جاري الشحن', labelEn: 'Shipped', color: 'text-info', bg: 'bg-info-50', border: 'border-info/20' },
   delivered: { labelAr: 'تم التوصيل', labelEn: 'Delivered', color: 'text-brand-700', bg: 'bg-brand-700/15', border: 'border-brand-700/30' },
-  returned_from_shipping: { labelAr: 'مرتجع من الشحن', labelEn: 'Returned from Shipping', color: 'text-amber-900', bg: 'bg-amber-100/90', border: 'border-amber-300' },
-  cancelled: { labelAr: 'ملغي', labelEn: 'Cancelled', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200' },
+  returned_from_shipping: { labelAr: 'مرتجع من الشحن', labelEn: 'Returned from Shipping', color: 'text-warning', bg: 'bg-warning-50/90', border: 'border-warning/20' },
+  cancelled: { labelAr: 'ملغي', labelEn: 'Cancelled', color: 'text-danger', bg: 'bg-danger-50', border: 'border-danger/20' },
 };
 
 const renderPaymentMethodBadge = (method, isPaid, isRTL = true) => {
@@ -64,16 +64,16 @@ const renderPaymentMethodBadge = (method, isPaid, isRTL = true) => {
 
   return (
     <div className="flex items-center gap-1.5">
-      <span className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-line">
+      <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-canvas text-ink border border-line">
         {icon}
         <span>{label}</span>
       </span>
       {isPaid ? (
-        <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+        <span className="inline-flex items-center gap-0.5 text-xs font-semibold px-1.5 py-0.2 rounded-full bg-success-50 text-success border border-success/20">
           <Check size={10} strokeWidth={2} /> {isRTL ? 'مدفوع' : 'Paid'}
         </span>
       ) : (
-        <span className="inline-flex items-center text-[10px] font-medium px-1.5 py-0.2 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+        <span className="inline-flex items-center text-xs font-medium px-1.5 py-0.2 rounded-full bg-warning-50 text-warning border border-warning/20">
           {isRTL ? 'معلق' : 'Pending'}
         </span>
       )}
@@ -719,19 +719,16 @@ export default function OrdersPage() {
   });
 
   return (
-    <div className="space-y-6 text-right font-['Cairo',sans-serif]">
+    <div className="space-y-6">
       {/* Screen Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-line/80">
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-700 to-brand-900 text-white flex items-center justify-center shadow-md shadow-[#174F43]/10">
-              <Truck size={20} strokeWidth={1.5} />
-            </div>
             <div>
-              <h1 className="text-xl font-extrabold text-brand-700 tracking-tight">
+              <h1 className="text-2xl font-semibold text-ink leading-tight">
                 إدارة الطلبات والشحنات والفواتير
               </h1>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-sm text-ink-2 mt-1.5 max-w-2xl leading-relaxed">
                 إنشاء طلبات يدوية، التحقق الفوري من إيصالات الدفع، إدارة المرتجعات، وإصدار الفواتير وبوالص الشحن.
               </p>
             </div>
@@ -741,7 +738,7 @@ export default function OrdersPage() {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={handleOpenCreateOrder}
-            className="px-4 py-2.5 rounded-xl bg-brand-700 hover:bg-brand-900 text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm hover:shadow active:scale-95"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
           >
             <Plus size={16} />
             <span>إنشاء طلب يدوي جديد</span>
@@ -749,7 +746,7 @@ export default function OrdersPage() {
 
           <button
             onClick={fetchOrdersAndAccounts}
-            className="p-2.5 rounded-xl border border-line bg-white/80 backdrop-blur hover:bg-slate-50 text-slate-700 transition-all duration-150 shadow-xs"
+            className="p-2.5 rounded-card border border-line bg-surface/80 backdrop-blur hover:bg-canvas text-ink-2 transition-all duration-150 shadow-card"
             title="تحديث"
           >
             <RefreshCw size={14} strokeWidth={1.7} className={loading ? 'animate-spin text-brand-700' : ''} />
@@ -761,13 +758,13 @@ export default function OrdersPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
         {[
           { key: 'all', label: 'الكل', count: statusCounts.all, icon: FileText },
-          { key: 'pending', label: 'قيد المراجعة', count: statusCounts.pending, icon: Clock, color: 'text-amber-600' },
+          { key: 'pending', label: 'قيد المراجعة', count: statusCounts.pending, icon: Clock, color: 'text-warning' },
           { key: 'confirmed', label: 'تم التأكيد', count: statusCounts.confirmed, icon: CheckCircle2, color: 'text-brand-700' },
           { key: 'processing', label: 'جاري التجهيز', count: statusCounts.processing, icon: RefreshCw, color: 'text-accent' },
-          { key: 'shipped', label: 'جاري الشحن', count: statusCounts.shipped, icon: Truck, color: 'text-sky-600' },
+          { key: 'shipped', label: 'جاري الشحن', count: statusCounts.shipped, icon: Truck, color: 'text-info' },
           { key: 'delivered', label: 'تم التوصيل', count: statusCounts.delivered, icon: CheckCircle2, color: 'text-brand-700' },
-          { key: 'returned_from_shipping', label: 'مرتجع شحن', count: statusCounts.returned_from_shipping, icon: RotateCcw, color: 'text-amber-800' },
-          { key: 'cancelled', label: 'ملغي', count: statusCounts.cancelled, icon: XCircle, color: 'text-rose-600' },
+          { key: 'returned_from_shipping', label: 'مرتجع شحن', count: statusCounts.returned_from_shipping, icon: RotateCcw, color: 'text-warning' },
+          { key: 'cancelled', label: 'ملغي', count: statusCounts.cancelled, icon: XCircle, color: 'text-danger' },
         ].map((item) => {
           const Icon = item.icon;
           const isActive = selectedStatus === item.key;
@@ -781,15 +778,15 @@ export default function OrdersPage() {
               className={`p-3.5 rounded-2xl border text-right transition-all duration-200 relative overflow-hidden ${
                 isActive 
                   ? 'bg-brand-700 text-white border-brand-700 shadow-lg shadow-[#174F43]/20 scale-[1.02]' 
-                  : 'bg-white/80 backdrop-blur-md border-line/90 text-slate-700 hover:border-slate-300 hover:bg-white shadow-xs'
+                  : 'bg-surface/80 backdrop-blur-md border-line text-ink-2 hover:border-line hover:bg-surface shadow-xs'
               }`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold">{item.label}</span>
-                <Icon size={16} strokeWidth={1.8} className={isActive ? 'text-white' : item.color || 'text-slate-400'} />
+                <Icon size={16} strokeWidth={1.8} className={isActive ? 'text-white' : item.color || 'text-ink-3'} />
               </div>
-              <p className={`text-lg font-black mt-1.5 ${isActive ? 'text-white' : 'text-slate-900'}`}>
-                {item.count} <span className="text-[11px] font-normal opacity-80">طلب</span>
+              <p className={`text-lg font-black mt-1.5 ${isActive ? 'text-white' : 'text-ink'}`}>
+                {item.count} <span className="text-xs font-normal opacity-80">طلب</span>
               </p>
             </button>
           );
@@ -797,19 +794,19 @@ export default function OrdersPage() {
       </div>
 
       {/* Marketing Attribution & Channels Analytics Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-line/90 shadow-xs space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
+      <div className="bg-surface rounded-card p-4 border border-line shadow-card space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-2.5">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-brand-700" />
-            <h3 className="text-xs font-bold text-brand-700">
+            <h3 className="text-xs font-semibold text-brand-700">
               {isRTL ? 'تحليلات قنوات التسويق والاستحواذ (Attribution & Campaigns)' : 'Marketing & Attribution Channels'}
             </h3>
           </div>
           {marketingMetrics.topCampaigns.length > 0 && (
-            <div className="text-[11px] text-slate-500 flex items-center gap-1.5 flex-wrap">
-              <span className="font-semibold text-slate-700">{isRTL ? 'أبرز الحملات:' : 'Top Campaigns:'}</span>
+            <div className="text-xs text-ink-2 flex items-center gap-1.5 flex-wrap">
+              <span className="font-semibold text-ink-2">{isRTL ? 'أبرز الحملات:' : 'Top Campaigns:'}</span>
               {marketingMetrics.topCampaigns.map(([camp, count]) => (
-                <span key={camp} className="px-2 py-0.5 rounded bg-slate-100 font-mono text-[10px] text-slate-700 border border-line">
+                <span key={camp} className="px-2 py-0.5 rounded-control bg-canvas font-mono text-xs text-ink-2 border border-line">
                   {camp} ({count})
                 </span>
               ))}
@@ -825,19 +822,19 @@ export default function OrdersPage() {
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'meta'
                 ? 'bg-brand-700/10 border-brand-700 ring-1 ring-brand-700'
-                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
+                : 'bg-canvas/60 border-line hover:bg-canvas/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="font-bold text-blue-900">Meta (FB / IG)</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 text-blue-800 font-mono font-bold">
+              <span className="font-semibold text-info">Meta (FB / IG)</span>
+              <span className="text-xs px-1.5 py-0.2 rounded-control bg-info-50 text-info font-mono font-semibold">
                 {marketingMetrics.channels.meta.orders} {isRTL ? 'طلب' : 'orders'}
               </span>
             </div>
-            <div className="font-mono font-black text-sm text-brand-700">
+            <div className="font-mono font-semibold text-sm text-brand-700">
               {marketingMetrics.channels.meta.revenue.toLocaleString()} ج.م
             </div>
-            <span className="text-[10px] text-slate-400 block mt-0.5">
+            <span className="text-xs text-ink-3 block mt-0.5">
               {orders.length > 0 ? Math.round((marketingMetrics.channels.meta.orders / orders.length) * 100) : 0}% {isRTL ? 'حصة التحويل' : 'share'}
             </span>
           </div>
@@ -848,19 +845,19 @@ export default function OrdersPage() {
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'tiktok'
                 ? 'bg-black/10 border-black ring-1 ring-black'
-                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
+                : 'bg-canvas/60 border-line hover:bg-canvas/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="font-bold text-slate-900">TikTok</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-200 text-slate-800 font-mono font-bold">
+              <span className="font-semibold text-ink">TikTok</span>
+              <span className="text-xs px-1.5 py-0.2 rounded-control bg-line text-ink font-mono font-semibold">
                 {marketingMetrics.channels.tiktok.orders} {isRTL ? 'طلب' : 'orders'}
               </span>
             </div>
-            <div className="font-mono font-black text-sm text-slate-900">
+            <div className="font-mono font-semibold text-sm text-ink">
               {marketingMetrics.channels.tiktok.revenue.toLocaleString()} ج.م
             </div>
-            <span className="text-[10px] text-slate-400 block mt-0.5">
+            <span className="text-xs text-ink-3 block mt-0.5">
               {orders.length > 0 ? Math.round((marketingMetrics.channels.tiktok.orders / orders.length) * 100) : 0}% {isRTL ? 'حصة التحويل' : 'share'}
             </span>
           </div>
@@ -870,20 +867,20 @@ export default function OrdersPage() {
             onClick={() => setSelectedChannel(selectedChannel === 'google' ? 'all' : 'google')}
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'google'
-                ? 'bg-sky-50 border-sky-600 ring-1 ring-sky-600'
-                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
+                ? 'bg-info-50 border-info ring-1 ring-info'
+                : 'bg-canvas/60 border-line hover:bg-canvas/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="font-bold text-sky-900">Google / Search</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-100 text-sky-800 font-mono font-bold">
+              <span className="font-semibold text-info">Google / Search</span>
+              <span className="text-xs px-1.5 py-0.2 rounded-control bg-info-50 text-info font-mono font-semibold">
                 {marketingMetrics.channels.google.orders} {isRTL ? 'طلب' : 'orders'}
               </span>
             </div>
-            <div className="font-mono font-black text-sm text-sky-900">
+            <div className="font-mono font-semibold text-sm text-info">
               {marketingMetrics.channels.google.revenue.toLocaleString()} ج.م
             </div>
-            <span className="text-[10px] text-slate-400 block mt-0.5">
+            <span className="text-xs text-ink-3 block mt-0.5">
               {orders.length > 0 ? Math.round((marketingMetrics.channels.google.orders / orders.length) * 100) : 0}% {isRTL ? 'حصة التحويل' : 'share'}
             </span>
           </div>
@@ -893,20 +890,20 @@ export default function OrdersPage() {
             onClick={() => setSelectedChannel(selectedChannel === 'direct' ? 'all' : 'direct')}
             className={`p-3 rounded-xl border cursor-pointer transition-all ${
               selectedChannel === 'direct'
-                ? 'bg-slate-200 border-slate-600 ring-1 ring-slate-600'
-                : 'bg-slate-50/60 border-line hover:bg-slate-100/70'
+                ? 'bg-line border-ink-3 ring-1 ring-ink-3'
+                : 'bg-canvas/60 border-line hover:bg-canvas/70'
             }`}
           >
             <div className="flex items-center justify-between text-xs mb-1">
-              <span className="font-bold text-slate-800">مباشر (Direct)</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-200 text-slate-800 font-mono font-bold">
+              <span className="font-semibold text-ink">مباشر (Direct)</span>
+              <span className="text-xs px-1.5 py-0.2 rounded-control bg-line text-ink font-mono font-semibold">
                 {marketingMetrics.channels.direct.orders} {isRTL ? 'طلب' : 'orders'}
               </span>
             </div>
-            <div className="font-mono font-black text-sm text-slate-800">
+            <div className="font-mono font-semibold text-sm text-ink">
               {marketingMetrics.channels.direct.revenue.toLocaleString()} ج.م
             </div>
-            <span className="text-[10px] text-slate-400 block mt-0.5">
+            <span className="text-xs text-ink-3 block mt-0.5">
               {orders.length > 0 ? Math.round((marketingMetrics.channels.direct.orders / orders.length) * 100) : 0}% {isRTL ? 'حصة التحويل' : 'share'}
             </span>
           </div>
@@ -914,7 +911,7 @@ export default function OrdersPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-line/80 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-surface/90 backdrop-blur-md rounded-card p-4 border border-line shadow-card flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1">
           <div className="relative w-full sm:w-80">
             <input
@@ -922,16 +919,16 @@ export default function OrdersPage() {
               placeholder="بحث برقم الطلب، اسم العميل، الهاتف، الإيميل أو الكوبون..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-canvas border border-line focus:border-brand-700 rounded-xl px-4 py-2.5 pr-10 text-xs outline-none transition-all focus:bg-white focus:shadow-inner"
+              className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full pr-10"
             />
-            <Search size={16} className="text-slate-400 absolute right-3.5 top-3" />
+            <Search size={16} className="text-ink-3 absolute right-3.5 top-3" />
           </div>
 
           {/* Acquisition Channel Filter Dropdown */}
           <select
             value={selectedChannel}
             onChange={(e) => setSelectedChannel(e.target.value)}
-            className="w-full sm:w-auto h-9 px-3 text-xs font-semibold bg-canvas border border-line rounded-xl outline-none focus:border-brand-700 cursor-pointer"
+            className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full sm:w-auto"
           >
             <option value="all">جميع قنوات التسويق</option>
             <option value="meta">Meta (Facebook & Instagram)</option>
@@ -941,7 +938,7 @@ export default function OrdersPage() {
           </select>
         </div>
 
-        <div className="text-xs text-slate-500 font-medium w-full sm:w-auto text-left flex items-center gap-3">
+        <div className="text-xs text-ink-2 font-medium w-full sm:w-auto text-left flex items-center gap-3">
           <span>النتائج المعروضة: <strong>{filteredOrders.length}</strong> طلب</span>
           {(selectedStatus !== 'all' || selectedChannel !== 'all') && (
             <button
@@ -956,15 +953,15 @@ export default function OrdersPage() {
 
       {/* Bulk A4 invoice toolbar */}
       {selectedIds.size > 0 && (
-        <div className="flex flex-wrap items-center gap-3 bg-brand-700/5 border border-brand-700/30 rounded-2xl px-4 py-3 text-xs">
-          <span className="font-bold text-brand-700">تم تحديد {selectedIds.size} طلب</span>
+        <div className="flex flex-wrap items-center gap-3 bg-brand-700/5 border border-brand-700/30 rounded-card px-4 py-3 text-xs">
+          <span className="font-semibold text-brand-700">تم تحديد {selectedIds.size} طلب</span>
           <div className="flex items-center gap-1.5">
-            <span className="text-slate-500">عدد الفواتير في الورقة:</span>
+            <span className="text-ink-2">عدد الفواتير في الورقة:</span>
             {[4, 6].map((n) => (
               <button
                 key={n}
                 onClick={() => setA4PerPage(n)}
-                className={`px-3 h-8 rounded-lg font-bold border transition-colors ${a4PerPage === n ? 'bg-brand-700 text-white border-brand-700' : 'bg-white text-slate-700 border-line hover:bg-slate-50'}`}
+                className={`px-3 h-8 rounded-lg font-bold border transition-colors ${a4PerPage === n ? 'bg-brand-700 text-white border-brand-700' : 'bg-surface text-ink-2 border-line hover:bg-canvas'}`}
               >
                 {n} فواتير
               </button>
@@ -972,12 +969,12 @@ export default function OrdersPage() {
           </div>
           <button
             onClick={() => setShowA4Sheets(true)}
-            className="h-8 px-4 rounded-lg bg-brand-700 text-white font-bold flex items-center gap-1.5"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
           >
             <Printer size={14} />
             <span>طباعة / تصدير A4 ({Math.ceil(selectedIds.size / a4PerPage)} ورقة)</span>
           </button>
-          <button onClick={() => setSelectedIds(new Set())} className="text-slate-500 hover:underline font-semibold">
+          <button onClick={() => setSelectedIds(new Set())} className="text-ink-2 hover:underline font-semibold">
             إلغاء التحديد
           </button>
         </div>
@@ -985,21 +982,21 @@ export default function OrdersPage() {
 
       {/* Orders Table */}
       {loading ? (
-        <div className="py-20 text-center text-xs text-slate-500 bg-white/60 rounded-2xl border border-line/60">
+        <div className="py-20 text-center text-xs text-ink-2 bg-surface/60 rounded-card border border-line">
           <RefreshCw size={24} className="animate-spin text-brand-700 mx-auto mb-2" />
           <span>جاري تحميل قائمة الطلبات والشحنات...</span>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-line/80 p-12 text-center text-slate-500 space-y-3">
-          <Truck size={36} className="mx-auto text-slate-300" strokeWidth={1.5} />
-          <h3 className="text-sm font-bold text-slate-800">لا توجد طلبات مطابقة</h3>
-          <p className="text-xs text-slate-400">يمكنك الضغط على "إنشاء طلب يدوي جديد" لتسجيل طلب جديد فوراً.</p>
+        <div className="bg-surface rounded-card border border-line p-12 text-center text-ink-2 space-y-3 shadow-card">
+          <Truck size={36} className="mx-auto text-ink-3" strokeWidth={1.5} />
+          <h3 className="text-sm font-semibold text-ink">لا توجد طلبات مطابقة</h3>
+          <p className="text-xs text-ink-3">يمكنك الضغط على "إنشاء طلب يدوي جديد" لتسجيل طلب جديد فوراً.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-line/80 shadow-xs overflow-hidden">
+        <div className="bg-surface rounded-card border border-line shadow-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className="bg-canvas text-slate-500 border-b border-line font-bold">
+              <thead className="bg-canvas text-ink-2 border-b border-line font-semibold">
                 <tr>
                   <th className="p-3.5 w-8">
                     <input
@@ -1027,7 +1024,7 @@ export default function OrdersPage() {
                   const isPaid = order.paymentStatus === 'paid';
                   const hasProof = !!(order.paymentScreenshot || order.paymentProofUrl);
                   return (
-                    <tr key={order._id} className="hover:bg-slate-50/70 transition-colors">
+                    <tr key={order._id} className="hover:bg-canvas/70 transition-colors">
                       <td className="p-3.5 w-8">
                         <input
                           type="checkbox"
@@ -1044,25 +1041,25 @@ export default function OrdersPage() {
                         />
                       </td>
                       {/* Order Number & Date */}
-                      <td className="p-3.5 font-mono font-bold text-brand-700">
+                      <td className="p-3.5 font-mono font-semibold text-brand-700">
                         <button
                           onClick={() => setSelectedOrder(order)}
                           className="hover:underline flex items-center gap-1 text-xs"
                         >
                           <span>#{order.orderNumber}</span>
                         </button>
-                        <span className="text-[10px] text-slate-400 block font-sans font-normal mt-0.5">
+                        <span className="text-xs text-ink-3 block font-sans font-normal mt-0.5">
                           {new Date(order.createdAt).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </span>
                         {order.attribution?.channel && (
                           <span className={`inline-block text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded mt-1 border ${
                             order.attribution.channel === 'meta'
-                              ? 'bg-blue-50 text-blue-700 border-blue-200'
+                              ? 'bg-info-50 text-info border-info/20'
                               : order.attribution.channel === 'tiktok'
-                              ? 'bg-slate-900 text-white border-slate-900'
+                              ? 'bg-ink text-white border-ink-3'
                               : order.attribution.channel === 'google'
-                              ? 'bg-sky-50 text-sky-700 border-sky-200'
-                              : 'bg-slate-100 text-slate-600 border-line'
+                              ? 'bg-info-50 text-info border-info/20'
+                              : 'bg-canvas text-ink-2 border-line'
                           }`}>
                             {order.attribution.channel.toUpperCase()}
                             {order.attribution.campaign ? ` : ${order.attribution.campaign}` : ''}
@@ -1072,22 +1069,22 @@ export default function OrdersPage() {
 
                       {/* Customer Info */}
                       <td className="p-3.5">
-                        <span className="font-bold text-slate-900 block">{order.customer?.name || 'عميل زائر'}</span>
-                        <span className="text-[11px] font-mono text-slate-500 block dir-ltr text-right">{order.customerPhone || order.customer?.phone}</span>
+                        <span className="font-semibold text-ink block">{order.customer?.name || 'عميل زائر'}</span>
+                        <span className="text-xs font-mono text-ink-2 block dir-ltr text-right">{order.customerPhone || order.customer?.phone}</span>
                         {order.customerPhone2 && (
-                          <span className="text-[10px] font-mono text-slate-400 block dir-ltr text-right">{order.customerPhone2}</span>
+                          <span className="text-xs font-mono text-ink-3 block dir-ltr text-right">{order.customerPhone2}</span>
                         )}
                       </td>
 
                       {/* Delivery Info */}
                       <td className="p-3.5">
                         {order.deliveryMethod === 'metro_pickup' ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">
+                          <span className="inline-flex items-center gap-1 text-xs font-semibold text-info bg-info-50 px-2 py-0.5 rounded-control border border-info/20">
                             <Train size={12} /> {order.metroPickup?.stationNameAr || order.metroPickup?.stationName || (isRTL ? 'محطة مترو' : 'Metro Station')}
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-700">
-                            <Home size={12} className="text-slate-400" />
+                          <span className="inline-flex items-center gap-1 text-xs font-medium text-ink-2">
+                            <Home size={12} className="text-ink-3" />
                             <span>{formatGovernorate(order.shippingAddress?.governorate, isRTL) || (isRTL ? 'توصيل منزلي' : 'Home Delivery')}</span>
                           </span>
                         )}
@@ -1095,10 +1092,10 @@ export default function OrdersPage() {
 
                       {/* Items */}
                       <td className="p-3.5">
-                        <span className="text-xs font-semibold text-slate-800">
+                        <span className="text-xs font-semibold text-ink">
                           {order.items?.length || 0} {isRTL ? 'عطر' : 'Items'}
                         </span>
-                        <span className="text-[10px] text-slate-400 block truncate max-w-[150px]">
+                        <span className="text-xs text-ink-3 block truncate max-w-[150px]">
                           {order.items?.map(i => `${i.productName} (${i.size})`).join(', ')}
                         </span>
                       </td>
@@ -1110,7 +1107,7 @@ export default function OrdersPage() {
                           {hasProof && (
                             <button
                               onClick={() => setZoomReceiptUrl(order.paymentScreenshot || order.paymentProofUrl)}
-                              className="text-[10px] text-indigo-600 hover:underline flex items-center gap-0.5 font-bold"
+                              className="text-xs text-info hover:underline flex items-center gap-0.5 font-semibold"
                             >
                               <Eye size={10} /> {isRTL ? 'معاينة الإيصال' : 'View Proof'}
                             </button>
@@ -1119,7 +1116,7 @@ export default function OrdersPage() {
                       </td>
 
                       {/* Total */}
-                      <td className="p-3.5 font-mono font-black text-slate-900 text-xs">
+                      <td className="p-3.5 font-mono font-semibold text-ink text-xs">
                         {order.total?.toLocaleString()} ج.م
                       </td>
 
@@ -1129,8 +1126,8 @@ export default function OrdersPage() {
                           value={order.orderStatus}
                           onChange={(e) => handleStatusChange(order._id, e.target.value)}
                           className={`text-[11px] font-bold px-2 py-1 rounded-lg border outline-none ${
-                            statusConfig[order.orderStatus]?.bg || 'bg-slate-50'
-                          } ${statusConfig[order.orderStatus]?.color || 'text-slate-800'} ${
+                            statusConfig[order.orderStatus]?.bg || 'bg-canvas'
+                          } ${statusConfig[order.orderStatus]?.color || 'text-ink'} ${
                             statusConfig[order.orderStatus]?.border || 'border-line'
                           }`}
                         >
@@ -1144,18 +1141,18 @@ export default function OrdersPage() {
                         </select>
 
                         {order.orderStatus === 'returned_from_shipping' && (
-                          <div className="mt-1 flex flex-col gap-0.5 text-[10px]">
+                          <div className="mt-1 flex flex-col gap-0.5 text-xs">
                             {order.returnDetails?.totalReturnShippingCost > 0 && (
-                              <span className="font-mono text-amber-900 font-bold">
+                              <span className="font-mono text-warning font-semibold">
                                 شحن: {order.returnDetails.totalReturnShippingCost} ج.م
                               </span>
                             )}
                             {order.returnDetails?.restockStatus === 'inspected_restocked' ? (
-                              <span className="text-emerald-700 font-semibold">✓ تم استرجاع المخزون</span>
+                              <span className="text-success font-semibold">✓ تم استرجاع المخزون</span>
                             ) : order.returnDetails?.restockStatus === 'inspected_damaged_discarded' ? (
-                              <span className="text-rose-600 font-semibold">✕ تالف / مستبعد</span>
+                              <span className="text-danger font-semibold">✕ تالف / مستبعد</span>
                             ) : (
-                              <span className="text-amber-700 font-medium">بانتظار الفحص</span>
+                              <span className="text-warning font-medium">بانتظار الفحص</span>
                             )}
                           </div>
                         )}
@@ -1166,21 +1163,21 @@ export default function OrdersPage() {
                         <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => setSelectedOrder(order)}
-                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-brand-700 hover:text-white text-slate-700 transition-colors"
+                            className="p-1.5 rounded-control bg-canvas hover:bg-brand-700 hover:text-white text-ink-2 transition-colors"
                             title="عرض تفاصيل الطلب والفاتورة"
                           >
                             <Eye size={14} />
                           </button>
                           <button
                             onClick={() => { setSelectedOrder(order); handlePrint('shipping'); }}
-                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                            className="p-1.5 rounded-control bg-canvas hover:bg-line text-ink-2 transition-colors"
                             title="طباعة بوليصة الشحن"
                           >
                             <Truck size={14} />
                           </button>
                           <button
                             onClick={() => { setSelectedOrder(order); handlePrint('invoice'); }}
-                            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                            className="p-1.5 rounded-control bg-canvas hover:bg-line text-ink-2 transition-colors"
                             title="طباعة فاتورة 10×15 سم"
                           >
                             <Printer size={14} />
@@ -1199,20 +1196,20 @@ export default function OrdersPage() {
       {/* CREATE MANUAL ORDER MODAL */}
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl bg-black/50 backdrop-blur-xs">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-line shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden">
+          <div className="relative w-full max-w-3xl bg-surface rounded-card border border-line shadow-pop z-10 max-h-[92vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-line/80 bg-canvas flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 border-b border-line bg-canvas flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-brand-700/10 text-brand-700 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-control bg-brand-700/10 text-brand-700 flex items-center justify-center">
                   <ShoppingBag size={18} />
                 </div>
                 <div>
-                  <h2 className="text-sm font-bold text-brand-700">إنشاء طلب جديد يدوياً (Manual Order)</h2>
-                  <p className="text-[11px] text-slate-400">تسجيل طلب مخصص، تحديد العطور والأحجام، وحساب الإجمالي</p>
+                  <h2 className="text-sm font-semibold text-brand-700">إنشاء طلب جديد يدوياً (Manual Order)</h2>
+                  <p className="text-xs text-ink-3">تسجيل طلب مخصص، تحديد العطور والأحجام، وحساب الإجمالي</p>
                 </div>
               </div>
 
-              <button onClick={() => setShowCreateModal(false)} className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg">
+              <button onClick={() => setShowCreateModal(false)} className="p-1.5 text-ink-3 hover:text-ink-2 rounded-control">
                 <X size={18} />
               </button>
             </div>
@@ -1220,70 +1217,70 @@ export default function OrdersPage() {
             {/* Modal Form */}
             <form onSubmit={handleSubmitCreateOrder} className="p-6 space-y-5 text-xs overflow-y-auto flex-1">
               {/* Section 1: Customer Information */}
-              <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
-                <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+              <div className="p-4 bg-canvas/70 border border-line rounded-card space-y-3">
+                <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                   <User size={15} />
                   <span>بيانات العميل (Customer Details)</span>
                 </span>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">اسم العميل *</label>
+                    <label className="block font-semibold text-ink-2 mb-1">اسم العميل *</label>
                     <input
                       type="text"
                       required
                       value={createFormData.customerName}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerName: e.target.value })}
                       placeholder="مثال: أحمد محمد"
-                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                      className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">رقم الهاتف الأساسي (WhatsApp/الاتصال) *</label>
+                    <label className="block font-semibold text-ink-2 mb-1">رقم الهاتف الأساسي (WhatsApp/الاتصال) *</label>
                     <input
                       type="tel"
                       required
                       value={createFormData.customerPhone}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerPhone: e.target.value })}
                       placeholder="010xxxxxxxx"
-                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs font-mono outline-none focus:border-brand-700"
+                      className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">رقم هاتف إضافي (اختياري)</label>
+                    <label className="block font-semibold text-ink-2 mb-1">رقم هاتف إضافي (اختياري)</label>
                     <input
                       type="tel"
                       value={createFormData.customerPhone2}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerPhone2: e.target.value })}
                       placeholder="011xxxxxxxx"
-                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs font-mono outline-none focus:border-brand-700"
+                      className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-slate-700 mb-1">البريد الإلكتروني (اختياري)</label>
+                    <label className="block font-semibold text-ink-2 mb-1">البريد الإلكتروني (اختياري)</label>
                     <input
                       type="email"
                       value={createFormData.customerEmail}
                       onChange={(e) => setCreateFormData({ ...createFormData, customerEmail: e.target.value })}
                       placeholder="customer@gmail.com"
-                      className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                      className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Section 2: Delivery & Shipping Details */}
-              <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
+              <div className="p-4 bg-canvas/70 border border-line rounded-card space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                  <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                     <Truck size={15} />
                     <span>{isRTL ? 'طريقة التوصيل والعنوان' : 'Delivery Method & Address'}</span>
                   </span>
 
-                  <div className="flex items-center gap-1 bg-slate-200/70 p-1 rounded-xl">
+                  <div className="flex items-center gap-1 bg-line/70 p-1 rounded-control">
                     <button
                       type="button"
                       onClick={() => setCreateFormData({
@@ -1292,7 +1289,7 @@ export default function OrdersPage() {
                         shipping: getGovernorateRate(createFormData.shippingAddress.governorate) || 65
                       })}
                       className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                        createFormData.deliveryMethod === 'home_delivery' ? 'bg-brand-700 text-white shadow-2xs' : 'text-slate-600'
+                        createFormData.deliveryMethod === 'home_delivery' ? 'bg-brand-700 text-white shadow-2xs' : 'text-ink-2'
                       }`}
                     >
                       {isRTL ? 'توصيل منزلي' : 'Home Delivery'}
@@ -1301,7 +1298,7 @@ export default function OrdersPage() {
                       type="button"
                       onClick={() => setCreateFormData({ ...createFormData, deliveryMethod: 'metro_pickup', shipping: 0 })}
                       className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
-                        createFormData.deliveryMethod === 'metro_pickup' ? 'bg-purple-700 text-white shadow-2xs' : 'text-slate-600'
+                        createFormData.deliveryMethod === 'metro_pickup' ? 'bg-info text-white shadow-2xs' : 'text-ink-2'
                       }`}
                     >
                       {isRTL ? 'استلام محطة مترو' : 'Metro Pickup'}
@@ -1312,7 +1309,7 @@ export default function OrdersPage() {
                 {createFormData.deliveryMethod === 'home_delivery' ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
-                      <label className="block font-bold text-slate-700 mb-1">{isRTL ? 'المحافظة *' : 'Governorate *'}</label>
+                      <label className="block font-semibold text-ink-2 mb-1">{isRTL ? 'المحافظة *' : 'Governorate *'}</label>
                       <select
                         value={createFormData.shippingAddress.governorate}
                         onChange={(e) => {
@@ -1324,7 +1321,7 @@ export default function OrdersPage() {
                             shippingAddress: { ...prev.shippingAddress, governorate: selGov }
                           }));
                         }}
-                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                        className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                       >
                         {EGYPT_GOVERNORATES.map(gov => (
                           <option key={gov.id} value={isRTL ? gov.nameAr : gov.nameEn}>
@@ -1335,7 +1332,7 @@ export default function OrdersPage() {
                     </div>
 
                     <div>
-                      <label className="block font-bold text-slate-700 mb-1">المدينة / المنطقة *</label>
+                      <label className="block font-semibold text-ink-2 mb-1">المدينة / المنطقة *</label>
                       <input
                         type="text"
                         required
@@ -1345,12 +1342,12 @@ export default function OrdersPage() {
                           shippingAddress: { ...createFormData.shippingAddress, city: e.target.value }
                         })}
                         placeholder="مدينة نصر، التجمع، المهندسين..."
-                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                        className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                       />
                     </div>
 
                     <div className="sm:col-span-2">
-                      <label className="block font-bold text-slate-700 mb-1">تفاصيل الشارع والعنوان *</label>
+                      <label className="block font-semibold text-ink-2 mb-1">تفاصيل الشارع والعنوان *</label>
                       <input
                         type="text"
                         required
@@ -1360,14 +1357,14 @@ export default function OrdersPage() {
                           shippingAddress: { ...createFormData.shippingAddress, street: e.target.value }
                         })}
                         placeholder="اسم الشارع، رقم العمارة، الدور، الشقة..."
-                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                        className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                       />
                     </div>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                     <div>
-                      <label className="block font-bold text-slate-700 mb-1">اسم محطة المترو *</label>
+                      <label className="block font-semibold text-ink-2 mb-1">اسم محطة المترو *</label>
                       <input
                         type="text"
                         required
@@ -1377,12 +1374,12 @@ export default function OrdersPage() {
                           metroPickup: { ...createFormData.metroPickup, stationName: e.target.value }
                         })}
                         placeholder="محطة الشهداء، أنور السادات، الأوبرا..."
-                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                        className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                       />
                     </div>
 
                     <div>
-                      <label className="block font-bold text-slate-700 mb-1">ملاحظات ميعاد الاستلام</label>
+                      <label className="block font-semibold text-ink-2 mb-1">ملاحظات ميعاد الاستلام</label>
                       <input
                         type="text"
                         value={createFormData.metroPickup.notes}
@@ -1391,7 +1388,7 @@ export default function OrdersPage() {
                           metroPickup: { ...createFormData.metroPickup, notes: e.target.value }
                         })}
                         placeholder="مثال: من الساعة 3 إلى 6 مساءً"
-                        className="w-full h-9 bg-white border border-line rounded-xl px-3 text-xs outline-none focus:border-brand-700"
+                        className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                       />
                     </div>
                   </div>
@@ -1399,9 +1396,9 @@ export default function OrdersPage() {
               </div>
 
               {/* Section 3: Ordered Items Builder */}
-              <div className="p-4 bg-white border border-line rounded-2xl space-y-3">
-                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+              <div className="p-4 bg-surface border border-line rounded-card space-y-3 shadow-card">
+                <div className="flex items-center justify-between pb-1 border-b border-line">
+                  <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                     <Tag size={15} />
                     <span>العطور والمنتجات المطلوبة (Order Items)</span>
                   </span>
@@ -1409,7 +1406,7 @@ export default function OrdersPage() {
                   <button
                     type="button"
                     onClick={handleAddItemRow}
-                    className="px-3 py-1 bg-brand-700 hover:bg-brand-900 text-white rounded-xl text-[11px] font-bold flex items-center gap-1 transition-colors shadow-2xs"
+                    className="px-3 py-1 bg-brand-700 hover:bg-brand-900 text-white rounded-control text-xs font-semibold flex items-center gap-1 transition-colors shadow-card"
                   >
                     <Plus size={13} />
                     <span>إضافة عطر آخر</span>
@@ -1418,14 +1415,14 @@ export default function OrdersPage() {
 
                 <div className="space-y-2.5">
                   {createFormData.items.map((item, idx) => (
-                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-xl border border-line">
+                    <div key={idx} className="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center bg-canvas p-2.5 rounded-control border border-line">
                       {/* Product Select */}
                       <div className="sm:col-span-5">
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">العطر</label>
+                        <label className="block text-xs font-semibold text-ink-2 mb-0.5">العطر</label>
                         <select
                           value={item.productId}
                           onChange={(e) => handleItemProductOrSizeChange(idx, 'productId', e.target.value)}
-                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none focus:border-brand-700"
+                          className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                           required
                         >
                           <option value="">-- اختر العطر --</option>
@@ -1437,11 +1434,11 @@ export default function OrdersPage() {
 
                       {/* Size Select */}
                       <div className="sm:col-span-2">
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">الحجم</label>
+                        <label className="block text-xs font-semibold text-ink-2 mb-0.5">الحجم</label>
                         <select
                           value={item.size}
                           onChange={(e) => handleItemProductOrSizeChange(idx, 'size', e.target.value)}
-                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
+                          className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs font-semibold outline-none"
                         >
                           <option value="30ml">30ml</option>
                           <option value="50ml">50ml</option>
@@ -1451,26 +1448,26 @@ export default function OrdersPage() {
 
                       {/* Unit Price */}
                       <div className="sm:col-span-2">
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">السعر (ج.م)</label>
+                        <label className="block text-xs font-semibold text-ink-2 mb-0.5">السعر (ج.م)</label>
                         <input
                           type="number"
                           min="0"
                           value={item.price}
                           onChange={(e) => handleItemQtyOrPriceChange(idx, 'price', e.target.value)}
-                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                          className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs font-mono font-semibold text-center outline-none"
                           required
                         />
                       </div>
 
                       {/* Quantity */}
                       <div className="sm:col-span-2">
-                        <label className="block text-[10px] font-bold text-slate-500 mb-0.5">الكمية</label>
+                        <label className="block text-xs font-semibold text-ink-2 mb-0.5">الكمية</label>
                         <input
                           type="number"
                           min="1"
                           value={item.quantity}
                           onChange={(e) => handleItemQtyOrPriceChange(idx, 'quantity', e.target.value)}
-                          className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                          className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs font-mono font-semibold text-center outline-none"
                           required
                         />
                       </div>
@@ -1481,7 +1478,7 @@ export default function OrdersPage() {
                           type="button"
                           onClick={() => handleRemoveItemRow(idx)}
                           disabled={createFormData.items.length <= 1}
-                          className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg disabled:opacity-20"
+                          className="p-1.5 text-ink-3 hover:text-danger rounded-control disabled:opacity-20"
                         >
                           <Trash2 size={14} />
                         </button>
@@ -1494,19 +1491,19 @@ export default function OrdersPage() {
               {/* Section 4: Payment, Status & Financial Summary */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Payment & Status Settings */}
-                <div className="p-4 bg-slate-50/70 border border-line rounded-2xl space-y-3">
-                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-canvas/70 border border-line rounded-card space-y-3">
+                  <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                     <Wallet size={15} />
                     <span>إعدادات السداد وحالة الطلب</span>
                   </span>
 
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-600 mb-1">{isRTL ? 'طريقة الدفع' : 'Payment Method'}</label>
+                      <label className="block text-xs font-semibold text-ink-2 mb-1">{isRTL ? 'طريقة الدفع' : 'Payment Method'}</label>
                       <select
                         value={createFormData.paymentMethod}
                         onChange={(e) => setCreateFormData({ ...createFormData, paymentMethod: e.target.value })}
-                        className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs outline-none"
+                        className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs outline-none"
                       >
                         <option value="cash_on_delivery">{isRTL ? 'عند الاستلام' : 'Cash on Delivery (COD)'}</option>
                         <option value="vodafone_cash">{isRTL ? 'فودافون كاش' : 'Vodafone Cash'}</option>
@@ -1516,11 +1513,11 @@ export default function OrdersPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-600 mb-1">{isRTL ? 'حالة السداد' : 'Payment Status'}</label>
+                      <label className="block text-xs font-semibold text-ink-2 mb-1">{isRTL ? 'حالة السداد' : 'Payment Status'}</label>
                       <select
                         value={createFormData.paymentStatus}
                         onChange={(e) => setCreateFormData({ ...createFormData, paymentStatus: e.target.value })}
-                        className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
+                        className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs font-semibold outline-none"
                       >
                         <option value="pending">{isRTL ? 'معلق' : 'Pending'}</option>
                         <option value="paid">{isRTL ? 'مدفوع بالكامل' : 'Paid in Full'}</option>
@@ -1530,11 +1527,11 @@ export default function OrdersPage() {
 
                   {createFormData.paymentStatus === 'paid' && (
                     <div>
-                      <label className="block text-[11px] font-bold text-emerald-800 mb-1">{isRTL ? 'إيداع المبلغ في الخزينة / الحساب:' : 'Deposit to Treasury Account:'}</label>
+                      <label className="block text-xs font-semibold text-success mb-1">{isRTL ? 'إيداع المبلغ في الخزينة / الحساب:' : 'Deposit to Treasury Account:'}</label>
                       <select
                         value={createFormData.cashAccountId}
                         onChange={(e) => setCreateFormData({ ...createFormData, cashAccountId: e.target.value })}
-                        className="w-full h-8 bg-white border border-emerald-300 rounded-lg px-2 text-xs font-bold outline-none text-emerald-900"
+                        className="w-full h-8 bg-surface border border-success/20 rounded-control px-2 text-xs font-semibold outline-none text-success"
                       >
                         <option value="">{isRTL ? '-- الحساب الافتراضي --' : '-- Default Account --'}</option>
                         {cashAccounts.map(acc => (
@@ -1547,11 +1544,11 @@ export default function OrdersPage() {
                   )}
 
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-600 mb-1">{isRTL ? 'حالة الطلب الافتتاحية' : 'Initial Order Status'}</label>
+                    <label className="block text-xs font-semibold text-ink-2 mb-1">{isRTL ? 'حالة الطلب الافتتاحية' : 'Initial Order Status'}</label>
                     <select
                       value={createFormData.orderStatus}
                       onChange={(e) => setCreateFormData({ ...createFormData, orderStatus: e.target.value })}
-                      className="w-full h-8 bg-white border border-line rounded-lg px-2 text-xs font-bold outline-none"
+                      className="w-full h-8 bg-surface border border-line rounded-control px-2 text-xs font-semibold outline-none"
                     >
                       <option value="confirmed">{isRTL ? 'تم التأكيد' : 'Confirmed'}</option>
                       <option value="pending">{isRTL ? 'قيد المراجعة' : 'Pending Review'}</option>
@@ -1561,13 +1558,13 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Financial Summary Calculation */}
-                <div className="p-4 bg-canvas border border-line rounded-2xl flex flex-col justify-between space-y-3">
+                <div className="p-4 bg-canvas border border-line rounded-card flex flex-col justify-between space-y-3">
                   <div className="space-y-2">
-                    <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line">
+                    <span className="font-semibold text-brand-700 text-xs block pb-1 border-b border-line">
                       {isRTL ? 'ملخص الحساب والفاتورة' : 'Order Financial Summary'}
                     </span>
 
-                    <div className="flex items-center justify-between text-xs text-slate-600">
+                    <div className="flex items-center justify-between text-xs text-ink-2">
                       <span>{isRTL ? 'مجموع المنتجات:' : 'Products Subtotal:'}</span>
                       <strong className="font-mono">{createOrderSubtotal.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</strong>
                     </div>
@@ -1580,26 +1577,26 @@ export default function OrdersPage() {
                         step="1"
                         value={createFormData.shipping}
                         onChange={(e) => setCreateFormData({ ...createFormData, shipping: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
-                        className="w-20 h-7 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none"
+                        className="w-20 h-7 bg-surface border border-line rounded-control px-2 text-xs font-mono font-semibold text-center outline-none"
                       />
                     </div>
 
                     <div className="flex items-center justify-between gap-2 text-xs">
-                      <span className="text-emerald-700">{isRTL ? 'خصم إضافي (ج.م):' : 'Discount (EGP):'}</span>
+                      <span className="text-success">{isRTL ? 'خصم إضافي (ج.م):' : 'Discount (EGP):'}</span>
                       <input
                         type="number"
                         min="0"
                         step="1"
                         value={createFormData.discount}
                         onChange={(e) => setCreateFormData({ ...createFormData, discount: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
-                        className="w-20 h-7 bg-white border border-line rounded-lg px-2 text-xs font-mono font-bold text-center outline-none text-emerald-700"
+                        className="w-20 h-7 bg-surface border border-line rounded-control px-2 text-xs font-mono font-semibold text-center outline-none text-success"
                       />
                     </div>
                   </div>
 
-                  <div className="p-3 bg-white rounded-xl border border-line/90 flex items-center justify-between">
-                    <span className="font-extrabold text-xs text-brand-700">{isRTL ? 'المبلغ الإجمالي النهائي:' : 'Total Amount:'}</span>
-                    <strong className="text-base font-black text-brand-700 font-mono">
+                  <div className="p-3 bg-surface rounded-card border border-line flex items-center justify-between shadow-card">
+                    <span className="font-semibold text-xs text-brand-700">{isRTL ? 'المبلغ الإجمالي النهائي:' : 'Total Amount:'}</span>
+                    <strong className="text-base font-semibold text-brand-700 font-mono">
                       {createOrderTotal.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}
                     </strong>
                   </div>
@@ -1611,14 +1608,14 @@ export default function OrdersPage() {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 border border-line rounded-xl hover:bg-slate-50 text-slate-700 font-semibold h-10"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-10 px-4 text-sm"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={creatingOrder}
-                  className="px-6 py-2 bg-brand-700 text-white rounded-xl hover:bg-brand-900 h-10 font-bold disabled:opacity-50 shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-10 px-4 text-sm"
                 >
                   {creatingOrder ? 'جاري إنشاء الطلب...' : 'تأكيد وحفظ الطلب'}
                 </button>
@@ -1631,28 +1628,28 @@ export default function OrdersPage() {
       {/* ORDER DETAILS MODAL (PREMIUM ATELIER REDESIGN) */}
       {selectedOrder && !printMode && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 rtl bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-3xl bg-white rounded-3xl border border-line/90 shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden font-['Cairo',sans-serif]">
+          <div className="relative w-full max-w-3xl bg-surface rounded-3xl border border-line shadow-2xl z-10 max-h-[92vh] flex flex-col overflow-hidden font-['Cairo',sans-serif]">
             
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-line/80 bg-canvas flex flex-wrap items-center justify-between gap-3 shrink-0">
+            <div className="px-6 py-4 border-b border-line bg-canvas flex flex-wrap items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-700 to-brand-700 text-white flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 rounded-card bg-gradient-to-br from-brand-700 to-brand-700 text-white flex items-center justify-center shadow-card">
                   <ShoppingBag size={20} strokeWidth={1.7} />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-base font-extrabold text-brand-700 font-mono tracking-tight">
+                    <h2 className="text-base font-semibold text-brand-700 font-mono">
                       طلب #{selectedOrder.orderNumber}
                     </h2>
                     {/* Status Badge */}
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${statusConfig[selectedOrder.orderStatus]?.bg || 'bg-slate-100'} ${statusConfig[selectedOrder.orderStatus]?.color || 'text-slate-700'} ${statusConfig[selectedOrder.orderStatus]?.border || 'border-line'}`}>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${statusConfig[selectedOrder.orderStatus]?.bg || 'bg-canvas'} ${statusConfig[selectedOrder.orderStatus]?.color || 'text-ink-2'} ${statusConfig[selectedOrder.orderStatus]?.border || 'border-line'}`}>
                       {statusConfig[selectedOrder.orderStatus]?.[isRTL ? 'labelAr' : 'labelEn'] || selectedOrder.orderStatus}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium flex items-center gap-1.5 mt-0.5">
-                    <Clock size={12} className="text-slate-400" />
+                  <p className="text-xs text-ink-2 font-medium flex items-center gap-1.5 mt-0.5">
+                    <Clock size={12} className="text-ink-3" />
                     <span>{isRTL ? 'تاريخ ووقت الطلب:' : 'Order Date & Time:'}</span>
-                    <span className="font-sans font-bold text-slate-700">
+                    <span className="font-sans font-semibold text-ink-2">
                       {new Date(selectedOrder.createdAt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </p>
@@ -1663,7 +1660,7 @@ export default function OrdersPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handlePrint('shipping')}
-                  className="px-3 py-1.5 rounded-xl border border-line bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                   title={isRTL ? 'طباعة بوليصة شحن الشحنة' : 'Print Shipping Slip'}
                 >
                   <Truck size={14} className="text-brand-700" />
@@ -1672,7 +1669,7 @@ export default function OrdersPage() {
 
                 <button
                   onClick={() => handlePrint('invoice')}
-                  className="px-3.5 py-1.5 rounded-xl bg-brand-700 hover:bg-brand-900 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                   title={isRTL ? 'طباعة فاتورة حرارية 10×15 سم مع QR Code' : 'Print Thermal Invoice 10x15cm'}
                 >
                   <Printer size={14} />
@@ -1681,7 +1678,7 @@ export default function OrdersPage() {
 
                 <button 
                   onClick={() => setSelectedOrder(null)} 
-                  className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+                  className="w-8 h-8 flex items-center justify-center text-ink-3 hover:text-ink-2 hover:bg-canvas rounded-full transition-colors"
                 >
                   <X size={18} />
                 </button>
@@ -1692,14 +1689,14 @@ export default function OrdersPage() {
             <div className="p-6 space-y-5 text-xs overflow-y-auto flex-1">
               
               {/* Order Status Control Strip */}
-              <div className="p-3 bg-slate-50 rounded-2xl border border-line/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="p-3 bg-canvas rounded-card border border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-brand-700 text-xs">{isRTL ? 'تحديث مرحلة الطلب:' : 'Update Order Status:'}</span>
+                  <span className="font-semibold text-brand-700 text-xs">{isRTL ? 'تحديث مرحلة الطلب:' : 'Update Order Status:'}</span>
                   <select
                     value={selectedOrder.orderStatus}
                     onChange={(e) => handleStatusChange(selectedOrder._id, e.target.value)}
                     disabled={updatingStatus}
-                    className="h-8 bg-white border border-slate-300 rounded-xl px-2.5 text-xs font-bold text-slate-800 outline-none focus:border-brand-700 shadow-2xs"
+                    className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                   >
                     <option value="pending">{isRTL ? 'قيد الانتظار والمراجعة' : 'Pending Review'}</option>
                     <option value="confirmed">{isRTL ? 'تم التأكيد من الأتيليه' : 'Confirmed by Atelier'}</option>
@@ -1712,17 +1709,17 @@ export default function OrdersPage() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-slate-500 text-[11px]">حالة السداد:</span>
+                  <span className="text-ink-2 text-xs">حالة السداد:</span>
                   {selectedOrder.paymentStatus === 'paid' ? (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-success-50 text-success border border-success/20">
                       <CheckCircle2 size={12} /> تم الدفع بنجاح
                     </span>
                   ) : selectedOrder.paymentStatus === 'refunded' ? (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-info-50 text-info border border-info/20">
                       <Undo2 size={12} /> مسترد للعميل
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-warning-50 text-warning border border-warning/20">
                       <Clock size={12} /> معلق / بانتظار التأكيد
                     </span>
                   )}
@@ -1731,81 +1728,81 @@ export default function OrdersPage() {
 
               {/* RETURNED FROM SHIPPING MANAGEMENT CARD */}
               {(selectedOrder.orderStatus === 'returned_from_shipping' || selectedOrder.returnDetails?.isReturned) && (
-                <div className="p-4 rounded-2xl border border-amber-300 bg-amber-50/70 space-y-4 shadow-xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-amber-200">
-                    <div className="flex items-center gap-2 text-amber-950 font-bold text-xs">
-                      <RotateCcw size={16} className="text-amber-800" />
+                <div className="p-4 rounded-card border border-warning/20 bg-warning-50/70 space-y-4 shadow-card">
+                  <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-warning/20">
+                    <div className="flex items-center gap-2 text-warning font-semibold text-xs">
+                      <RotateCcw size={16} className="text-warning" />
                       <span>إدارة المرتجع ومصاريف الشحن والفحص</span>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => handleOpenReturnModal(selectedOrder)}
-                      className="px-3 py-1 bg-white hover:bg-amber-100 text-amber-900 font-bold rounded-xl border border-amber-300 shadow-2xs text-[11px] transition-all flex items-center gap-1.5"
+                      className="px-3 py-1 bg-surface hover:bg-warning-50 text-warning font-semibold rounded-card border border-warning/20 shadow-card text-xs transition-all flex items-center gap-1.5"
                     >
                       <span>تعديل مصاريف الشحن</span>
                     </button>
                   </div>
 
                   {/* 1. Shipping Charges Breakdown */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-white p-3 rounded-xl border border-amber-200 text-slate-800">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 bg-surface p-3 rounded-card border border-warning/20 text-ink">
                     <div>
-                      <span className="text-[10px] text-slate-500 font-medium block">شحن ذهاباً للعميل:</span>
-                      <strong className="text-xs font-mono text-slate-900">
+                      <span className="text-xs text-ink-2 font-medium block">شحن ذهاباً للعميل:</span>
+                      <strong className="text-xs font-mono text-ink">
                         {selectedOrder.returnDetails?.outboundShippingFee ?? 0} ج.م
                       </strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-500 font-medium block">شحن عودة / إياب:</span>
-                      <strong className="text-xs font-mono text-slate-900">
+                      <span className="text-xs text-ink-2 font-medium block">شحن عودة / إياب:</span>
+                      <strong className="text-xs font-mono text-ink">
                         {selectedOrder.returnDetails?.returnShippingFee ?? 0} ج.م
                       </strong>
                     </div>
                     <div>
-                      <span className="text-[10px] text-amber-800 font-semibold block">إجمالي تكلفة الشحن على الشركة:</span>
-                      <strong className="text-xs font-mono text-amber-900 font-black">
+                      <span className="text-xs text-warning font-semibold block">إجمالي تكلفة الشحن على الشركة:</span>
+                      <strong className="text-xs font-mono text-warning font-semibold">
                         {selectedOrder.returnDetails?.totalReturnShippingCost ?? ((selectedOrder.returnDetails?.outboundShippingFee || 0) + (selectedOrder.returnDetails?.returnShippingFee || 0))} ج.م
                       </strong>
                     </div>
                   </div>
 
                   {/* Return Reason & Finance Expense Indicator */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-700 bg-amber-100/60 p-2.5 rounded-xl border border-amber-200/90">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-2 bg-warning-50/60 p-2.5 rounded-control border border-warning/90">
                     <div>
-                      <span className="font-semibold text-amber-950">سبب الارتجاع: </span>
+                      <span className="font-semibold text-warning">سبب الارتجاع: </span>
                       <span>{selectedOrder.returnDetails?.returnReason || 'رفض الاستلام / تعذر التوصيل'}</span>
                     </div>
 
-                    <div className="flex items-center gap-1 font-semibold text-emerald-800 bg-white/90 px-2 py-0.5 rounded-lg border border-emerald-300">
-                      <Check size={12} className="text-emerald-700" />
+                    <div className="flex items-center gap-1 font-semibold text-success bg-surface/90 px-2 py-0.5 rounded-control border border-success/20">
+                      <Check size={12} className="text-success" />
                       <span>مسجل كمصروف شحن ونقل رسمي في المالية (يُخصم من صافي الربح)</span>
                     </div>
                   </div>
 
                   {/* 2. Physical Inspection & Inventory Restocking Section */}
-                  <div className="p-3 bg-white rounded-xl border border-amber-200 space-y-2">
+                  <div className="p-3 bg-surface rounded-card border border-warning/20 space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 text-[11px] flex items-center gap-1.5">
+                      <span className="font-semibold text-ink text-xs flex items-center gap-1.5">
                         <Archive size={14} className="text-brand-700" />
                         <span>حالة الفحص الفعلي واسترجاع المخزون:</span>
                       </span>
 
                       {selectedOrder.returnDetails?.restockStatus === 'inspected_restocked' ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-success-50 text-success border border-success/20">
                           <CheckCircle2 size={12} /> تم الفحص واسترجاع السائل للمخزون بنجاح
                         </span>
                       ) : selectedOrder.returnDetails?.restockStatus === 'inspected_damaged_discarded' ? (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-danger-50 text-danger border border-danger/20">
                           <XCircle size={12} /> تم الفحص: منتجات تالفة وتم استبعادها (لم تُضف للمخزون)
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-warning-50 text-warning border border-warning/20">
                           <Clock size={12} /> قيد انتظار الفحص الفعلي والمعاينة
                         </span>
                       )}
                     </div>
 
-                    <p className="text-[10px] text-slate-500 leading-relaxed font-light">
+                    <p className="text-xs text-ink-2 leading-relaxed font-light">
                       * التزاماً بقواعد الجودة، لا يتم استرجاع السائل تلقائياً لمجرد تغيير حالة الطلب، بل بعد استلام المنتجات وفحصها والتأكد من أنها مغلقة تماماً وسليمة.
                     </p>
 
@@ -1815,7 +1812,7 @@ export default function OrdersPage() {
                           type="button"
                           onClick={() => handleConfirmRestock(selectedOrder, 'reusable')}
                           disabled={inspectingRestock}
-                          className="px-3.5 py-1.5 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all disabled:opacity-50"
+                          className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                         >
                           <Check size={14} />
                           <span>تأكيد فحص واسترجاع العطور للمخزون</span>
@@ -1825,7 +1822,7 @@ export default function OrdersPage() {
                           type="button"
                           onClick={() => handleConfirmRestock(selectedOrder, 'damaged')}
                           disabled={inspectingRestock}
-                          className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold rounded-xl text-xs border border-rose-200 transition-all disabled:opacity-50"
+                          className="px-3 py-1.5 bg-danger-50 hover:bg-danger-50 text-danger font-semibold rounded-control text-xs border border-danger/20 transition-all disabled:opacity-50"
                         >
                           <X size={14} />
                           <span>تسجيل تلف الشحنة (غير صالحة)</span>
@@ -1834,7 +1831,7 @@ export default function OrdersPage() {
                     )}
 
                     {selectedOrder.returnDetails?.inspectionNotes && (
-                      <p className="text-[11px] text-slate-600 bg-slate-50 p-2 rounded-lg border border-line mt-1">
+                      <p className="text-xs text-ink-2 bg-canvas p-2 rounded-control border border-line mt-1">
                         <strong>ملاحظات الفحص:</strong> {selectedOrder.returnDetails.inspectionNotes}
                       </p>
                     )}
@@ -1842,12 +1839,12 @@ export default function OrdersPage() {
 
                   {/* 3. Customer Refund Section if Payment Was Collected */}
                   {selectedOrder.paymentStatus === 'paid' && (
-                    <div className="p-3 bg-brand-700/10 rounded-xl border border-brand-700/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="p-3 bg-brand-700/10 rounded-control border border-brand-700/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div>
-                        <span className="font-bold text-brand-700 text-xs block">
+                        <span className="font-semibold text-brand-700 text-xs block">
                           تم تحصيل قيمة الطلب مسبقاً ({selectedOrder.total?.toLocaleString()} ج.م)
                         </span>
-                        <span className="text-[10px] text-slate-600">
+                        <span className="text-xs text-ink-2">
                           نظراً لارتجاع الشحنة، يمكنك تسجيل استرداد المبلغ وخصمه من الخزينة.
                         </span>
                       </div>
@@ -1855,7 +1852,7 @@ export default function OrdersPage() {
                       <button
                         type="button"
                         onClick={() => handleOpenRefundModal(selectedOrder)}
-                        className="px-3.5 py-1.5 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-xs transition-all shrink-0"
+                        className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs shrink-0"
                       >
                         <Undo2 size={14} className="text-accent" />
                         <span>معالجة استرداد المبلغ للعميل</span>
@@ -1864,10 +1861,10 @@ export default function OrdersPage() {
                   )}
 
                   {selectedOrder.paymentStatus === 'refunded' && (
-                    <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between text-xs text-emerald-900 font-medium">
+                    <div className="p-2.5 bg-success-50 rounded-control border border-success/20 flex items-center justify-between text-xs text-success font-medium">
                       <span>✓ تم استرداد مبلغ {selectedOrder.returnDetails?.refundAmount || selectedOrder.total} ج.م للعميل بنجاح.</span>
                       {selectedOrder.returnDetails?.refundNotes && (
-                        <span className="text-[10px] text-emerald-700 font-normal">({selectedOrder.returnDetails.refundNotes})</span>
+                        <span className="text-xs text-success font-normal">({selectedOrder.returnDetails.refundNotes})</span>
                       )}
                     </div>
                   )}
@@ -1876,10 +1873,10 @@ export default function OrdersPage() {
 
               {/* Payment Verification Card */}
               {selectedOrder.paymentStatus !== 'paid' ? (
-                <div className="p-4 rounded-2xl border border-amber-200/90 bg-amber-50/60 space-y-3">
+                <div className="p-4 rounded-card border border-warning/90 bg-warning-50/60 space-y-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 text-amber-950 font-extrabold text-xs">
-                      <AlertCircle size={16} className="text-amber-600" />
+                    <div className="flex items-center gap-2 text-warning font-semibold text-xs">
+                      <AlertCircle size={16} className="text-warning" />
                       <span>تأكيد السداد والتحقق من إشعار الدفع اليدوي</span>
                     </div>
 
@@ -1887,7 +1884,7 @@ export default function OrdersPage() {
                       <button
                         type="button"
                         onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-white hover:bg-slate-50 text-indigo-700 font-bold rounded-xl border border-indigo-200 shadow-2xs text-[11px] transition-all"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface hover:bg-canvas text-info font-semibold rounded-control border border-info/20 shadow-card text-xs transition-all"
                       >
                         <ZoomIn size={14} />
                         <span>معاينة وتكبير إشعار التحويل</span>
@@ -1897,19 +1894,19 @@ export default function OrdersPage() {
 
                   {/* Payment Proof Preview if present */}
                   {(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl) && (
-                    <div className="flex items-center gap-3 p-2.5 bg-white rounded-xl border border-amber-200">
+                    <div className="flex items-center gap-3 p-2.5 bg-surface rounded-card border border-warning/20">
                       <img
                         src={selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl}
                         alt="إيصال التحويل"
                         onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}
-                        className="w-14 h-14 object-cover rounded-lg border border-line cursor-pointer hover:opacity-90 transition-opacity shrink-0"
+                        className="w-14 h-14 object-cover rounded-control border border-line cursor-pointer hover:opacity-90 transition-opacity shrink-0"
                       />
-                      <div className="flex-1 space-y-0.5 text-[11px]">
-                        <p className="font-bold text-slate-800">مرفق إشعار تحويل من العميل</p>
+                      <div className="flex-1 space-y-0.5 text-xs">
+                        <p className="font-semibold text-ink">مرفق إشعار تحويل من العميل</p>
                         {selectedOrder.paymentSenderPhone && (
-                          <p className="text-slate-600">رقم المحفظة المحوّل منها: <strong className="font-mono text-brand-700">{selectedOrder.paymentSenderPhone}</strong></p>
+                          <p className="text-ink-2">رقم المحفظة المحوّل منها: <strong className="font-mono text-brand-700">{selectedOrder.paymentSenderPhone}</strong></p>
                         )}
-                        <p className="text-indigo-600 font-medium cursor-pointer hover:underline" onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}>
+                        <p className="text-info font-medium cursor-pointer hover:underline" onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}>
                           اضغط لتكبير الصورة وفحص تفاصيل العملية
                         </p>
                       </div>
@@ -1921,7 +1918,7 @@ export default function OrdersPage() {
                     <select
                       value={selectedCashAccountId}
                       onChange={(e) => setSelectedCashAccountId(e.target.value)}
-                      className="w-full sm:flex-1 h-9 bg-white border border-amber-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
+                      className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full sm:flex-1"
                     >
                       <option value="">-- اختر خزينة / حساب التحويل المالي للإيداع --</option>
                       {cashAccounts.map(acc => (
@@ -1934,7 +1931,7 @@ export default function OrdersPage() {
                     <button
                       onClick={handleVerifyPayment}
                       disabled={verifyingPayment}
-                      className="w-full sm:w-auto px-5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 transition-colors shadow-sm disabled:opacity-50"
+                      className="w-full sm:w-auto px-5 py-2 bg-success hover:bg-success text-white font-semibold rounded-control text-xs flex items-center justify-center gap-1.5 transition-colors shadow-card disabled:opacity-50"
                     >
                       {verifyingPayment ? <RefreshCw size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
                       <span>تأكيد سداد وإيداع ({selectedOrder.total?.toLocaleString()} ج.م)</span>
@@ -1942,16 +1939,16 @@ export default function OrdersPage() {
                   </div>
                 </div>
               ) : (
-                <div className="p-3.5 rounded-2xl border border-emerald-200 bg-emerald-50/70 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-emerald-900 font-extrabold text-xs">
-                    <CheckCircle2 size={17} className="text-emerald-700" />
+                <div className="p-3.5 rounded-card border border-success/20 bg-success-50/70 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-success font-semibold text-xs">
+                    <CheckCircle2 size={17} className="text-success" />
                     <span>تم التحقق من الدفع وتأكيد السداد الكامل ({selectedOrder.total?.toLocaleString()} ج.م)</span>
                   </div>
                   {(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl) && (
                     <button
                       type="button"
                       onClick={() => setZoomReceiptUrl(selectedOrder.paymentScreenshot || selectedOrder.paymentProofUrl)}
-                      className="text-xs text-emerald-800 font-bold hover:underline flex items-center gap-1"
+                      className="text-xs text-success font-semibold hover:underline flex items-center gap-1"
                     >
                       <Eye size={13} /> عرض إشعار السداد
                     </button>
@@ -1964,20 +1961,20 @@ export default function OrdersPage() {
                 
                 {/* Marketing Attribution & Ad Source Card */}
                 {selectedOrder.attribution && (
-                  <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-2.5 sm:col-span-2">
-                    <div className="flex items-center justify-between pb-2 border-b border-line/80">
-                      <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                  <div className="p-4 bg-canvas/90 border border-line rounded-card space-y-2.5 sm:col-span-2">
+                    <div className="flex items-center justify-between pb-2 border-b border-line">
+                      <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                         <Target size={15} />
                         <span>مصدر الزيارة والتسويق (Attribution & Campaigns)</span>
                       </span>
                       <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full ${
                         selectedOrder.attribution.channel === 'meta'
-                          ? 'bg-blue-100 text-blue-900 border border-blue-200'
+                          ? 'bg-info-50 text-info border border-info/20'
                           : selectedOrder.attribution.channel === 'tiktok'
-                          ? 'bg-slate-900 text-white'
+                          ? 'bg-ink text-white'
                           : selectedOrder.attribution.channel === 'google'
-                          ? 'bg-sky-100 text-sky-900 border border-sky-200'
-                          : 'bg-slate-200 text-slate-800'
+                          ? 'bg-info-50 text-info border border-info/20'
+                          : 'bg-line text-ink'
                       }`}>
                         {(selectedOrder.attribution.channel || 'direct').toUpperCase()}
                       </span>
@@ -1985,34 +1982,34 @@ export default function OrdersPage() {
 
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                       <div>
-                        <span className="text-[10px] text-slate-400 block">القناة:</span>
-                        <strong className="text-slate-800 font-bold">{selectedOrder.attribution.channel || 'direct'}</strong>
+                        <span className="text-xs text-ink-3 block">القناة:</span>
+                        <strong className="text-ink font-semibold">{selectedOrder.attribution.channel || 'direct'}</strong>
                       </div>
                       <div>
-                        <span className="text-[10px] text-slate-400 block">المصدر / الوسيط:</span>
-                        <span className="font-mono text-slate-700">
+                        <span className="text-xs text-ink-3 block">المصدر / الوسيط:</span>
+                        <span className="font-mono text-ink-2">
                           {selectedOrder.attribution.source || '-'}/{selectedOrder.attribution.medium || '-'}
                         </span>
                       </div>
                       <div>
-                        <span className="text-[10px] text-slate-400 block">اسم الحملة:</span>
-                        <span className="font-mono font-bold text-slate-900">{selectedOrder.attribution.campaign || 'Direct / None'}</span>
+                        <span className="text-xs text-ink-3 block">اسم الحملة:</span>
+                        <span className="font-mono font-semibold text-ink">{selectedOrder.attribution.campaign || 'Direct / None'}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] text-slate-400 block">معرّف تتبع CAPI:</span>
-                        <span className="font-mono text-[10px] text-slate-600 truncate block" title={selectedOrder.metaEventId || `order_${selectedOrder.orderNumber}`}>
+                        <span className="text-xs text-ink-3 block">معرّف تتبع CAPI:</span>
+                        <span className="font-mono text-xs text-ink-2 truncate block" title={selectedOrder.metaEventId || `order_${selectedOrder.orderNumber}`}>
                           {selectedOrder.metaEventId || `order_${selectedOrder.orderNumber}`}
                         </span>
                       </div>
                     </div>
 
                     {(selectedOrder.attribution.fbclid || selectedOrder.attribution.ttclid) && (
-                      <div className="pt-1.5 border-t border-line/60 flex items-center gap-4 text-[11px] text-slate-500 font-mono">
+                      <div className="pt-1.5 border-t border-line flex items-center gap-4 text-xs text-ink-2 font-mono">
                         {selectedOrder.attribution.fbclid && (
-                          <span>fbclid: <span className="text-slate-700 truncate max-w-[200px] inline-block align-bottom">{selectedOrder.attribution.fbclid}</span></span>
+                          <span>fbclid: <span className="text-ink-2 truncate max-w-[200px] inline-block align-bottom">{selectedOrder.attribution.fbclid}</span></span>
                         )}
                         {selectedOrder.attribution.ttclid && (
-                          <span>ttclid: <span className="text-slate-700 truncate max-w-[200px] inline-block align-bottom">{selectedOrder.attribution.ttclid}</span></span>
+                          <span>ttclid: <span className="text-ink-2 truncate max-w-[200px] inline-block align-bottom">{selectedOrder.attribution.ttclid}</span></span>
                         )}
                       </div>
                     )}
@@ -2020,36 +2017,36 @@ export default function OrdersPage() {
                 )}
 
                 {/* Customer Card */}
-                <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-line/80">
-                    <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-canvas/90 border border-line rounded-card space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-line">
+                    <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                       <User size={15} />
                       <span>بيانات العميل (Customer Profile)</span>
                     </span>
                     {selectedOrder.customer?.isFirst100 && (
-                      <span className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 font-bold px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-warning-50 text-warning border border-warning/20 font-semibold px-2 py-0.5 rounded-full">
                         نادي الـ 100 الأوائل ⭐
                       </span>
                     )}
                   </div>
 
-                  <div className="space-y-2 text-slate-700 text-xs">
+                  <div className="space-y-2 text-ink-2 text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">الاسم الكامل:</span>
-                      <strong className="text-slate-900 font-bold text-sm">
+                      <span className="text-ink-2">الاسم الكامل:</span>
+                      <strong className="text-ink font-semibold text-sm">
                         {selectedOrder.customer?.name || 'عميل M20'}
                       </strong>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-500">رقم الموبايل الأساسي:</span>
+                      <span className="text-ink-2">رقم الموبايل الأساسي:</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-slate-900 dir-ltr">
+                        <span className="font-mono font-semibold text-ink dir-ltr">
                           {selectedOrder.customerPhone || selectedOrder.customer?.phone}
                         </span>
                         <a 
                           href={`tel:${selectedOrder.customerPhone || selectedOrder.customer?.phone}`} 
-                          className="p-1 rounded-md bg-white border border-line text-slate-600 hover:text-brand-700"
+                          className="p-1 rounded-control bg-surface border border-line text-ink-2 hover:text-brand-700"
                           title="اتصال"
                         >
                           <Phone size={12} />
@@ -2058,7 +2055,7 @@ export default function OrdersPage() {
                           href={`https://wa.me/20${(selectedOrder.customerPhone || selectedOrder.customer?.phone || '').replace(/^0/, '')}`} 
                           target="_blank" 
                           rel="noreferrer"
-                          className="p-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100"
+                          className="p-1 rounded-control bg-success-50 border border-success/20 text-success hover:bg-success-50"
                           title="واتساب"
                         >
                           <MessageSquare size={12} />
@@ -2068,72 +2065,72 @@ export default function OrdersPage() {
 
                     {selectedOrder.customerPhone2 && (
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-500">رقم موبايل ثاني:</span>
-                        <span className="font-mono font-bold text-slate-800 dir-ltr">{selectedOrder.customerPhone2}</span>
+                        <span className="text-ink-2">رقم موبايل ثاني:</span>
+                        <span className="font-mono font-semibold text-ink dir-ltr">{selectedOrder.customerPhone2}</span>
                       </div>
                     )}
 
                     {selectedOrder.customerEmail && (
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-500">البريد الإلكتروني:</span>
-                        <span className="font-sans text-slate-800 font-medium">{selectedOrder.customerEmail}</span>
+                        <span className="text-ink-2">البريد الإلكتروني:</span>
+                        <span className="font-sans text-ink font-medium">{selectedOrder.customerEmail}</span>
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-1 border-t border-line/60">
-                      <span className="text-slate-500">طريقة الدفع:</span>
+                    <div className="flex items-center justify-between pt-1 border-t border-line">
+                      <span className="text-ink-2">طريقة الدفع:</span>
                       {renderPaymentMethodBadge(selectedOrder.paymentMethod, selectedOrder.paymentStatus === 'paid')}
                     </div>
                   </div>
                 </div>
 
                 {/* Delivery & Shipping Card */}
-                <div className="p-4 bg-slate-50/90 border border-line/90 rounded-2xl space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-line/80">
-                    <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                <div className="p-4 bg-canvas/90 border border-line rounded-card space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-line">
+                    <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                       {selectedOrder.deliveryMethod === 'metro_pickup' ? <Train size={15} /> : <Home size={15} />}
                       <span>الشحن والتوصيل (Fulfillment)</span>
                     </span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                       selectedOrder.deliveryMethod === 'metro_pickup'
-                        ? 'bg-purple-100 text-purple-800 border border-purple-200'
-                        : 'bg-blue-100 text-blue-800 border border-blue-200'
+                        ? 'bg-info-50 text-info border border-info/20'
+                        : 'bg-info-50 text-info border border-info/20'
                     }`}>
                       {selectedOrder.deliveryMethod === 'metro_pickup' ? (isRTL ? 'استلام محطة مترو' : 'Metro Pickup') : (isRTL ? 'توصيل للمنزل' : 'Home Delivery')}
                     </span>
                   </div>
 
-                  <div className="space-y-2 text-slate-700 text-xs">
+                  <div className="space-y-2 text-ink-2 text-xs">
                     {selectedOrder.deliveryMethod === 'metro_pickup' ? (
                       <>
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500">{isRTL ? 'محطة المترو:' : 'Metro Station:'}</span>
-                          <strong className="text-brand-700 font-bold">
+                          <span className="text-ink-2">{isRTL ? 'محطة المترو:' : 'Metro Station:'}</span>
+                          <strong className="text-brand-700 font-semibold">
                             {selectedOrder.metroPickup?.stationNameAr || selectedOrder.metroPickup?.stationName || (isRTL ? 'محطة مترو' : 'Metro Station')}
                           </strong>
                         </div>
                         {selectedOrder.metroPickup?.line && (
                           <div className="flex items-center justify-between">
-                            <span className="text-slate-500">{isRTL ? 'الخط:' : 'Line:'}</span>
-                            <span className="text-slate-800 font-medium">{selectedOrder.metroPickup?.line}</span>
+                            <span className="text-ink-2">{isRTL ? 'الخط:' : 'Line:'}</span>
+                            <span className="text-ink font-medium">{selectedOrder.metroPickup?.line}</span>
                           </div>
                         )}
-                        <div className="p-2 bg-white rounded-xl border border-line text-slate-600 text-[11px] leading-relaxed">
+                        <div className="p-2 bg-surface rounded-card border border-line text-ink-2 text-xs leading-relaxed shadow-card">
                           {selectedOrder.metroPickup?.pickupNote || (isRTL ? 'سيتم التواصل مع العميل لتحديد موعد ومكان المقابلة في المحطة.' : 'Customer will be contacted for meeting point.')}
                         </div>
                       </>
                     ) : (
                       <>
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500">{isRTL ? 'المحافظة والمدينة:' : 'Governorate & City:'}</span>
-                          <strong className="text-slate-900 font-bold">
+                          <span className="text-ink-2">{isRTL ? 'المحافظة والمدينة:' : 'Governorate & City:'}</span>
+                          <strong className="text-ink font-semibold">
                             {formatGovernorate(selectedOrder.shippingAddress?.governorate, isRTL)} • {selectedOrder.shippingAddress?.city || '-'}
                           </strong>
                         </div>
 
                         <div>
-                          <span className="text-slate-500 block mb-0.5">{isRTL ? 'العنوان بالتفصيل:' : 'Full Address:'}</span>
-                          <p className="text-slate-800 font-semibold bg-white p-2 rounded-xl border border-line leading-snug">
+                          <span className="text-ink-2 block mb-0.5">{isRTL ? 'العنوان بالتفصيل:' : 'Full Address:'}</span>
+                          <p className="text-ink font-semibold bg-surface p-2 rounded-card border border-line leading-snug shadow-card">
                             {selectedOrder.shippingAddress?.street}
                             {selectedOrder.shippingAddress?.buildingNumber && ` (${isRTL ? 'مبنى' : 'Bldg'} ${selectedOrder.shippingAddress.buildingNumber})`}
                             {selectedOrder.shippingAddress?.floor && ` - ${isRTL ? 'دور' : 'Fl.'} ${selectedOrder.shippingAddress.floor}`}
@@ -2143,22 +2140,22 @@ export default function OrdersPage() {
 
                         {selectedOrder.shippingAddress?.deliveryNotes && (
                           <div>
-                            <span className="text-slate-400 text-[10px] block">{isRTL ? 'ملاحظات / علامات مميزة:' : 'Delivery Notes:'}</span>
-                            <p className="text-slate-600 text-[11px] italic bg-slate-100 p-1.5 rounded-lg border border-line/80">
+                            <span className="text-ink-3 text-xs block">{isRTL ? 'ملاحظات / علامات مميزة:' : 'Delivery Notes:'}</span>
+                            <p className="text-ink-2 text-xs italic bg-canvas p-1.5 rounded-control border border-line">
                               {selectedOrder.shippingAddress.deliveryNotes}
                             </p>
                           </div>
                         )}
 
                         {/* Carrier & Outbound Cost Configuration */}
-                        <div className="pt-2.5 border-t border-line/80 mt-2 space-y-2">
+                        <div className="pt-2.5 border-t border-line mt-2 space-y-2">
                           <div className="flex items-center justify-between">
-                            <span className="text-slate-500 text-[11px] font-medium">
+                            <span className="text-ink-2 text-xs font-medium">
                               {isRTL ? 'رسوم الشحن على العميل:' : 'Customer Shipping Fee:'}
                             </span>
-                            <span className="font-mono font-bold text-slate-900">
+                            <span className="font-mono font-semibold text-ink">
                               {(selectedOrder.shippingFeeCharged ?? selectedOrder.shipping ?? 0) === 0 ? (
-                                <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 text-[11px]">
+                                <span className="inline-flex items-center gap-1 text-success bg-success-50 px-2 py-0.5 rounded-control border border-success/20 text-xs">
                                   <Check size={11} /> {isRTL ? '0 ج.م (شحن مجاني)' : '0 EGP (Free Shipping)'}
                                 </span>
                               ) : (
@@ -2168,17 +2165,17 @@ export default function OrdersPage() {
                           </div>
 
                           {selectedOrder.shippingDiscount > 0 && (
-                            <div className="flex items-center justify-between text-[11px] text-emerald-700 font-semibold">
+                            <div className="flex items-center justify-between text-xs text-success font-semibold">
                               <span>{isRTL ? 'خصم الشحن المطبق:' : 'Shipping Promo Discount:'}</span>
                               <span className="font-mono">-{Math.round(selectedOrder.shippingDiscount)} {isRTL ? 'ج.م' : 'EGP'}</span>
                             </div>
                           )}
 
-                          <div className="p-2.5 bg-white rounded-xl border border-line space-y-1.5 shadow-2xs">
+                          <div className="p-2.5 bg-surface rounded-card border border-line space-y-1.5 shadow-card">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
                                 <Truck size={13} className="text-brand-700" />
-                                <span className="text-slate-800 font-bold text-[11px]">
+                                <span className="text-ink font-semibold text-xs">
                                   {isRTL ? 'تكلفة الشحن الفعلية للشركة (مندوب الشحن):' : 'Carrier Cost Paid by M20:'}
                                 </span>
                               </div>
@@ -2186,7 +2183,7 @@ export default function OrdersPage() {
                                 <button
                                   type="button"
                                   onClick={() => setEditingCarrierCost(true)}
-                                  className="text-[10px] text-brand-700 font-bold hover:underline"
+                                  className="text-xs text-brand-700 font-semibold hover:underline"
                                 >
                                   {isRTL ? 'تعديل التكلفة' : 'Edit Cost'}
                                 </button>
@@ -2201,15 +2198,15 @@ export default function OrdersPage() {
                                   step="1"
                                   value={carrierCostInput}
                                   onChange={(e) => setCarrierCostInput(e.target.value)}
-                                  className="w-24 h-8 bg-slate-50 border border-slate-300 rounded-lg px-2 text-xs font-mono font-bold text-center outline-none focus:border-brand-700"
+                                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-24"
                                   placeholder="65"
                                 />
-                                <span className="text-xs text-slate-500 font-mono">{isRTL ? 'ج.م' : 'EGP'}</span>
+                                <span className="text-xs text-ink-2 font-mono">{isRTL ? 'ج.م' : 'EGP'}</span>
                                 <button
                                   type="button"
                                   onClick={handleSaveCarrierCost}
                                   disabled={savingCarrierCost}
-                                  className="px-3 py-1.5 bg-brand-700 text-white rounded-lg text-xs font-bold hover:bg-brand-900 transition-colors disabled:opacity-50 flex items-center gap-1"
+                                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                                 >
                                   {savingCarrierCost ? <RefreshCw size={12} className="animate-spin" /> : <Save size={12} />}
                                   <span>{isRTL ? 'حفظ' : 'Save'}</span>
@@ -2220,17 +2217,17 @@ export default function OrdersPage() {
                                     setCarrierCostInput(Math.round(Number(selectedOrder.actualOutboundShippingCost ?? selectedOrder.realShippingCost ?? getGovernorateRate(selectedOrder.shippingAddress?.governorate) ?? 65)));
                                     setEditingCarrierCost(false);
                                   }}
-                                  className="px-2.5 py-1.5 border border-line text-slate-600 rounded-lg text-xs hover:bg-slate-50"
+                                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                                 >
                                   {isRTL ? 'إلغاء' : 'Cancel'}
                                 </button>
                               </div>
                             ) : (
                               <div className="flex items-center justify-between text-xs">
-                                <span className="font-mono font-black text-slate-900 text-sm">
+                                <span className="font-mono font-semibold text-ink text-sm">
                                   {Math.round(Number(selectedOrder.actualOutboundShippingCost ?? selectedOrder.realShippingCost ?? getGovernorateRate(selectedOrder.shippingAddress?.governorate) ?? 65))} {isRTL ? 'ج.م' : 'EGP'}
                                 </span>
-                                <span className="text-[10px] text-slate-400">
+                                <span className="text-xs text-ink-3">
                                   {isRTL ? '(يُقيد كمصروف شحن ونقل في الأرباح والخسائر)' : '(Recorded under Shipping Expenses in P&L)'}
                                 </span>
                               </div>
@@ -2247,16 +2244,16 @@ export default function OrdersPage() {
               {/* Order Products & Items Table */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-brand-700 text-xs flex items-center gap-1.5">
+                  <span className="font-semibold text-brand-700 text-xs flex items-center gap-1.5">
                     <ShoppingBag size={15} />
                     <span>منتجات الطلب ({selectedOrder.items?.length || 0} عطور)</span>
                   </span>
-                  <span className="text-[11px] text-slate-400 font-medium">الأسعار تشمل الضرائب والمصنعية</span>
+                  <span className="text-xs text-ink-3 font-medium">الأسعار تشمل الضرائب والمصنعية</span>
                 </div>
 
-                <div className="border border-line/90 rounded-2xl overflow-hidden shadow-2xs">
+                <div className="border border-line rounded-card overflow-hidden shadow-card">
                   <table className="w-full text-right text-xs">
-                    <thead className="bg-canvas border-b border-line font-bold text-slate-600">
+                    <thead className="bg-canvas border-b border-line font-semibold text-ink-2">
                       <tr>
                         <th className="p-3">العطر / المنتج</th>
                         <th className="p-3 text-center">الحجم</th>
@@ -2265,11 +2262,11 @@ export default function OrdersPage() {
                         <th className="p-3 text-left">الإجمالي</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-line bg-white">
+                    <tbody className="divide-y divide-line bg-surface">
                       {(selectedOrder.items || []).map((item, idx) => {
                         const imgSrc = getItemImage(item);
                         return (
-                          <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
+                          <tr key={idx} className="hover:bg-canvas/60 transition-colors">
                             <td className="p-3">
                               <div className="flex items-center gap-3">
                                 <img
@@ -2279,27 +2276,27 @@ export default function OrdersPage() {
                                   onError={(e) => { e.target.onerror = null; e.target.src = '/img/product.png'; }}
                                 />
                                 <div>
-                                  <h4 className="font-bold text-slate-900 text-xs sm:text-sm">{item.productName}</h4>
-                                  <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                                  <h4 className="font-semibold text-ink text-xs sm:text-sm">{item.productName}{item.isPreOrder && <span className="mr-2 px-1.5 py-0.5 rounded-control bg-warning-50 text-warning text-xs font-semibold">طلب مسبق</span>}</h4>
+                                  <span className="text-xs text-ink-3 font-mono block mt-0.5">
                                     SKU: {item.variantSKU || '-'}
                                   </span>
                                 </div>
                               </div>
                             </td>
                             <td className="p-3 text-center">
-                              <span className="inline-block px-2 py-0.5 rounded-lg bg-slate-100 border border-line text-slate-800 font-bold text-[11px] font-mono">
+                              <span className="inline-block px-2 py-0.5 rounded-control bg-canvas border border-line text-ink font-semibold text-xs font-mono">
                                 {item.size}
                               </span>
                             </td>
-                            <td className="p-3 text-center font-mono font-semibold text-slate-800">
+                            <td className="p-3 text-center font-mono font-semibold text-ink">
                               {item.price?.toLocaleString()} ج.م
                             </td>
                             <td className="p-3 text-center">
-                              <span className="inline-block px-2 py-0.5 rounded-md bg-slate-100 font-bold font-mono text-slate-900">
+                              <span className="inline-block px-2 py-0.5 rounded-control bg-canvas font-semibold font-mono text-ink">
                                 {item.quantity}
                               </span>
                             </td>
-                            <td className="p-3 text-left font-mono font-bold text-brand-700 text-xs sm:text-sm">
+                            <td className="p-3 text-left font-mono font-semibold text-brand-700 text-xs sm:text-sm">
                               {(item.price * item.quantity).toLocaleString()} ج.م
                             </td>
                           </tr>
@@ -2311,28 +2308,28 @@ export default function OrdersPage() {
               </div>
 
               {/* Financial Totals Breakdown */}
-              <div className="p-4 bg-slate-50 rounded-2xl border border-line space-y-2">
-                <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line/80">
+              <div className="p-4 bg-canvas rounded-card border border-line space-y-2">
+                <span className="font-semibold text-brand-700 text-xs block pb-1 border-b border-line">
                   {isRTL ? 'ملخص الحسابات والمبالغ' : 'Financial Summary'}
                 </span>
 
-                <div className="flex justify-between text-slate-600 text-xs">
+                <div className="flex justify-between text-ink-2 text-xs">
                   <span>{isRTL ? 'المجموع الفرعي للمنتجات:' : 'Products Subtotal:'}</span>
-                  <span className="font-mono font-bold text-slate-900">{selectedOrder.subtotal?.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</span>
+                  <span className="font-mono font-semibold text-ink">{selectedOrder.subtotal?.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</span>
                 </div>
 
                 {selectedOrder.discount > 0 && (
-                  <div className="flex justify-between text-emerald-700 text-xs font-semibold">
+                  <div className="flex justify-between text-success text-xs font-semibold">
                     <span>{isRTL ? 'الخصم المطبق (كوبون / عرض):' : 'Applied Discount:'}</span>
                     <span className="font-mono">-{selectedOrder.discount?.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between text-slate-600 text-xs">
+                <div className="flex justify-between text-ink-2 text-xs">
                   <span>{isRTL ? 'رسوم التوصيل والشحن (المحصلة من العميل):' : 'Shipping Fee Charged:'}</span>
-                  <span className="font-mono font-bold text-slate-900">
+                  <span className="font-mono font-semibold text-ink">
                     {(selectedOrder.shippingFeeCharged ?? selectedOrder.shipping ?? selectedOrder.metroPickupFee ?? 0) === 0 ? (
-                      <span className="text-emerald-700 font-bold">{isRTL ? 'شحن مجاني (0 ج.م)' : 'Free Shipping (0 EGP)'}</span>
+                      <span className="text-success font-semibold">{isRTL ? 'شحن مجاني (0 ج.م)' : 'Free Shipping (0 EGP)'}</span>
                     ) : (
                       `${Math.round(selectedOrder.shippingFeeCharged ?? selectedOrder.shipping ?? selectedOrder.metroPickupFee)} ${isRTL ? 'ج.م' : 'EGP'}`
                     )}
@@ -2340,13 +2337,13 @@ export default function OrdersPage() {
                 </div>
 
                 {selectedOrder.shippingDiscount > 0 && (
-                  <div className="flex justify-between text-emerald-700 text-xs font-semibold">
+                  <div className="flex justify-between text-success text-xs font-semibold">
                     <span>{isRTL ? 'خصم الشحن المباشر (كوبون):' : 'Shipping Promo Discount:'}</span>
                     <span className="font-mono">-{Math.round(selectedOrder.shippingDiscount)} {isRTL ? 'ج.م' : 'EGP'}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between pt-2.5 border-t border-line/90 text-sm font-black text-brand-700">
+                <div className="flex justify-between pt-2.5 border-t border-line text-sm font-semibold text-brand-700">
                   <span className="text-sm">{isRTL ? 'المبلغ الإجمالي النهائي المطلوب:' : 'Total Amount Due:'}</span>
                   <span className="font-mono text-base">{selectedOrder.total?.toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}</span>
                 </div>
@@ -2354,25 +2351,25 @@ export default function OrdersPage() {
 
               {/* Order Status History Audit Trail */}
               {selectedOrder.statusHistory && selectedOrder.statusHistory.length > 0 && (
-                <div className="p-4 bg-slate-50/90 rounded-2xl border border-line space-y-2.5">
-                  <span className="font-extrabold text-brand-700 text-xs block pb-1 border-b border-line">
+                <div className="p-4 bg-canvas/90 rounded-card border border-line space-y-2.5">
+                  <span className="font-semibold text-brand-700 text-xs block pb-1 border-b border-line">
                     {isRTL ? 'سجل تتبع ومراحل الطلب' : 'Status Audit History'}
                   </span>
                   <div className="space-y-2 pt-1">
                     {selectedOrder.statusHistory.map((h, idx) => (
                       <div key={idx} className="flex items-start justify-between text-xs border-r-2 border-brand-700 pr-2.5 py-0.5">
                         <div>
-                          <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                            <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] ${statusConfig[h.status]?.bg || 'bg-slate-100'} ${statusConfig[h.status]?.color || 'text-slate-800'}`}>
+                          <div className="flex items-center gap-1.5 font-semibold text-ink">
+                            <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] ${statusConfig[h.status]?.bg || 'bg-canvas'} ${statusConfig[h.status]?.color || 'text-ink'}`}>
                               {statusConfig[h.status]?.[isRTL ? 'labelAr' : 'labelEn'] || h.status}
                             </span>
                             {h.changedBy && (
-                              <span className="text-[10px] text-slate-400 font-normal">{isRTL ? `بواسطة: ${h.changedBy}` : `By: ${h.changedBy}`}</span>
+                              <span className="text-xs text-ink-3 font-normal">{isRTL ? `بواسطة: ${h.changedBy}` : `By: ${h.changedBy}`}</span>
                             )}
                           </div>
-                          {h.note && <p className="text-[11px] text-slate-600 mt-0.5">{h.note}</p>}
+                          {h.note && <p className="text-xs text-ink-2 mt-0.5">{h.note}</p>}
                         </div>
-                        <span className="text-[10px] text-slate-400 font-mono shrink-0">
+                        <span className="text-xs text-ink-3 font-mono shrink-0">
                           {new Date(h.changedAt).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -2385,14 +2382,14 @@ export default function OrdersPage() {
 
             {/* Modal Footer */}
             <div className="px-6 py-3 border-t border-line bg-canvas flex items-center justify-between shrink-0">
-              <span className="text-[11px] text-slate-400 font-medium">
+              <span className="text-xs text-ink-3 font-medium">
                 معرف الطلب الداخلي: {selectedOrder._id}
               </span>
 
               <button
                 type="button"
                 onClick={() => setSelectedOrder(null)}
-                className="px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold transition-colors"
+                className="px-5 py-2 rounded-control bg-line hover:bg-ink-3 text-ink text-xs font-semibold transition-colors"
               >
                 إغلاق النافذة
               </button>
@@ -2405,18 +2402,18 @@ export default function OrdersPage() {
       {/* RETURN FROM SHIPPING MODAL */}
       {returnModalOrder && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="relative w-full max-w-lg bg-white rounded-2xl border border-line shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-lg bg-surface rounded-card border border-line shadow-pop overflow-hidden">
             {/* Modal Header */}
-            <div className="px-6 py-4 bg-amber-500/10 border-b border-amber-200 flex items-center justify-between">
+            <div className="px-6 py-4 bg-warning/10 border-b border-warning/20 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
+                <div className="w-8 h-8 rounded-control bg-warning-50 flex items-center justify-center text-warning">
                   <RotateCcw size={18} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-amber-950">
+                  <h3 className="text-sm font-semibold text-warning">
                     تسجيل شحنة مرتجعة وتكاليف الشحن
                   </h3>
-                  <span className="text-[11px] font-mono text-amber-800 font-semibold block">
+                  <span className="text-xs font-mono text-warning font-semibold block">
                     طلب رقم #{returnModalOrder.orderNumber} • العميل: {returnModalOrder.customer?.name || returnModalOrder.customerPhone || 'عميل M20'}
                   </span>
                 </div>
@@ -2424,7 +2421,7 @@ export default function OrdersPage() {
               <button
                 type="button"
                 onClick={() => setReturnModalOrder(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                className="p-1.5 rounded-control text-ink-3 hover:text-ink-2 hover:bg-canvas transition-colors"
               >
                 <X size={16} />
               </button>
@@ -2432,12 +2429,12 @@ export default function OrdersPage() {
 
             {/* Modal Form */}
             <form onSubmit={handleSubmitReturn} className="p-6 space-y-4 text-xs">
-              <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-200 text-amber-950 leading-relaxed text-[11px]">
-                <p className="font-bold flex items-center gap-1.5 mb-1 text-amber-900">
+              <div className="p-3 bg-warning-50/80 rounded-control border border-warning/20 text-warning leading-relaxed text-xs">
+                <p className="font-semibold flex items-center gap-1.5 mb-1 text-warning">
                   <AlertCircle size={14} />
                   <span>تنبيه القواعد المالية المتبعة:</span>
                 </p>
-                <ul className="list-disc list-inside space-y-0.5 text-amber-900/90 text-[10.5px]">
+                <ul className="list-disc list-inside space-y-0.5 text-warning/90 text-xs">
                   <li>تتحمل دار M20 تكاليف الشحن الفعلية لشركة الشحن عند رفض العميل الاستلام.</li>
                   <li>تُسجل هذه الرسوم تلقائياً في المالية كمصروف نقل وتشغيل (تُخصم من صافي الربح ولا تُضاف لتكلفة تصنيع المنتجات).</li>
                   <li>لا يتم استرجاع المخزون تلقائياً حتى استلام المنتجات المرتجعة فعلياً وفحص سلامتها.</li>
@@ -2447,7 +2444,7 @@ export default function OrdersPage() {
               {/* Shipping Charges Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-semibold text-ink-2 mb-1">
                     {isRTL ? 'تكلفة الشحن ذهاباً للعميل (ج.م) *' : 'Outbound Carrier Cost (EGP) *'}
                   </label>
                   <input
@@ -2457,14 +2454,14 @@ export default function OrdersPage() {
                     required
                     value={returnForm.outboundShippingCost}
                     onChange={(e) => setReturnForm({ ...returnForm, outboundShippingCost: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
+                    className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     placeholder="65"
                   />
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">{isRTL ? 'رسوم التوصيل الصادرة للعنوان' : 'Outbound delivery fee paid to courier'}</span>
+                  <span className="text-xs text-ink-3 mt-0.5 block">{isRTL ? 'رسوم التوصيل الصادرة للعنوان' : 'Outbound delivery fee paid to courier'}</span>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">
+                  <label className="block font-semibold text-ink-2 mb-1">
                     {isRTL ? 'تكلفة الشحن إياباً / عودة للمخزن (ج.م) *' : 'Return Carrier Cost (EGP) *'}
                   </label>
                   <input
@@ -2474,30 +2471,30 @@ export default function OrdersPage() {
                     required
                     value={returnForm.returnShippingCost}
                     onChange={(e) => setReturnForm({ ...returnForm, returnShippingCost: e.target.value })}
-                    className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
+                    className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     placeholder="65"
                   />
-                  <span className="text-[10px] text-slate-400 mt-0.5 block">{isRTL ? 'إذا كانت شركة الشحن تحاسب على العودة' : 'If carrier charges return fee'}</span>
+                  <span className="text-xs text-ink-3 mt-0.5 block">{isRTL ? 'إذا كانت شركة الشحن تحاسب على العودة' : 'If carrier charges return fee'}</span>
                 </div>
               </div>
 
               {/* Total Calculation Display */}
-              <div className="p-3 bg-slate-50 rounded-xl border border-line flex items-center justify-between">
-                <span className="font-bold text-slate-700">{isRTL ? 'إجمالي تكلفة الشحن المتكبدة على M20:' : 'Total Carrier Shipping Cost:'}</span>
-                <span className="font-mono font-black text-sm text-rose-700">
+              <div className="p-3 bg-canvas rounded-control border border-line flex items-center justify-between">
+                <span className="font-semibold text-ink-2">{isRTL ? 'إجمالي تكلفة الشحن المتكبدة على M20:' : 'Total Carrier Shipping Cost:'}</span>
+                <span className="font-mono font-semibold text-sm text-danger">
                   {Math.round((Number(returnForm.outboundShippingCost) || 0) + (Number(returnForm.returnShippingCost) || 0)).toLocaleString()} {isRTL ? 'ج.م' : 'EGP'}
                 </span>
               </div>
 
               {/* Return Reason */}
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   {isRTL ? 'سبب الارتجاع *' : 'Return Reason *'}
                 </label>
                 <select
                   value={returnForm.returnReason}
                   onChange={(e) => setReturnForm({ ...returnForm, returnReason: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 >
                   <option value={isRTL ? 'رفض العميل الاستلام' : 'Customer Refused Delivery'}>
                     {isRTL ? 'رفض العميل الاستلام عند وصول المندوب' : 'Customer refused delivery upon courier arrival'}
@@ -2522,13 +2519,13 @@ export default function OrdersPage() {
 
               {/* Cash Account for Shipping Expense */}
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   الخزينة / حساب الدفع لسداد مصاريف الشحن
                 </label>
                 <select
                   value={returnForm.paymentAccountId}
                   onChange={(e) => setReturnForm({ ...returnForm, paymentAccountId: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 >
                   <option value="">-- اختياري: سداد لاحق / غير مخصوم فوراً من الخزينة --</option>
                   {cashAccounts.map(acc => (
@@ -2537,12 +2534,12 @@ export default function OrdersPage() {
                     </option>
                   ))}
                 </select>
-                <span className="text-[10px] text-slate-400 mt-0.5 block">في حال تم خصم الرسوم نقداً أو من محفظة شركة الشحن</span>
+                <span className="text-xs text-ink-3 mt-0.5 block">في حال تم خصم الرسوم نقداً أو من محفظة شركة الشحن</span>
               </div>
 
               {/* Inspection / Courier Notes */}
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   ملاحظات إضافية أو تقرير المندوب
                 </label>
                 <textarea
@@ -2550,7 +2547,7 @@ export default function OrdersPage() {
                   value={returnForm.notes}
                   onChange={(e) => setReturnForm({ ...returnForm, notes: e.target.value })}
                   placeholder="ملاحظات شركة الشحن، حالة الطرد الخارجي، إلخ..."
-                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-brand-700"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 />
               </div>
 
@@ -2559,14 +2556,14 @@ export default function OrdersPage() {
                 <button
                   type="button"
                   onClick={() => setReturnModalOrder(null)}
-                  className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 font-bold text-xs"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submittingReturn}
-                  className="px-5 py-2 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   {submittingReturn ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
                   <span>حفظ وتسجيل الشحنة المرتجعة</span>
@@ -2580,18 +2577,18 @@ export default function OrdersPage() {
       {/* CUSTOMER REFUND MODAL */}
       {refundModalOrder && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <div className="relative w-full max-w-md bg-white rounded-2xl border border-line shadow-2xl overflow-hidden">
+          <div className="relative w-full max-w-md bg-surface rounded-card border border-line shadow-pop overflow-hidden">
             {/* Modal Header */}
             <div className="px-6 py-4 bg-brand-700/10 border-b border-brand-700/20 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-brand-700/15 flex items-center justify-center text-brand-700">
+                <div className="w-8 h-8 rounded-control bg-brand-700/15 flex items-center justify-center text-brand-700">
                   <Undo2 size={18} className="text-accent" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-brand-700">
+                  <h3 className="text-sm font-semibold text-brand-700">
                     معالجة استرداد المبلغ للعميل (Refund)
                   </h3>
-                  <span className="text-[11px] font-mono text-slate-600 font-semibold block">
+                  <span className="text-xs font-mono text-ink-2 font-semibold block">
                     طلب رقم #{refundModalOrder.orderNumber} • المبلغ المحصل: {refundModalOrder.total?.toLocaleString()} ج.م
                   </span>
                 </div>
@@ -2599,7 +2596,7 @@ export default function OrdersPage() {
               <button
                 type="button"
                 onClick={() => setRefundModalOrder(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                className="p-1.5 rounded-control text-ink-3 hover:text-ink-2 hover:bg-canvas transition-colors"
               >
                 <X size={16} />
               </button>
@@ -2607,12 +2604,12 @@ export default function OrdersPage() {
 
             {/* Modal Form */}
             <form onSubmit={handleSubmitRefund} className="p-6 space-y-4 text-xs">
-              <p className="text-slate-600 leading-relaxed text-[11.5px]">
+              <p className="text-ink-2 leading-relaxed text-xs">
                 نظراً لارتجاع الشحنة بعد تحصيل قيمتها مسبقاً، سيتم صرف المبلغ وإرجاعه للعميل وخصمه تلقائياً من الخزينة المحددة وتسجيل قيد استرداد مالي.
               </p>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   مبلغ الاسترداد (ج.م) *
                 </label>
                 <input
@@ -2623,19 +2620,19 @@ export default function OrdersPage() {
                   required
                   value={refundForm.refundAmount}
                   onChange={(e) => setRefundForm({ ...refundForm, refundAmount: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs font-mono font-bold outline-none focus:border-brand-700"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   الخزينة / الحساب المالي المراد الصرف منه *
                 </label>
                 <select
                   required
                   value={refundForm.cashAccountId}
                   onChange={(e) => setRefundForm({ ...refundForm, cashAccountId: e.target.value })}
-                  className="w-full h-9 bg-white border border-slate-300 rounded-xl px-3 text-xs outline-none focus:border-brand-700 font-medium"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 >
                   <option value="">-- اختر الخزينة أو المحفظة --</option>
                   {cashAccounts.map(acc => (
@@ -2647,7 +2644,7 @@ export default function OrdersPage() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">
+                <label className="block font-semibold text-ink-2 mb-1">
                   ملاحظات أو رقم معاملة التحويل (إن وجد)
                 </label>
                 <textarea
@@ -2655,7 +2652,7 @@ export default function OrdersPage() {
                   value={refundForm.notes}
                   onChange={(e) => setRefundForm({ ...refundForm, notes: e.target.value })}
                   placeholder="رقم مرجع إنستاباي، فودافون كاش، إلخ..."
-                  className="w-full bg-white border border-slate-300 rounded-xl p-2.5 text-xs outline-none focus:border-brand-700"
+                  className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                 />
               </div>
 
@@ -2664,14 +2661,14 @@ export default function OrdersPage() {
                 <button
                   type="button"
                   onClick={() => setRefundModalOrder(null)}
-                  className="px-4 py-2 border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 font-bold text-xs"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submittingRefund}
-                  className="px-5 py-2 bg-brand-700 hover:bg-brand-900 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   {submittingRefund ? <RefreshCw size={14} className="animate-spin text-accent" /> : <Check size={14} className="text-accent" />}
                   <span>تأكيد خصم وصرف الاسترداد</span>
@@ -2685,14 +2682,14 @@ export default function OrdersPage() {
       {/* LIGHTBOX FOR PAYMENT PROOF */}
       {zoomReceiptUrl && (
         <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md" onClick={() => setZoomReceiptUrl(null)}>
-          <div className="relative max-w-lg max-h-[85vh] bg-white p-2 rounded-2xl overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-w-lg max-h-[85vh] bg-surface p-2 rounded-card overflow-hidden shadow-pop" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setZoomReceiptUrl(null)}
               className="absolute top-4 right-4 z-10 p-2 bg-black/60 hover:bg-black text-white rounded-full transition-colors"
             >
               <X size={16} />
             </button>
-            <img src={zoomReceiptUrl} alt="إشعار الدفع" className="max-h-[80vh] w-auto object-contain rounded-xl" />
+            <img src={zoomReceiptUrl} alt="إشعار الدفع" className="max-h-[80vh] w-auto object-contain rounded-control" />
           </div>
         </div>
       )}
@@ -2707,18 +2704,18 @@ export default function OrdersPage() {
 
       {/* HIDDEN PRINT VIEW CONTAINER */}
       {printMode && selectedOrder && (
-        <div className="fixed inset-0 z-100 bg-white flex flex-col items-center justify-center p-4">
+        <div className="fixed inset-0 z-100 bg-surface flex flex-col items-center justify-center p-4">
           <div className="no-print mb-4 flex items-center gap-3">
             <button 
               onClick={() => window.print()}
-              className="px-4 py-2 bg-brand-700 text-white font-bold rounded-xl text-xs flex items-center gap-2"
+              className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
             >
               <Printer size={16} />
               <span>طباعة فورية</span>
             </button>
             <button 
               onClick={() => setPrintMode(null)}
-              className="px-4 py-2 border border-slate-300 text-slate-700 font-bold rounded-xl text-xs"
+              className="px-4 py-2 border border-line text-ink-2 font-semibold rounded-control text-xs"
             >
               إغلاق
             </button>

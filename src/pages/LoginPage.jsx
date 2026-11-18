@@ -36,14 +36,14 @@ export default function LoginPage() {
 
   return (
     <div dir={dir} className={`min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 ${isRTL ? "font-['Cairo',sans-serif]" : "font-sans"}`}>
-      <div className="w-full max-w-sm bg-white border border-slate-200 rounded-sm p-6 sm:p-8 shadow-xs">
+      <div className="w-full max-w-sm bg-surface border border-line rounded-sm p-6 sm:p-8 shadow-card">
         
         {/* Language switch top */}
         <div className="flex justify-end mb-4">
           <button
             type="button"
             onClick={toggleLang}
-            className="flex items-center gap-1.5 px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-xs font-bold text-[#174F43] transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1 rounded-control bg-canvas hover:bg-line text-xs font-semibold text-[#174F43] transition-colors"
           >
             <Globe size={13} />
             <span>{lang === 'en' ? 'العربية' : 'English'}</span>
@@ -63,10 +63,10 @@ export default function LoginPage() {
               }}
             />
           </div>
-          <h1 className="font-serif text-2xl font-bold tracking-[0.2em] text-[#174F43]">
+          <h1 className="font-serif text-2xl font-semibold tracking-[0.2em] text-[#174F43]">
             M20
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-ink-2 mt-1">
             {isRTL ? 'لوحة التحكم وإدارة العمليات' : 'Management & Operations Suite'}
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-ink-2 mb-1">
               {isRTL ? 'البريد الإلكتروني أو الهاتف' : 'Admin Email or Phone'}
             </label>
             <div className="relative flex items-center">
@@ -92,16 +92,16 @@ export default function LoginPage() {
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 placeholder="m20.fragrances.26@gmail.com"
-                className={`w-full h-10 bg-white border border-slate-200 focus:border-[#174F43] rounded-sm px-3 ${
+                className={`w-full h-10 bg-surface border border-line focus:border-[#174F43] rounded-sm px-3 ${
                   isRTL ? 'pr-8' : 'pl-8'
-                } text-slate-900 placeholder:text-slate-400 text-xs font-mono outline-none transition-colors`}
+                } text-ink placeholder:text-ink-3 text-xs font-mono outline-none transition-colors`}
               />
-              <User size={14} className={`text-slate-400 absolute ${isRTL ? 'right-2.5' : 'left-2.5'}`} />
+              <User size={14} className={`text-ink-3 absolute ${isRTL ? 'right-2.5' : 'left-2.5'}`} />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-ink-2 mb-1">
               {isRTL ? 'كلمة المرور' : 'Password'}
             </label>
             <div className="relative flex items-center">
@@ -111,11 +111,11 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className={`w-full h-10 bg-white border border-slate-200 focus:border-[#174F43] rounded-sm px-3 ${
+                className={`w-full h-10 bg-surface border border-line focus:border-[#174F43] rounded-sm px-3 ${
                   isRTL ? 'pr-8' : 'pl-8'
-                } text-slate-900 placeholder:text-slate-400 text-xs font-mono outline-none transition-colors`}
+                } text-ink placeholder:text-ink-3 text-xs font-mono outline-none transition-colors`}
               />
-              <Lock size={14} className={`text-slate-400 absolute ${isRTL ? 'right-2.5' : 'left-2.5'}`} />
+              <Lock size={14} className={`text-ink-3 absolute ${isRTL ? 'right-2.5' : 'left-2.5'}`} />
             </div>
           </div>
 
@@ -138,7 +138,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-slate-200 text-center text-[11px] text-slate-400">
+        <div className="mt-6 pt-4 border-t border-line text-center text-xs text-ink-3">
           <p>© 2026 M20 Fine Fragrances</p>
         </div>
       </div>

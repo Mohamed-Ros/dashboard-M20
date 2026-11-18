@@ -304,15 +304,12 @@ export default function OffersPage() {
   return (
     <div className="space-y-6">
       {/* Header & Stats Banner */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-control border border-line">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-surface p-6 rounded-card border border-line shadow-card">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 bg-brand-700/5 text-brand-700 rounded-control">
-              <Sparkles size={22} />
-            </span>
-            <h1 className="text-xl font-bold text-brand-700">إدارة العروض والباقات الترويجية</h1>
+            <h1 className="text-2xl font-semibold text-ink leading-tight">إدارة العروض والباقات الترويجية</h1>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-ink-2 mt-1">
             إنشاء وإدارة عروض الخصم المباشرة، الباقات الثنائية والثلاثية، وتحديد مدة وتفاصيل العرض على المتجر.
           </p>
         </div>
@@ -321,14 +318,14 @@ export default function OffersPage() {
           <button
             onClick={fetchOffersList}
             disabled={loading}
-            className="p-2.5 text-slate-600 hover:text-brand-700 bg-slate-100 hover:bg-slate-200 rounded-control transition-colors"
+            className="p-2.5 text-ink-2 hover:text-brand-700 bg-canvas hover:bg-line rounded-control transition-colors"
             title="تحديث البيانات"
           >
             <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
           </button>
           <button
             onClick={openCreateModal}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-brand-700 hover:bg-brand-900 text-white px-5 py-2.5 rounded-control text-xs font-semibold tracking-wider transition-colors"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs flex-1 sm:flex-none"
           >
             <Plus size={16} />
             <span>إضافة عرض جديد</span>
@@ -338,28 +335,28 @@ export default function OffersPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-control border border-line">
-          <span className="text-xs text-slate-500 font-medium block">إجمالي العروض</span>
-          <span className="text-2xl font-bold text-brand-700 mt-1 block">{offers.length}</span>
+        <div className="bg-surface p-4 rounded-card border border-line shadow-card">
+          <span className="text-xs text-ink-2 font-medium block">إجمالي العروض</span>
+          <span className="text-2xl font-semibold text-brand-700 mt-1 block">{offers.length}</span>
         </div>
-        <div className="bg-white p-4 rounded-control border border-line">
-          <span className="text-xs text-slate-500 font-medium block">العروض النشطة حالياً</span>
-          <span className="text-2xl font-bold text-emerald-600 mt-1 block">{activeCount}</span>
+        <div className="bg-surface p-4 rounded-card border border-line shadow-card">
+          <span className="text-xs text-ink-2 font-medium block">العروض النشطة حالياً</span>
+          <span className="text-2xl font-semibold text-success mt-1 block">{activeCount}</span>
         </div>
-        <div className="bg-white p-4 rounded-control border border-line">
-          <span className="text-xs text-slate-500 font-medium block">عروض الباقات (Bundles)</span>
-          <span className="text-2xl font-bold text-amber-600 mt-1 block">{bundleCount}</span>
+        <div className="bg-surface p-4 rounded-card border border-line shadow-card">
+          <span className="text-xs text-ink-2 font-medium block">عروض الباقات (Bundles)</span>
+          <span className="text-2xl font-semibold text-warning mt-1 block">{bundleCount}</span>
         </div>
-        <div className="bg-white p-4 rounded-control border border-line">
-          <span className="text-xs text-slate-500 font-medium block">المنتجات المتاحة</span>
-          <span className="text-2xl font-bold text-brand-700 mt-1 block">{products.length}</span>
+        <div className="bg-surface p-4 rounded-card border border-line shadow-card">
+          <span className="text-xs text-ink-2 font-medium block">المنتجات المتاحة</span>
+          <span className="text-2xl font-semibold text-brand-700 mt-1 block">{products.length}</span>
         </div>
       </div>
 
       {/* Controls & Search */}
-      <div className="flex flex-col sm:flex-row gap-3 bg-white p-4 rounded-control border border-line">
+      <div className="flex flex-col sm:flex-row gap-3 bg-surface p-4 rounded-card border border-line shadow-card">
         <div className="relative flex-1">
-          <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-3" />
           <input
             type="text"
             placeholder="البحث باسم العرض، الوصف أو الشارة..."
@@ -384,7 +381,7 @@ export default function OffersPage() {
               className={`px-3 py-1.5 text-xs rounded-control whitespace-nowrap transition-colors font-medium ${
                 filterType === tab.id
                   ? 'bg-brand-700 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-canvas text-ink-2 hover:bg-line'
               }`}
             >
               {tab.label}
@@ -395,18 +392,18 @@ export default function OffersPage() {
 
       {/* Offers Grid / List */}
       {loading ? (
-        <div className="bg-white p-12 text-center rounded-control border border-line">
+        <div className="bg-surface p-12 text-center rounded-card border border-line shadow-card">
           <div className="w-8 h-8 border-2 border-brand-700 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-xs text-slate-500">جاري تحميل العروض...</p>
+          <p className="text-xs text-ink-2">جاري تحميل العروض...</p>
         </div>
       ) : filteredOffers.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-control border border-line">
-          <Sparkles size={36} className="text-slate-300 mx-auto mb-2" />
-          <p className="text-sm font-semibold text-slate-700">لا توجد عروض مطابقة</p>
-          <p className="text-xs text-slate-500 mt-1">ابدأ بإنشاء أول عرض ترويجي أو باقة خاصة لمتجرك.</p>
+        <div className="bg-surface p-12 text-center rounded-card border border-line shadow-card">
+          <Sparkles size={36} className="text-ink-3 mx-auto mb-2" />
+          <p className="text-sm font-semibold text-ink-2">لا توجد عروض مطابقة</p>
+          <p className="text-xs text-ink-2 mt-1">ابدأ بإنشاء أول عرض ترويجي أو باقة خاصة لمتجرك.</p>
           <button
             onClick={openCreateModal}
-            className="mt-4 inline-flex items-center gap-1.5 bg-brand-700 text-white px-4 py-2 rounded-control text-xs font-medium"
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs mt-4"
           >
             <Plus size={14} /> إضافة عرض الآن
           </button>
@@ -420,12 +417,12 @@ export default function OffersPage() {
             return (
               <div 
                 key={offer._id}
-                className={`bg-white rounded-control border transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-sm ${
+                className={`bg-surface rounded-control border transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-sm ${
                   isLive ? 'border-line hover:border-brand-700' : 'border-line opacity-75'
                 }`}
               >
                 {/* Banner / Header */}
-                <div className="relative h-36 bg-slate-100 overflow-hidden">
+                <div className="relative h-36 bg-canvas overflow-hidden">
                   {offer.bannerImage?.url ? (
                     <img 
                       src={offer.bannerImage.url} 
@@ -446,23 +443,23 @@ export default function OffersPage() {
                   {/* Badges Overlay */}
                   <div className="absolute top-2 right-2 flex flex-wrap gap-1">
                     {offer.badge && (
-                      <span className="bg-brand-700 text-white text-[10px] font-semibold px-2 py-0.5 rounded-control tracking-wider uppercase shadow-sm">
+                      <span className="bg-brand-700 text-white text-xs font-semibold px-2 py-0.5 rounded-control tracking-wider uppercase shadow-card">
                         {offer.badge}
                       </span>
                     )}
                     <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-control tracking-wider uppercase shadow-sm ${
                       isLive 
-                        ? 'bg-emerald-600 text-white' 
+                        ? 'bg-success text-white' 
                         : isExpired 
-                        ? 'bg-red-600 text-white' 
-                        : 'bg-slate-600 text-white'
+                        ? 'bg-danger text-white' 
+                        : 'bg-ink text-white'
                     }`}>
                       {isLive ? 'نشط' : isExpired ? 'منتهي' : 'معطل'}
                     </span>
                   </div>
 
                   <div className="absolute bottom-2 left-2">
-                    <span className="bg-white/95 backdrop-blur-sm text-brand-700 text-[10px] font-bold px-2 py-0.5 rounded-control shadow-sm">
+                    <span className="bg-surface/95 backdrop-blur-sm text-brand-700 text-xs font-semibold px-2 py-0.5 rounded-control shadow-card">
                       {offer.offerType === 'bundle' ? 'باقة عطور (Bundle)' : 'خصم عطور'}
                     </span>
                   </div>
@@ -471,28 +468,28 @@ export default function OffersPage() {
                 {/* Content */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <h3 className="text-sm font-bold text-brand-700 leading-snug line-clamp-1">{offer.title}</h3>
+                    <h3 className="text-sm font-semibold text-brand-700 leading-snug line-clamp-1">{offer.title}</h3>
                     {offer.subtitle && (
-                      <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{offer.subtitle}</p>
+                      <p className="text-xs text-ink-2 line-clamp-1 mt-0.5">{offer.subtitle}</p>
                     )}
                     {offer.description && (
-                      <p className="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">{offer.description}</p>
+                      <p className="text-xs text-ink-2 mt-2 line-clamp-2 leading-relaxed">{offer.description}</p>
                     )}
                   </div>
 
                   {/* Discount / Pricing Highlight */}
-                  <div className="bg-canvas border border-slate-100 p-2.5 rounded-control">
+                  <div className="bg-canvas border border-line p-2.5 rounded-control">
                     {offer.offerType === 'bundle' ? (
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500">سعر الباقة الإجمالي:</span>
-                        <span className="font-bold text-brand-700">
+                        <span className="text-ink-2">سعر الباقة الإجمالي:</span>
+                        <span className="font-semibold text-brand-700">
                           {offer.bundlePrice ? `${offer.bundlePrice} EGP` : 'سعر خاص'}
                         </span>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500">قيمة الخصم:</span>
-                        <span className="font-bold text-brand-700">
+                        <span className="text-ink-2">قيمة الخصم:</span>
+                        <span className="font-semibold text-brand-700">
                           {offer.discountType === 'percentage' 
                             ? `${offer.discountValue}% خصم` 
                             : `${offer.discountValue} EGP خصم ثابت`}
@@ -502,11 +499,11 @@ export default function OffersPage() {
 
                     {/* Applicable sizes pills */}
                     {offer.applicableSizes && offer.applicableSizes.length > 0 && (
-                      <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-line/60">
-                        <span className="text-[10px] text-slate-400">المقاسات:</span>
+                      <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-line">
+                        <span className="text-xs text-ink-3">المقاسات:</span>
                         <div className="flex gap-1">
                           {offer.applicableSizes.map(s => (
-                            <span key={s} className="text-[9px] bg-white border border-line text-slate-600 px-1.5 py-0.5 rounded-control font-mono">
+                            <span key={s} className="text-xs bg-surface border border-line text-ink-2 px-1.5 py-0.5 rounded-control font-mono">
                               {s}
                             </span>
                           ))}
@@ -516,38 +513,38 @@ export default function OffersPage() {
 
                     {/* Bundle items list summary */}
                     {offer.offerType === 'bundle' && offer.bundleItems?.length > 0 && (
-                      <div className="mt-2 pt-2 border-t border-line/60 text-[10px] text-slate-600 space-y-0.5">
-                        <span className="font-semibold text-slate-700 block">محتويات الباقة ({offer.bundleItems.length} عطور):</span>
+                      <div className="mt-2 pt-2 border-t border-line text-xs text-ink-2 space-y-0.5">
+                        <span className="font-semibold text-ink-2 block">محتويات الباقة ({offer.bundleItems.length} عطور):</span>
                         {offer.bundleItems.slice(0, 2).map((b, idx) => (
                           <div key={idx} className="flex justify-between">
                             <span className="truncate max-w-[180px]">{b.product?.name || 'عطر إيلان'}</span>
-                            <span className="text-slate-400 font-mono">{b.size} ({b.quantity}x)</span>
+                            <span className="text-ink-3 font-mono">{b.size} ({b.quantity}x)</span>
                           </div>
                         ))}
                         {offer.bundleItems.length > 2 && (
-                          <span className="text-slate-400 italic block">+ {offer.bundleItems.length - 2} عطور أخرى</span>
+                          <span className="text-ink-3 italic block">+ {offer.bundleItems.length - 2} عطور أخرى</span>
                         )}
                       </div>
                     )}
                   </div>
 
                   {/* Dates */}
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 border-t border-slate-100 pt-2">
+                  <div className="flex items-center justify-between text-xs text-ink-2 border-t border-line pt-2">
                     <span className="flex items-center gap-1">
-                      <Clock size={12} className="text-slate-400" />
+                      <Clock size={12} className="text-ink-3" />
                       <span>{offer.endDate ? `حتى ${new Date(offer.endDate).toLocaleDateString('ar-EG')}` : 'عرض مستمر'}</span>
                     </span>
-                    <span className="text-slate-400 text-[10px]">ترتيب العرض: {offer.priority || 0}</span>
+                    <span className="text-ink-3 text-xs">ترتيب العرض: {offer.priority || 0}</span>
                   </div>
 
                   {/* Actions Bar */}
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                  <div className="flex items-center justify-between pt-2 border-t border-line">
                     <button
                       onClick={() => handleToggleActive(offer._id, offer.active)}
                       className={`text-xs px-2.5 py-1 rounded-control font-medium flex items-center gap-1 transition-colors ${
                         offer.active 
-                          ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100' 
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                          ? 'bg-success-50 text-success hover:bg-success-50' 
+                          : 'bg-canvas text-ink-2 hover:bg-line'
                       }`}
                     >
                       {offer.active ? <Eye size={12} /> : <EyeOff size={12} />}
@@ -557,14 +554,14 @@ export default function OffersPage() {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => openEditModal(offer)}
-                        className="p-1.5 text-slate-600 hover:text-brand-700 hover:bg-slate-100 rounded-control transition-colors"
+                        className="p-1.5 text-ink-2 hover:text-brand-700 hover:bg-canvas rounded-control transition-colors"
                         title="تعديل العرض"
                       >
                         <Edit size={14} />
                       </button>
                       <button
                         onClick={() => handleDelete(offer._id, offer.title)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-control transition-colors"
+                        className="p-1.5 text-ink-3 hover:text-danger hover:bg-danger-50 rounded-control transition-colors"
                         title="حذف العرض"
                       >
                         <Trash2 size={14} />
@@ -581,13 +578,13 @@ export default function OffersPage() {
       {/* Create / Edit Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-          <div className="relative bg-white w-full max-w-2xl rounded-control shadow-2xl border border-line my-8 overflow-hidden text-right">
+          <div className="relative bg-surface w-full max-w-2xl rounded-control shadow-pop border border-line my-8 overflow-hidden text-right">
             
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 bg-brand-700 text-white">
+            <div className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-10 px-4 text-sm">
               <div className="flex items-center gap-2">
-                <Sparkles size={18} className="text-amber-300" />
-                <h2 className="text-sm font-bold tracking-wide">
+                <Sparkles size={18} className="text-warning" />
+                <h2 className="text-sm font-semibold tracking-wide">
                   {editingOffer ? 'تعديل بيانات العرض' : 'إنشاء عرض ترويجي جديد'}
                 </h2>
               </div>
@@ -604,7 +601,7 @@ export default function OffersPage() {
               
               {/* Offer Type Selection */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">نوع العرض *</label>
+                <label className="block text-xs font-semibold text-ink-2 mb-1.5">نوع العرض *</label>
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { id: 'product_specific', label: 'خصم على عطور محددة' },
@@ -618,7 +615,7 @@ export default function OffersPage() {
                       className={`py-2 px-3 text-xs font-medium rounded-control border text-center transition-all ${
                         formData.offerType === type.id
                           ? 'border-brand-700 bg-brand-700 text-white shadow-sm'
-                          : 'border-line bg-white text-slate-700 hover:bg-slate-50'
+                          : 'border-line bg-surface text-ink-2 hover:bg-canvas'
                       }`}
                     >
                       {type.label}
@@ -630,7 +627,7 @@ export default function OffersPage() {
               {/* Title & Subtitle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">عنوان العرض *</label>
+                  <label className="block text-xs font-semibold text-ink-2 mb-1">عنوان العرض *</label>
                   <input
                     type="text"
                     required
@@ -641,7 +638,7 @@ export default function OffersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">الشارة أو التميز (Badge)</label>
+                  <label className="block text-xs font-semibold text-ink-2 mb-1">الشارة أو التميز (Badge)</label>
                   <input
                     type="text"
                     placeholder="مثال: الأكثر طلباً، خصم 20%، وفر 300 ج"
@@ -653,7 +650,7 @@ export default function OffersPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">العنوان الفرعي (Subtitle)</label>
+                <label className="block text-xs font-semibold text-ink-2 mb-1">العنوان الفرعي (Subtitle)</label>
                 <input
                   type="text"
                   placeholder="مثال: احصل على قطعتين بسعر حصري لفترة محدودة"
@@ -665,7 +662,7 @@ export default function OffersPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">وصف العرض وتفاصيله</label>
+                <label className="block text-xs font-semibold text-ink-2 mb-1">وصف العرض وتفاصيله</label>
                 <textarea
                   rows={2}
                   placeholder="اكتب تفاصيل إضافية عن العرض للعملاء..."
@@ -677,20 +674,20 @@ export default function OffersPage() {
 
               {/* Discount / Pricing Fields */}
               {formData.offerType !== 'bundle' ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50 border border-line rounded-control">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-canvas border border-line rounded-control">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">نوع الخصم</label>
+                    <label className="block text-xs font-semibold text-ink-2 mb-1">نوع الخصم</label>
                     <select
                       value={formData.discountType}
                       onChange={(e) => setFormData(prev => ({ ...prev, discountType: e.target.value }))}
-                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-white"
+                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-surface"
                     >
                       <option value="percentage">نسبة مئوية (%)</option>
                       <option value="fixed">مبلغ ثابت بالجنيه (EGP)</option>
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-ink-2 mb-1">
                       قيمة الخصم ({formData.discountType === 'percentage' ? '%' : 'EGP'})
                     </label>
                     <input
@@ -698,14 +695,14 @@ export default function OffersPage() {
                       min="0"
                       value={formData.discountValue}
                       onChange={(e) => setFormData(prev => ({ ...prev, discountValue: e.target.value }))}
-                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-white"
+                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-surface"
                     />
                   </div>
                 </div>
               ) : (
-                <div className="p-3 bg-slate-50 border border-line rounded-control space-y-3">
+                <div className="p-3 bg-canvas border border-line rounded-control space-y-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-ink-2 mb-1">
                       سعر الباقة الإجمالي الثابت (EGP) *
                     </label>
                     <input
@@ -715,9 +712,9 @@ export default function OffersPage() {
                       placeholder="مثال: 550"
                       value={formData.bundlePrice}
                       onChange={(e) => setFormData(prev => ({ ...prev, bundlePrice: e.target.value }))}
-                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-white"
+                      className="w-full h-9 px-3 text-xs border border-line rounded-control focus:outline-none focus:border-brand-700 bg-surface"
                     />
-                    <p className="text-[10px] text-slate-500 mt-1">
+                    <p className="text-xs text-ink-2 mt-1">
                       سيتم احتساب هذا السعر لكامل محتويات الباقة بدلاً من مجموع أسعارها الفردية.
                     </p>
                   </div>
@@ -725,28 +722,28 @@ export default function OffersPage() {
                   {/* Bundle Items Selector */}
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-xs font-semibold text-slate-700">مكونات الباقة (Bundle Fragrances)</label>
+                      <label className="text-xs font-semibold text-ink-2">مكونات الباقة (Bundle Fragrances)</label>
                       <button
                         type="button"
                         onClick={handleAddBundleItem}
-                        className="text-[11px] text-brand-700 hover:underline font-bold flex items-center gap-1"
+                        className="text-xs text-brand-700 hover:underline font-semibold flex items-center gap-1"
                       >
                         <Plus size={12} /> إضافة عطر للباقة
                       </button>
                     </div>
 
                     {formData.bundleItems.length === 0 ? (
-                      <p className="text-[11px] text-amber-700 bg-amber-50 p-2 rounded-control border border-amber-200">
+                      <p className="text-xs text-warning bg-warning-50 p-2 rounded-control border border-warning/20">
                         اضغط "إضافة عطر للباقة" لتحديد العطور المكونة لهذه الحزمة.
                       </p>
                     ) : (
                       <div className="space-y-2">
                         {formData.bundleItems.map((item, idx) => (
-                          <div key={idx} className="flex items-center gap-2 bg-white p-2 border border-line rounded-control">
+                          <div key={idx} className="flex items-center gap-2 bg-surface p-2 border border-line rounded-control">
                             <select
                               value={item.product}
                               onChange={(e) => handleUpdateBundleItem(idx, 'product', e.target.value)}
-                              className="flex-1 h-8 px-2 text-xs border border-line rounded-control focus:outline-none bg-white"
+                              className="flex-1 h-8 px-2 text-xs border border-line rounded-control focus:outline-none bg-surface"
                             >
                               {products.map(p => (
                                 <option key={p._id} value={p._id}>{p.name} ({p.nameAr || ''})</option>
@@ -756,7 +753,7 @@ export default function OffersPage() {
                             <select
                               value={item.size}
                               onChange={(e) => handleUpdateBundleItem(idx, 'size', e.target.value)}
-                              className="w-24 h-8 px-2 text-xs border border-line rounded-control focus:outline-none bg-white font-mono"
+                              className="w-24 h-8 px-2 text-xs border border-line rounded-control focus:outline-none bg-surface font-mono"
                             >
                               {AVAILABLE_SIZES.map(s => (
                                 <option key={s} value={s}>{s}</option>
@@ -775,7 +772,7 @@ export default function OffersPage() {
                             <button
                               type="button"
                               onClick={() => handleRemoveBundleItem(idx)}
-                              className="p-1.5 text-slate-400 hover:text-red-600 rounded-control"
+                              className="p-1.5 text-ink-3 hover:text-danger rounded-control"
                             >
                               <X size={14} />
                             </button>
@@ -789,7 +786,7 @@ export default function OffersPage() {
 
               {/* Sizes Selection (Applicable sizes) */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label className="block text-xs font-semibold text-ink-2 mb-1.5">
                   المقاسات التي يشملها العرض (30ml, 50ml, 100ml)
                 </label>
                 <div className="flex gap-2">
@@ -803,7 +800,7 @@ export default function OffersPage() {
                         className={`px-4 py-2 text-xs font-mono rounded-control border transition-all flex items-center gap-1.5 ${
                           selected
                             ? 'bg-brand-700 text-white border-brand-700'
-                            : 'bg-white text-slate-700 border-line hover:bg-slate-50'
+                            : 'bg-surface text-ink-2 border-line hover:bg-canvas'
                         }`}
                       >
                         {selected && <Check size={12} />}
@@ -817,25 +814,25 @@ export default function OffersPage() {
               {/* Product selector for product_specific */}
               {formData.offerType === 'product_specific' && (
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  <label className="block text-xs font-semibold text-ink-2 mb-1.5">
                     المنتجات المشمولة بالعرض (اتركها فارغة لتطبيق العرض على كل العطور بالمقاسات المختارة)
                   </label>
-                  <div className="max-h-36 overflow-y-auto border border-line rounded-control p-2 space-y-1 bg-white">
+                  <div className="max-h-36 overflow-y-auto border border-line rounded-control p-2 space-y-1 bg-surface">
                     {products.map(product => {
                       const selected = formData.applicableProducts.includes(product._id);
                       return (
                         <label 
                           key={product._id}
-                          className="flex items-center gap-2 text-xs text-slate-700 hover:bg-slate-50 p-1 rounded-control cursor-pointer"
+                          className="flex items-center gap-2 text-xs text-ink-2 hover:bg-canvas p-1 rounded-control cursor-pointer"
                         >
                           <input
                             type="checkbox"
                             checked={selected}
                             onChange={() => handleProductToggle(product._id)}
-                            className="rounded border-slate-300 text-brand-700 focus:ring-brand-700"
+                            className="rounded-control border-line text-brand-700 focus:ring-brand-700"
                           />
                           <span className="font-medium">{product.name}</span>
-                          <span className="text-[10px] text-slate-400">({product.category || 'العطور'})</span>
+                          <span className="text-xs text-ink-3">({product.category || 'العطور'})</span>
                         </label>
                       );
                     })}
@@ -845,13 +842,13 @@ export default function OffersPage() {
 
               {/* Banner Image Upload & URL */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-ink-2 mb-1">
                   صورة البانر (رفع عبر Cloudinary أو إدخال رابط مباشر)
                 </label>
                 <div className="flex flex-wrap items-center gap-2">
                   <label className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-control text-xs font-semibold cursor-pointer transition-colors ${
                     uploadingBanner
-                      ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                      ? 'bg-line text-ink-2 cursor-not-allowed'
                       : 'bg-brand-700 hover:bg-brand-900 text-white'
                   }`}>
                     <Upload size={13} />
@@ -888,7 +885,7 @@ export default function OffersPage() {
                           ...prev,
                           bannerImage: { url: '', publicId: '', alt: '' }
                         }))}
-                        className="h-9 px-2.5 text-xs border border-line text-slate-500 hover:text-rose-600 rounded-control cursor-pointer"
+                        className="h-9 px-2.5 text-xs border border-line text-ink-2 hover:text-danger rounded-control cursor-pointer"
                         title="إزالة الصورة"
                       >
                         <X size={14} />
@@ -901,7 +898,7 @@ export default function OffersPage() {
               {/* Dates & Scheduling */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">تاريخ البداية (Start Date)</label>
+                  <label className="block text-xs font-semibold text-ink-2 mb-1">تاريخ البداية (Start Date)</label>
                   <input
                     type="date"
                     value={formData.startDate}
@@ -910,7 +907,7 @@ export default function OffersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-semibold text-ink-2 mb-1">
                     تاريخ النهاية (End Date - اختياري)
                   </label>
                   <input
@@ -923,9 +920,9 @@ export default function OffersPage() {
               </div>
 
               {/* Priority & Active Switch */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-line">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">أولوية الظهور (Priority)</label>
+                  <label className="block text-xs font-semibold text-ink-2 mb-1">أولوية الظهور (Priority)</label>
                   <input
                     type="number"
                     value={formData.priority}
@@ -943,8 +940,8 @@ export default function OffersPage() {
                       onChange={(e) => setFormData(prev => ({ ...prev, active: e.target.checked }))}
                       className="sr-only peer"
                     />
-                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-700"></div>
-                    <span className="mr-3 text-xs font-medium text-slate-700">تفعيل العرض فوراً</span>
+                    <div className="w-11 h-6 bg-line peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-surface after:border-line after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-700"></div>
+                    <span className="mr-3 text-xs font-medium text-ink-2">تفعيل العرض فوراً</span>
                   </label>
                 </div>
               </div>
@@ -954,14 +951,14 @@ export default function OffersPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-5 py-2.5 text-xs text-slate-600 hover:bg-slate-100 rounded-control transition-colors"
+                  className="px-5 py-2.5 text-xs text-ink-2 hover:bg-canvas rounded-control transition-colors"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 text-xs font-semibold bg-brand-700 hover:bg-brand-900 text-white rounded-control transition-colors flex items-center gap-1.5 disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   {submitting && <RefreshCw size={14} className="animate-spin" />}
                   <span>{editingOffer ? 'حفظ التعديلات' : 'إنشاء العرض'}</span>
