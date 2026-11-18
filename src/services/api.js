@@ -85,6 +85,17 @@ export const getOrders = async (params = {}) => {
   return res.data?.data?.orders || res.data?.data || [];
 };
 
+export const deleteOrder = async (id, restoreStock = true) => {
+  const res = await API.delete(`/orders/${id}`, { params: { restoreStock } });
+  return res.data?.data || res.data;
+};
+
+// Bulk delete. Pass { ids: [...] } for selected orders, or { all: true, confirm: 'DELETE ALL ORDERS' } for everything.
+export const bulkDeleteOrders = async (payload) => {
+  const res = await API.post('/orders/admin/bulk-delete', payload);
+  return res.data?.data || res.data;
+};
+
 export const getOrderById = async (id) => {
   const res = await API.get(`/orders/${id}`);
   return res.data?.data || null;

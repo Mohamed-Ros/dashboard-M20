@@ -7,6 +7,8 @@ import { useLanguage } from '../context/LanguageContext';
 import { EGYPT_GOVERNORATES, getGovernorateRate, getGovernorateObject } from '../data/egyptGovernorates';
 import { 
   getOrders, 
+  deleteOrder,
+  bulkDeleteOrders,
   updateOrderStatus, 
   verifyOrderPayment, 
   confirmReturnRestock,
@@ -497,6 +499,83 @@ export default function OrdersPage() {
     }
   };
 
+  // ---- Delete orders (single / selected / all) ----
+  const askDeleteConfirm = async ({ title, text, requireText }) => {
+    const res = await Swal.fire({
+      icon: 'warning',
+      title,
+      html: `<div style="text-align:right;font-size:13px;line-height:1.7">${text}</div>
+        <label style="display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px;font-size:13px">
+          <span>إرجاع المخزون (السائل والتغليف) للطلبات التي تم خصم مخزونها</span>
+          <input id="swal-restock" type="checkbox" checked />
+        </label>
+        ${requireText ? `<p style="margin-top:12px;font-size:12px">اكتب <b>${requireText}</b> للتأكيد:</p><input id="swal-confirm-text" class="swal2-input" style="margin:6px auto 0" dir="ltr" />` : ''}`,
+      showCancelButton: true,
+      confirmButtonText: 'حذف نهائي',
+      cancelButtonText: 'إلغاء',
+      confirmButtonColor: '#B91C1C',
+      focusCancel: true,
+      preConfirm: () => {
+        const restoreStock = !!document.getElementById('swal-restock')?.checked;
+        if (requireText) {
+          const v = (document.getElementById('swal-confirm-text')?.value || '').trim();
+          if (v !== requireText) {
+            Swal.showValidationMessage('نص التأكيد غير مطابق');
+            return false;
+          }
+        }
+        return { restoreStock };
+      }
+    });
+    return res.isConfirmed ? res.value : null;
+  };
+
+  const runDelete = async (fn, successText) => {
+    try {
+      await fn();
+      setSelectedOrder(null);
+      setSelectedIds(new Set());
+      await fetchOrdersAndAccounts();
+      Swal.fire({ icon: 'success', title: 'تم الحذف', text: successText, timer: 1800, showConfirmButton: false });
+    } catch (err) {
+      Swal.fire({ icon: 'error', title: 'تعذر الحذف', text: err.response?.data?.message || err.message || 'حدث خطأ غير متوقع' });
+    }
+  };
+
+  const handleDeleteOrder = async (order) => {
+    const opts = await askDeleteConfirm({
+      title: `حذف الطلب #${order.orderNumber}؟`,
+      text: 'سيتم حذف هذا الطلب نهائياً ولا يمكن التراجع.'
+    });
+    if (!opts) return;
+    await runDelete(() => deleteOrder(order._id, opts.restoreStock), `تم حذف الطلب #${order.orderNumber}`);
+  };
+
+  const handleDeleteSelected = async () => {
+    const ids = [...selectedIds];
+    if (ids.length === 0) return;
+    const opts = await askDeleteConfirm({
+      title: `حذف ${ids.length} طلب؟`,
+      text: `سيتم حذف الطلبات المحددة (${ids.length}) نهائياً ولا يمكن التراجع.`,
+      requireText: ids.length > 5 ? 'DELETE' : null
+    });
+    if (!opts) return;
+    await runDelete(() => bulkDeleteOrders({ ids, restoreStock: opts.restoreStock }), `تم حذف ${ids.length} طلب`);
+  };
+
+  const handleDeleteAll = async () => {
+    const opts = await askDeleteConfirm({
+      title: 'حذف كل الطلبات؟',
+      text: `سيتم حذف <b>جميع الطلبات (${orders.length})</b> في النظام نهائياً، بما فيها المخفية بالفلترة. لا يمكن التراجع.<br/>أرصدة الخزائن لا تتغير، عدّلها من صفحة المالية إن لزم.`,
+      requireText: 'DELETE ALL ORDERS'
+    });
+    if (!opts) return;
+    await runDelete(
+      () => bulkDeleteOrders({ all: true, confirm: 'DELETE ALL ORDERS', restoreStock: opts.restoreStock }),
+      'تم حذف جميع الطلبات'
+    );
+  };
+
   const handlePrint = (mode) => {
     setPrintMode(mode);
     setTimeout(() => {
@@ -745,6 +824,15 @@ export default function OrdersPage() {
           </button>
 
           <button
+            onClick={handleDeleteAll}
+            disabled={orders.length === 0}
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-danger border border-danger/20 font-medium transition-colors duration-150 hover:bg-danger-50 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
+          >
+            <Trash2 size={14} />
+            <span>حذف كل الطلبات</span>
+          </button>
+
+          <button
             onClick={fetchOrdersAndAccounts}
             className="p-2.5 rounded-card border border-line bg-surface/80 backdrop-blur hover:bg-canvas text-ink-2 transition-all duration-150 shadow-card"
             title="تحديث"
@@ -974,6 +1062,13 @@ export default function OrdersPage() {
             <Printer size={14} />
             <span>طباعة / تصدير A4 ({Math.ceil(selectedIds.size / a4PerPage)} ورقة)</span>
           </button>
+          <button
+            onClick={handleDeleteSelected}
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-danger text-white font-medium shadow-card transition-colors duration-150 hover:bg-red-800 cursor-pointer whitespace-nowrap h-8 px-3 text-xs"
+          >
+            <Trash2 size={14} />
+            <span>حذف المحدد ({selectedIds.size})</span>
+          </button>
           <button onClick={() => setSelectedIds(new Set())} className="text-ink-2 hover:underline font-semibold">
             إلغاء التحديد
           </button>
@@ -1181,6 +1276,13 @@ export default function OrdersPage() {
                             title="طباعة فاتورة 10×15 سم"
                           >
                             <Printer size={14} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteOrder(order)}
+                            className="p-1.5 rounded-control bg-danger-50 hover:bg-danger/20 text-danger transition-colors"
+                            title="حذف الطلب"
+                          >
+                            <Trash2 size={14} />
                           </button>
                         </div>
                       </td>
