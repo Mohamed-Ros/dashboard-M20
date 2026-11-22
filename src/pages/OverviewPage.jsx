@@ -10,7 +10,7 @@ import {
   Tooltip, 
   ResponsiveContainer 
 } from 'recharts';
-import { getOrders, getProducts, getUsers } from '../services/api';
+import { getOrders, getProducts, getUsers, getTrafficOverview } from '../services/api';
 import {
   RefreshCw, Truck, CheckCircle2, Clock, XCircle,
   TrendingUp, Eye, ArrowRight, ArrowLeft, MessageSquare, Users as UsersIcon
@@ -35,21 +35,25 @@ export default function OverviewPage() {
     totalRevenue: 0,
   });
 
-  const trafficStats = {
-    todayVisits: 1420,
-    activeNow: 18,
-    totalPageViews: 6840,
-    conversionRate: '3.4%'
-  };
+  const [traffic, setTraffic] = useState({
+    todayVisits: 0,
+    todayPageViews: 0,
+    conversionRate: 0,
+    activeNow: 0,
+    series: [],
+    topProducts: [],
+  });
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [ordersData, productsData, usersData] = await Promise.all([
+      const [ordersData, productsData, usersData, trafficData] = await Promise.all([
         getOrders({ sort: '-createdAt' }).catch(() => []),
         getProducts().catch(() => []),
         getUsers().catch(() => []),
+        getTrafficOverview().catch(() => null),
       ]);
+      if (trafficData) setTraffic((prev) => ({ ...prev, ...trafficData }));
 
       const oList = Array.isArray(ordersData) ? ordersData : [];
       const pList = Array.isArray(productsData) ? productsData : [];
@@ -103,22 +107,20 @@ export default function OverviewPage() {
     fetchData();
   }, []);
 
-  const topViewedProducts = products.slice(0, 5).map((p, idx) => ({
+  const topViewedProducts = (traffic.topProducts || []).map((p) => ({
     _id: p._id,
     name: p.name,
-    family: p.fragranceFamily || 'Signature',
-    price: p.variants?.[0]?.price || 599,
-    image: p.images?.[0]?.url || '/img/product.png',
-    viewsCount: [2480, 1890, 1420, 960, 710][idx] || (850 - idx * 100),
-    cartAdds: [142, 98, 74, 52, 38][idx] || 30,
+    family: p.family || 'Signature',
+    price: p.price,
+    image: p.image || '/img/product.png',
+    viewsCount: p.views || 0,
+    cartAdds: p.cartAdds || 0,
   }));
 
-  const days = {
-    ar: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'],
-    en: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-  }[lang === 'ar' ? 'ar' : 'en'];
-  const visitsSeries = [920, 1150, 1380, 1240, 1600, 2100, 2450];
-  const chartData = days.map((day, i) => ({ day, visits: visitsSeries[i] }));
+  const chartData = (traffic.series || []).map((d) => ({
+    day: new Date(`${d.date}T12:00:00`).toLocaleDateString(lang === 'ar' ? 'ar-EG' : 'en-US', { weekday: 'short' }),
+    visits: d.visits,
+  }));
 
   const money = (n) => `${Number(n || 0).toLocaleString()} ${EGP}`;
 
@@ -171,17 +173,16 @@ export default function OverviewPage() {
             description={tr('إحصائيات توافد الزوار يومياً', 'Daily visitor volume')}
             action={
               <div className="flex items-center gap-2">
-                <Badge tone="neutral">{tr('بيانات توضيحية', 'Sample data')}</Badge>
-                <Badge tone="accent" dot>{trafficStats.activeNow} {tr('زائر الآن', 'online now')}</Badge>
+                <Badge tone="accent" dot>{traffic.activeNow} {tr('زائر الآن', 'online now')}</Badge>
               </div>
             }
           />
           <CardBody>
             <div className="grid grid-cols-3 gap-3 mb-5">
               {[
-                { l: tr('زيارات اليوم', 'Visits today'), v: trafficStats.todayVisits.toLocaleString() },
-                { l: tr('مشاهدات الصفحات', 'Page views'), v: trafficStats.totalPageViews.toLocaleString() },
-                { l: tr('معدل التحويل', 'Conversion'), v: trafficStats.conversionRate, good: true },
+                { l: tr('زيارات اليوم', 'Visits today'), v: Number(traffic.todayVisits).toLocaleString() },
+                { l: tr('مشاهدات الصفحات اليوم', 'Page views today'), v: Number(traffic.todayPageViews).toLocaleString() },
+                { l: tr('معدل التحويل', 'Conversion'), v: `${traffic.conversionRate}%`, good: true },
               ].map((m) => (
                 <div key={m.l} className="rounded-control bg-canvas border border-line p-3">
                   <p className="text-xs text-ink-2">{m.l}</p>
@@ -271,15 +272,13 @@ export default function OverviewPage() {
                   <Th>{tr('العميل', 'Customer')}</Th>
                   <Th>{tr('الهاتف', 'Phone')}</Th>
                   <Th>{tr('الحالة', 'Status')}</Th>
-                  <Th>{tr('المنتج المتصفح', 'Browsing')}</Th>
                   <Th align="end">{tr('تواصل', 'Contact')}</Th>
                 </tr>
               </THead>
               <tbody>
                 {users.slice(0, 5).map((u, idx) => {
                   const hasOrders = (u.totalOrders || 0) > 0;
-                  const viewedPerfumes = ['M20 Noir', 'Royal Vetiver', 'Soleil Blanc'][idx % 3];
-                  const cleanPhone = (u.phone || '').replace(/[^0-9]/g, '');
+                                    const cleanPhone = (u.phone || '').replace(/[^0-9]/g, '');
                   return (
                     <Tr key={u._id || idx}>
                       <Td className="font-medium">{u.name || tr('عميل', 'Customer')}</Td>
@@ -291,7 +290,6 @@ export default function OverviewPage() {
                           <Badge tone="warning" dot>{tr('سلة انتظار', 'Cart waiting')}</Badge>
                         )}
                       </Td>
-                      <Td className="text-ink-2">{viewedPerfumes}</Td>
                       <Td align="end">
                         <Button
                           as="a"

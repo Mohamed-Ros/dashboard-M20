@@ -477,6 +477,11 @@ export const getMarketingDashboard = async (params = {}) => {
   return res.data?.data || res.data;
 };
 
+export const getTrafficOverview = async () => {
+  const res = await API.get('/marketing/traffic');
+  return res.data?.data || res.data;
+};
+
 export const getAdSpends = async (params = {}) => {
   const res = await API.get('/marketing/ad-spend', { params });
   return res.data?.data || res.data;
