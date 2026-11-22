@@ -364,6 +364,12 @@ export const getExpenses = async (params = {}) => {
   return res.data?.data?.expenses || res.data?.data || [];
 };
 
+export const updateExpense = async (id, data) => {
+  const { paidFromAccount, ...rest } = data;
+  const res = await API.put(`/expenses/${id}`, { ...rest, paymentAccountId: data.paymentAccountId ?? paidFromAccount ?? '' });
+  return res.data?.data || res.data;
+};
+
 export const getExpensesSummary = async (params = {}) => {
   const res = await API.get('/expenses/summary', { params });
   return res.data?.data || {};

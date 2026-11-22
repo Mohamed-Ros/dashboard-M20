@@ -181,6 +181,12 @@ export default function OrdersLedgerPage() {
         </div>
       )}
 
+      <p className="text-xs text-ink-3">
+        {ar
+          ? `عمود "تشغيلية" = المبلغ الثابت لكل أوردر (من الإعدادات) + نصيب الأوردر من المصروفات التشغيلية المسجّلة في الفترة (${fmt(t.operatingPool)} ج.م موزّعة بالتساوي، بدون التسويق والنقل العام).`
+          : `"Operating" = fixed per-order amount (settings) + the order's share of recorded operating expenses in the period (${fmt(t.operatingPool)} EGP spread evenly, excluding Marketing and general Transportation).`}
+      </p>
+
       {t.warned > 0 && (
         <div className="flex items-center gap-2 text-xs font-semibold text-danger">
           <AlertTriangle size={14} />

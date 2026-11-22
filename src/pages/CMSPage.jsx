@@ -71,14 +71,14 @@ export default function CMSPage() {
     { k: 'oil', ar: 'زيت', en: 'Oil' },
     { k: 'alcohol', ar: 'كحول', en: 'Alcohol' },
     { k: 'rawShipping', ar: 'شحن خامات', en: 'Raw ship.' },
-    { k: 'bag', ar: 'شنطة', en: 'Bag' },
+    { k: 'box', ar: 'علبة', en: 'Box' },
     { k: 'card', ar: 'كارت', en: 'Card' },
     { k: 'marketing', ar: 'تسويق/ديزاين', en: 'Mktg/Design' }
   ];
   const [costTable, setCostTable] = useState({
-    '30ml': { bottle: 45, oil: 35, alcohol: 10, rawShipping: 10, bag: 45, card: 5, marketing: 25 },
-    '50ml': { bottle: 55, oil: 55, alcohol: 10, rawShipping: 10, bag: 45, card: 5, marketing: 25 },
-    '100ml': { bottle: 60, oil: 100, alcohol: 20, rawShipping: 10, bag: 45, card: 5, marketing: 25 }
+    '30ml': { bottle: 45, oil: 35, alcohol: 10, rawShipping: 10, box: 45, card: 5, marketing: 25 },
+    '50ml': { bottle: 55, oil: 55, alcohol: 10, rawShipping: 10, box: 45, card: 5, marketing: 25 },
+    '100ml': { bottle: 60, oil: 100, alcohol: 20, rawShipping: 10, box: 45, card: 5, marketing: 25 }
   });
   const [orderCosts, setOrderCosts] = useState({ operatingPerOrder: 0, operatingPercent: 0 });
 
@@ -150,7 +150,11 @@ export default function CMSPage() {
               });
               setRealCosts(loadedReal);
             }
-            if (data.costTable) setCostTable(data.costTable);
+            if (data.costTable) {
+              const norm = {};
+              Object.entries(data.costTable).forEach(([sz, r]) => { norm[sz] = { ...r, box: r.box ?? r.bag ?? 45 }; });
+              setCostTable(norm);
+            }
             if (data.orderCosts) {
               setOrderCosts({
                 operatingPerOrder: Number(data.orderCosts.operatingPerOrder) || 0,
@@ -636,8 +640,8 @@ export default function CMSPage() {
               <h4 className="text-xs font-semibold text-ink">{lang === 'ar' ? 'جدول تكلفة الزجاجة لكل مقاس' : 'Bottle cost table by size'}</h4>
               <p className="text-xs text-ink-2">
                 {lang === 'ar'
-                  ? 'الأوردر بيحسب تكاليفه من الجدول ده: التصنيع = زيت + كحول + شحن خامات، الباكدج = زجاجة + شنطة + كارت، الماركتنج = تسويق/ديزاين. الشحن بيتضاف من تكلفة الشحن الفعلية.'
-                  : 'Order costs are calculated from this table: manufacturing = oil + alcohol + raw shipping, packaging = bottle + bag + card, marketing = mktg/design. Shipping comes from the real shipping cost.'}
+                  ? 'الأوردر بيحسب تكاليفه من الجدول ده: COGS = زجاجة + زيت + كحول + شحن خام + علبة + كارت (التصنيع = زيت + كحول + شحن خام، الباكدج = زجاجة + علبة + كارت). التسويق والديزاين بند مستقل، ودعم الشحن (50) بيتضاف من تكلفة الشحن الفعلية.'
+                  : 'Order costs are calculated from this table: COGS = bottle + oil + alcohol + raw shipping + box + card (manufacturing = oil + alcohol + raw shipping, packaging = bottle + box + card), marketing = mktg/design. Shipping comes from the real shipping cost.'}
               </p>
             </div>
             <table className="w-full text-xs min-w-[640px]">
@@ -645,7 +649,8 @@ export default function CMSPage() {
                 <tr className="text-ink-2">
                   <th className="text-start p-1">{lang === 'ar' ? 'المقاس' : 'Size'}</th>
                   {COST_COLS.map((c) => <th key={c.k} className="p-1 font-medium">{lang === 'ar' ? c.ar : c.en}</th>)}
-                  <th className="p-1 font-semibold">{lang === 'ar' ? 'الإجمالي + شحن' : 'Total + ship.'}</th>
+                  <th className="p-1 font-semibold">COGS</th>
+                  <th className="p-1 font-semibold">{lang === 'ar' ? 'الإجمالي الشامل (+دعم شحن)' : 'All-in (+ship. support)'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -667,6 +672,7 @@ export default function CMSPage() {
                           />
                         </td>
                       ))}
+                      <td className="p-1 text-center font-mono font-semibold text-ink">{sum - (Number(row.marketing) || 0)}</td>
                       <td className="p-1 text-center font-mono font-semibold text-brand-700">{sum + Number(defaultRealCost || 0)}</td>
                     </tr>
                   );

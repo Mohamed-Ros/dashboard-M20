@@ -1,23 +1,30 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { 
-  DollarSign, Plus, Trash2, Filter, RefreshCw, 
+  DollarSign, Plus, Trash2, Pencil, Filter, RefreshCw, 
   X, Calendar, Wallet, PieChart, Tag
 } from 'lucide-react';
 import { 
-  getExpenses, createExpense, deleteExpense, 
+  getExpenses, createExpense, updateExpense, deleteExpense, 
   getExpensesSummary, getCashAccounts 
 } from '../services/api';
 import { showSuccess, showError, showConfirm, showToast } from '../utils/swal';
 
 
 const EXPENSE_CATEGORIES = {
-  marketing: { label: 'تسويق وإعلانات', color: 'bg-info-50 text-info border-info/20' },
-  rent_utilities: { label: 'إيجار ومرافق وخدمات', color: 'bg-info-50 text-info border-info/20' },
-  salaries: { label: 'رواتب ومكافآت', color: 'bg-success-50 text-success border-success/20' },
-  packaging_shipping: { label: 'تغليف وشحن إضافي', color: 'bg-warning-50 text-warning border-warning/20' },
-  software_tools: { label: 'برمجيات واشتراكات', color: 'bg-info-50 text-info border-info/20' },
-  maintenance: { label: 'صيانة ومعدات', color: 'bg-info-50 text-info border-info/20' },
-  other: { label: 'مصروفات أخرى', color: 'bg-canvas text-ink-2 border-line' },
+  Marketing: { label: 'تسويق وإعلانات', color: 'bg-info-50 text-info border-info/20' },
+  Salaries: { label: 'رواتب ومكافآت', color: 'bg-success-50 text-success border-success/20' },
+  Rent: { label: 'إيجار', color: 'bg-info-50 text-info border-info/20' },
+  Utilities: { label: 'مرافق وخدمات (كهرباء/إنترنت)', color: 'bg-info-50 text-info border-info/20' },
+  Software: { label: 'برمجيات واشتراكات', color: 'bg-info-50 text-info border-info/20' },
+  Hosting: { label: 'استضافة ودومين', color: 'bg-info-50 text-info border-info/20' },
+  Transportation: { label: 'نقل وشحن عام', color: 'bg-warning-50 text-warning border-warning/20' },
+  Packaging_Supplies: { label: 'مستلزمات تغليف', color: 'bg-warning-50 text-warning border-warning/20' },
+  Printing: { label: 'طباعة', color: 'bg-canvas text-ink-2 border-line' },
+  Photography: { label: 'تصوير', color: 'bg-canvas text-ink-2 border-line' },
+  Equipment: { label: 'معدات', color: 'bg-canvas text-ink-2 border-line' },
+  Maintenance: { label: 'صيانة', color: 'bg-canvas text-ink-2 border-line' },
+  Office: { label: 'مكتب', color: 'bg-canvas text-ink-2 border-line' },
+  Other: { label: 'مصروفات أخرى', color: 'bg-canvas text-ink-2 border-line' },
 };
 
 export default function ExpensesPage() {
@@ -29,11 +36,12 @@ export default function ExpensesPage() {
 
   // Modals
   const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
-    category: 'marketing',
+    category: 'Marketing',
     amount: '',
     date: new Date().toISOString().split('T')[0],
     paidFromAccount: '',
@@ -66,10 +74,24 @@ export default function ExpensesPage() {
     fetchData();
   }, [categoryFilter]);
 
+  const handleOpenEdit = (expense) => {
+    setEditingId(expense._id);
+    setFormData({
+      title: expense.title || '',
+      category: expense.category || 'Other',
+      amount: String(expense.amount ?? ''),
+      date: expense.date ? new Date(expense.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      paidFromAccount: expense.paymentAccount?._id || expense.paymentAccount || '',
+      notes: expense.notes || '',
+    });
+    setShowModal(true);
+  };
+
   const handleOpenAdd = () => {
+    setEditingId(null);
     setFormData({
       title: '',
-      category: 'marketing',
+      category: 'Marketing',
       amount: '',
       date: new Date().toISOString().split('T')[0],
       paidFromAccount: cashAccounts[0]?._id || '',
@@ -84,16 +106,21 @@ export default function ExpensesPage() {
 
     setSubmitting(true);
     try {
-      await createExpense({
+      const body = {
         title: formData.title,
         category: formData.category,
         amount: Number(formData.amount),
         date: formData.date,
         paidFromAccount: formData.paidFromAccount || undefined,
         notes: formData.notes,
-      });
-
-      showSuccess('تم تسجيل المصروف بنجاح', 'تم تسجيل المصروف وتحديث حسابات الخزينة والأرباح');
+      };
+      if (editingId) {
+        await updateExpense(editingId, body);
+        showSuccess('تم تعديل المصروف', 'تم تحديث المصروف وتسوية رصيد الخزينة');
+      } else {
+        await createExpense(body);
+        showSuccess('تم تسجيل المصروف بنجاح', 'تم تسجيل المصروف وتحديث حسابات الخزينة والأرباح');
+      }
       setShowModal(false);
       fetchData();
     } catch (err) {
@@ -115,7 +142,7 @@ export default function ExpensesPage() {
     }
   };
 
-  const totalExpenseAmount = summary.totalExpenses || expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+  const totalExpenseAmount = summary.totalExpenses ?? expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
 
   return (
     <div className="space-y-6">
@@ -160,21 +187,21 @@ export default function ExpensesPage() {
         <div className="bg-surface rounded-card p-4 border border-line shadow-card">
           <span className="text-xs text-ink-2 block">مصروفات التسويق والإعلانات</span>
           <h3 className="text-xl font-semibold text-ink mt-1">
-            {Math.round(summary.byCategory?.marketing || 0).toLocaleString()} ج.م
+            {Math.round(summary.byCategory?.Marketing || 0).toLocaleString()} ج.م
           </h3>
         </div>
 
         <div className="bg-surface rounded-card p-4 border border-line shadow-card">
           <span className="text-xs text-ink-2 block">مصروفات الرواتب والمكافآت</span>
           <h3 className="text-xl font-semibold text-ink mt-1">
-            {Math.round(summary.byCategory?.salaries || 0).toLocaleString()} ج.م
+            {Math.round(summary.byCategory?.Salaries || 0).toLocaleString()} ج.م
           </h3>
         </div>
 
         <div className="bg-surface rounded-card p-4 border border-line shadow-card">
           <span className="text-xs text-ink-2 block">التشغيل والمرافق والبرمجيات</span>
           <h3 className="text-xl font-semibold text-ink mt-1">
-            {Math.round((summary.byCategory?.rent_utilities || 0) + (summary.byCategory?.software_tools || 0) + (summary.byCategory?.other || 0)).toLocaleString()} ج.م
+            {Math.round(Math.max(0, totalExpenseAmount - (summary.byCategory?.Marketing || 0) - (summary.byCategory?.Salaries || 0))).toLocaleString()} ج.م
           </h3>
         </div>
       </div>
@@ -236,7 +263,7 @@ export default function ExpensesPage() {
                 </tr>
               ) : (
                 expenses.map((expense) => {
-                  const catInfo = EXPENSE_CATEGORIES[expense.category] || EXPENSE_CATEGORIES.other;
+                  const catInfo = EXPENSE_CATEGORIES[expense.category] || EXPENSE_CATEGORIES.Other;
                   return (
                     <tr key={expense._id} className="hover:bg-canvas transition-colors">
                       <td className="py-3 px-4 font-semibold text-ink">
@@ -267,6 +294,13 @@ export default function ExpensesPage() {
 
                       <td className="py-3 px-4 text-center">
                         <button
+                          onClick={() => handleOpenEdit(expense)}
+                          title="تعديل المصروف"
+                          className="p-1.5 text-ink-3 hover:text-brand-700 transition-colors"
+                        >
+                          <Pencil size={13} />
+                        </button>
+                        <button
                           onClick={() => handleDelete(expense)}
                           title="حذف المصروف"
                           className="p-1.5 text-ink-3 hover:text-danger transition-colors"
@@ -291,7 +325,7 @@ export default function ExpensesPage() {
             <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
               <h2 className="text-sm font-semibold text-brand-700 flex items-center gap-1.5">
                 <Plus size={16} />
-                <span>تسجيل مصروف تشغيلي جديد</span>
+                <span>{editingId ? 'تعديل المصروف' : 'تسجيل مصروف تشغيلي جديد'}</span>
               </h2>
               <button onClick={() => setShowModal(false)} className="p-1 text-ink-3 hover:text-ink-2">
                 <X size={16} />
@@ -393,7 +427,7 @@ export default function ExpensesPage() {
                   disabled={submitting}
                   className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
-                  {submitting ? 'جاري الحفظ...' : 'تسجيل المصروف'}
+                  {submitting ? 'جاري الحفظ...' : (editingId ? 'حفظ التعديل' : 'تسجيل المصروف')}
                 </button>
               </div>
             </form>
