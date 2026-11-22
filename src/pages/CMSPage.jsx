@@ -35,12 +35,7 @@ export default function CMSPage() {
   const [uploading, setUploading] = useState(false);
 
   // Slides
-  const [slides, setSlides] = useState([
-    { id: 1, image: '/img/offers.png', alt: 'M20 Special Offers', link: '/offers', active: true },
-    { id: 2, image: '/img/hero.png', alt: 'M20 New Arrivals', link: '/shop', active: true },
-    { id: 3, image: '/img/About.png', alt: 'M20 Fine Fragrances', link: '/about', active: true },
-    { id: 4, image: '/img/Story.png', alt: 'M20 Story', link: '/shop', active: true },
-  ]);
+  const [slides, setSlides] = useState([]);
 
   // Announcement
   const [announcement, setAnnouncement] = useState({
@@ -92,7 +87,7 @@ export default function CMSPage() {
         setLoading(true);
         const data = await getAdminSettings();
         if (data) {
-          if (data.heroSlides && data.heroSlides.length > 0) {
+          if (Array.isArray(data.heroSlides)) {
             setSlides(data.heroSlides);
           }
           if (data.announcement) {
@@ -216,13 +211,6 @@ export default function CMSPage() {
   };
 
   const removeSlide = (id) => {
-    if (slides.length <= 1) {
-      showWarning(
-        lang === 'ar' ? 'تنبيه' : 'Warning',
-        lang === 'ar' ? 'يجب الإبقاء على بانر واحد على الأقل في السلايدر الرئيسي.' : 'Keep at least one active banner slide.'
-      );
-      return;
-    }
     setSlides(prev => prev.filter(s => s.id !== id));
   };
 
