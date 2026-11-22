@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import InstallAppButton from '../InstallAppButton';
 import { Store, LogOut, PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 import { NAV_GROUPS, findActiveItem } from '../../config/navigation';
 import { useLanguage } from '../../context/LanguageContext';
@@ -95,6 +96,10 @@ export default function Sidebar({ collapsed = false, mobile = false, onToggle, o
           </div>
         ))}
       </nav>
+
+      {!rail && (
+        <div className="px-3 pb-2 empty:hidden"><InstallAppButton className="w-full !bg-white/10 !text-white !border-white/15 hover:!bg-white/20" /></div>
+      )}
 
       {/* Footer */}
       <div className="shrink-0 border-t border-white/10 p-3 space-y-2">

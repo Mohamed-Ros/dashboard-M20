@@ -4,7 +4,7 @@ import {
   ArrowUpDown, RefreshCw, X, Check, Building2, TrendingUp, TrendingDown
 } from 'lucide-react';
 import { 
-  getCashAccounts, createCashAccount, adjustCashAccount 
+  getCashAccounts, createCashAccount, adjustCashAccount, transferBetweenAccounts 
 } from '../services/api';
 import { showSuccess, showError, showToast } from '../utils/swal';
 
@@ -15,6 +15,9 @@ const ACCOUNT_TYPE_MAP = {
   instapay: { label: 'إنستاباي (InstaPay)', icon: Smartphone, color: 'text-info bg-info-50 border-info/20' },
   bank: { label: 'حساب بنكي', icon: Building2, color: 'text-info bg-info-50 border-info/20' },
   cod_courier: { label: 'تحصيلات مناديب الشحن', icon: CreditCard, color: 'text-warning bg-warning-50 border-warning/20' },
+  digital_wallet: { label: 'محفظة إلكترونية', icon: Smartphone, color: 'text-info bg-info-50 border-info/20' },
+  online_gateway: { label: 'بوابة دفع', icon: CreditCard, color: 'text-warning bg-warning-50 border-warning/20' },
+  operating: { label: 'محفظة المصاريف التشغيلية', icon: Wallet, color: 'text-brand-700 bg-brand-50 border-brand-100' },
   other: { label: 'حساب آخر', icon: Wallet, color: 'text-ink-2 bg-canvas border-line' },
 };
 
@@ -38,6 +41,31 @@ export default function CashAccountsPage() {
   });
 
   // Adjust Balance Form
+  // Transfer between accounts / operating-expenses wallet
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [transferForm, setTransferForm] = useState({ fromId: '', toId: '', amount: '', note: '' });
+
+  const handleOpenTransfer = (fromId = '') => {
+    const op = accounts.find((a) => a.accountType === 'operating');
+    setTransferForm({ fromId, toId: fromId ? '' : (op?._id || ''), amount: '', note: '' });
+    setShowTransferModal(true);
+  };
+
+  const handleTransfer = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      await transferBetweenAccounts({ ...transferForm, amount: Number(transferForm.amount) });
+      showSuccess('تم التحويل', 'تم نقل المبلغ بين الحسابين بنجاح');
+      setShowTransferModal(false);
+      fetchAccounts();
+    } catch (err) {
+      showError('تعذر التحويل', err.response?.data?.message || 'حدث خطأ أثناء التحويل');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const [adjustForm, setAdjustForm] = useState({
     amountChange: '',
     type: 'deposit',
@@ -140,6 +168,14 @@ export default function CashAccountsPage() {
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            onClick={() => handleOpenTransfer()}
+            className="inline-flex items-center justify-center gap-2 rounded-control bg-surface text-brand-700 border border-line font-medium transition-colors duration-150 hover:bg-brand-50 hover:border-brand-100 cursor-pointer whitespace-nowrap h-8 px-3 text-xs"
+          >
+            <ArrowUpDown size={14} />
+            <span>تحويل بين المحافظ / المصاريف التشغيلية</span>
+          </button>
+
           <button
             onClick={handleOpenAdd}
             className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
@@ -335,6 +371,65 @@ export default function CashAccountsPage() {
                   className="inline-flex items-center justify-center gap-2 rounded-control bg-brand-700 text-white font-medium shadow-card transition-colors duration-150 hover:bg-brand-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap h-8 px-3 text-xs"
                 >
                   {submitting ? 'جاري الحفظ...' : 'إضافة الحساب'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Transfer Modal */}
+      {showTransferModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 rtl">
+          <div className="fixed inset-0 bg-black/40" onClick={() => setShowTransferModal(false)} />
+          <div className="relative w-full max-w-sm bg-surface rounded-card border border-line shadow-card z-10">
+            <div className="px-5 py-3.5 border-b border-line bg-canvas flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-brand-700">تحويل بين الحسابات</h2>
+              <button onClick={() => setShowTransferModal(false)} className="p-1 text-ink-3 hover:text-ink-2"><X size={16} /></button>
+            </div>
+            <form onSubmit={handleTransfer} className="p-5 space-y-3.5 text-xs">
+              {[['fromId', 'من حساب *'], ['toId', 'إلى حساب *']].map(([key, label]) => (
+                <div key={key}>
+                  <label className="block font-medium text-ink-2 mb-1">{label}</label>
+                  <select
+                    required
+                    value={transferForm[key]}
+                    onChange={(e) => setTransferForm({ ...transferForm, [key]: e.target.value })}
+                    className="w-full h-9 bg-surface rounded-card border border-line shadow-card px-2 text-xs outline-none"
+                  >
+                    <option value="">اختر الحساب</option>
+                    {accounts
+                      .filter((a) => a._id !== transferForm[key === 'fromId' ? 'toId' : 'fromId'])
+                      .map((a) => (
+                        <option key={a._id} value={a._id}>
+                          {a.accountName}{a.accountType === 'operating' ? ' (مصاريف تشغيلية)' : ''} - {Math.round(a.currentBalance || 0).toLocaleString()} ج.م
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              ))}
+              <div>
+                <label className="block font-medium text-ink-2 mb-1">المبلغ (ج.م) *</label>
+                <input
+                  type="number" min="1" step="any" required
+                  value={transferForm.amount}
+                  onChange={(e) => setTransferForm({ ...transferForm, amount: e.target.value })}
+                  className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full"
+                />
+              </div>
+              <div>
+                <label className="block font-medium text-ink-2 mb-1">ملاحظة</label>
+                <input
+                  value={transferForm.note}
+                  onChange={(e) => setTransferForm({ ...transferForm, note: e.target.value })}
+                  placeholder="مثال: ميزانية مصاريف الشهر"
+                  className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full"
+                />
+              </div>
+              <div className="pt-3 border-t border-line flex justify-end gap-2">
+                <button type="button" onClick={() => setShowTransferModal(false)} className="rounded-control bg-surface text-brand-700 border border-line font-medium h-8 px-3 text-xs">إلغاء</button>
+                <button type="submit" disabled={submitting} className="rounded-control bg-brand-700 text-white font-medium h-8 px-3 text-xs disabled:opacity-50">
+                  {submitting ? 'جاري التحويل...' : 'تأكيد التحويل'}
                 </button>
               </div>
             </form>

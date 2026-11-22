@@ -258,7 +258,7 @@ export default function ExpensesPage() {
                       </td>
 
                       <td className="py-3 px-4 text-ink-2 text-xs">
-                        {expense.paidFromAccount?.accountName || '—'}
+                        {expense.paymentAccountName || expense.paymentAccount?.name || '—'}
                       </td>
 
                       <td className="py-3 px-4 text-ink-2 max-w-xs truncate">

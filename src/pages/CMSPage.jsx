@@ -82,6 +82,9 @@ export default function CMSPage() {
   });
   const [orderCosts, setOrderCosts] = useState({ operatingPerOrder: 0, operatingPercent: 0 });
 
+  // Payment fees: gateway % is charged to the customer; wallet % is only an internal cost
+  const [payFees, setPayFees] = useState({ fawaterk: 2.4, fawaterkEnabled: true, vodafoneCash: 0, instaPay: 0 });
+
   // Marketing Tracking & Pixels (Meta Pixel, CAPI, TikTok Pixel)
   const [tracking, setTracking] = useState({
     enableTracking: true,
@@ -108,6 +111,14 @@ export default function CMSPage() {
         if (data) {
           if (Array.isArray(data.heroSlides)) {
             setSlides(data.heroSlides);
+          }
+          if (data.payments) {
+            setPayFees({
+              fawaterk: Number(data.payments.fawaterk?.feePercent ?? 2.4),
+              fawaterkEnabled: data.payments.fawaterk?.enabled !== false,
+              vodafoneCash: Number(data.payments.vodafoneCash?.feePercent ?? 0),
+              instaPay: Number(data.payments.instaPay?.feePercent ?? 0)
+            });
           }
           if (data.announcement) {
             setAnnouncement({
@@ -285,6 +296,11 @@ export default function CMSPage() {
       });
 
       const payload = {
+        payments: {
+          fawaterk: { enabled: payFees.fawaterkEnabled, feePercent: Math.max(0, Number(payFees.fawaterk) || 0), feeInitialized: true },
+          vodafoneCash: { feePercent: Math.max(0, Number(payFees.vodafoneCash) || 0) },
+          instaPay: { feePercent: Math.max(0, Number(payFees.instaPay) || 0) }
+        },
         orderCosts,
         costTable,
         announcement,
@@ -578,6 +594,38 @@ export default function CMSPage() {
               <label className="text-xs text-ink-2 space-y-1">
                 <span className="block">{lang === 'ar' ? 'مصروفات تشغيلية (% من الأوردر)' : 'Operating cost (% of order)'}</span>
                 <input type="number" min="0" step="0.1" value={orderCosts.operatingPercent} onChange={(e) => setOrderCosts((p) => ({ ...p, operatingPercent: Math.max(0, Number(e.target.value)) }))} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+            </div>
+          </div>
+
+          {/* Payment fee percentages */}
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3">
+            <div>
+              <h4 className="text-xs font-semibold text-ink">{lang === 'ar' ? 'نسب رسوم الدفع' : 'Payment fee percentages'}</h4>
+              <p className="text-xs text-ink-2">
+                {lang === 'ar'
+                  ? 'نسبة البوابة بتتضاف على إجمالي الأوردر وتتقرّب لأقرب جنيه. نسب فودافون كاش وإنستاباي تكلفة داخلية فقط ولا تُضاف على العميل. كل النسب بتظهر في حصر الدفتر.'
+                  : 'The gateway % is added to the order total and rounded to the nearest EGP. Vodafone/InstaPay % are internal costs only. All appear in the ledger tally.'}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="flex items-center justify-between">
+                  <span>{lang === 'ar' ? 'بوابة الدفع (على العميل) %' : 'Payment gateway (charged to customer) %'}</span>
+                  <span className="flex items-center gap-1">
+                    <input type="checkbox" checked={payFees.fawaterkEnabled} onChange={(e) => setPayFees((p) => ({ ...p, fawaterkEnabled: e.target.checked }))} />
+                    {lang === 'ar' ? 'مفعّلة' : 'On'}
+                  </span>
+                </span>
+                <input type="number" min="0" step="0.1" value={payFees.fawaterk} onChange={(e) => setPayFees((p) => ({ ...p, fawaterk: e.target.value }))} className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'فودافون كاش (تكلفة داخلية) %' : 'Vodafone Cash (internal cost) %'}</span>
+                <input type="number" min="0" step="0.1" value={payFees.vodafoneCash} onChange={(e) => setPayFees((p) => ({ ...p, vodafoneCash: e.target.value }))} className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'إنستاباي (تكلفة داخلية) %' : 'InstaPay (internal cost) %'}</span>
+                <input type="number" min="0" step="0.1" value={payFees.instaPay} onChange={(e) => setPayFees((p) => ({ ...p, instaPay: e.target.value }))} className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
               </label>
             </div>
           </div>

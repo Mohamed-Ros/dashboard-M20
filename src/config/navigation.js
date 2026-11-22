@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Truck, Tag, Sparkles, Users, Package, Layers, FlaskConical, Droplets, History,
-  DollarSign, Receipt, Wallet, FileSpreadsheet, Target, Store, Banknote, Palette,
+  DollarSign, BookOpen, Receipt, Wallet, FileSpreadsheet, Target, Store, Banknote, Palette,
 } from 'lucide-react';
 
 /**
@@ -48,6 +48,7 @@ export const NAV_GROUPS = [
     label: { en: 'Finance', ar: 'المالية' },
     items: [
       { path: '/finance', key: 'nav.financeOverview', fallback: 'Finance Overview', icon: DollarSign },
+      { path: '/orders-ledger', key: 'nav.ordersLedger', fallback: 'Orders Ledger', icon: BookOpen },
       { path: '/purchases', key: 'nav.purchases', fallback: 'Purchase Invoices', icon: Receipt },
       { path: '/expenses', key: 'nav.expenses', fallback: 'Operating Expenses', icon: Banknote },
       { path: '/finance/cash-accounts', key: 'nav.cashAccounts', fallback: 'Treasuries & Accounts', icon: Wallet },

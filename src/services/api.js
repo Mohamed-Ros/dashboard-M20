@@ -85,6 +85,11 @@ export const getOrders = async (params = {}) => {
   return res.data?.data?.orders || res.data?.data || [];
 };
 
+export const getOrdersLedger = async (params = {}) => {
+  const res = await API.get('/orders/ledger', { params });
+  return res.data?.data || { rows: [], totals: {} };
+};
+
 export const deleteOrder = async (id, restoreStock = true) => {
   const res = await API.delete(`/orders/${id}`, { params: { restoreStock } });
   return res.data?.data || res.data;
@@ -365,7 +370,8 @@ export const getExpensesSummary = async (params = {}) => {
 };
 
 export const createExpense = async (data) => {
-  const res = await API.post('/expenses', data);
+  const { paidFromAccount, ...rest } = data;
+  const res = await API.post('/expenses', { ...rest, paymentAccountId: data.paymentAccountId ?? paidFromAccount });
   return res.data?.data || res.data;
 };
 
@@ -400,18 +406,44 @@ export const getInventoryValuation = async () => {
   return res.data?.data || {};
 };
 
+// The backend uses name/balance/type; the pages use accountName/currentBalance/accountType. Provide both.
+const withAccountAliases = (a) => ({
+  ...a,
+  accountName: a.accountName ?? a.name,
+  currentBalance: a.currentBalance ?? a.balance ?? 0,
+  accountType: a.accountType ?? a.type
+});
+
 export const getCashAccounts = async () => {
   const res = await API.get('/finance/cash-accounts');
-  return res.data?.data || [];
+  return (res.data?.data || []).map(withAccountAliases);
 };
 
 export const createCashAccount = async (data) => {
-  const res = await API.post('/finance/cash-accounts', data);
+  const res = await API.post('/finance/cash-accounts', {
+    name: data.name ?? data.accountName,
+    type: data.type ?? data.accountType,
+    accountIdentifier: data.accountIdentifier,
+    initialBalance: data.initialBalance ?? data.currentBalance,
+    notes: data.notes
+  });
   return res.data?.data || res.data;
 };
 
 export const adjustCashAccount = async (id, data) => {
-  const res = await API.post(`/finance/cash-accounts/${id}/adjust`, data);
+  const change = Number(data.amountChange ?? data.amount);
+  const signed = data.type === 'withdrawal' ? -Math.abs(change) : data.type === 'deposit' ? Math.abs(change) : change;
+  const res = await API.post(`/finance/cash-accounts/${id}/adjust`, {
+    amount: signed,
+    type: 'MANUAL_ADJUSTMENT',
+    description: data.reason ?? data.description
+  });
+  return res.data?.data || res.data;
+};
+
+// Move money between two accounts (wallet <-> wallet or wallet <-> operating-expenses wallet)
+export const transferBetweenAccounts = async ({ fromId, toId, amount, note }) => {
+  const res = await API.post('/finance/cash-accounts/transfer', { fromId, toId, amount, note });
   return res.data?.data || res.data;
 };
 

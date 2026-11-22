@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "M20 Management Suite",
+  "short_name": "M20 Admin",
+  "description": "M20 dashboard: orders, finance, inventory and store settings",
+  "lang": "ar",
+  "dir": "auto",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#174F43",
+  "theme_color": "#174F43",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

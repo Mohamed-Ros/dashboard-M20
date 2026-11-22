@@ -18,6 +18,7 @@ import FormulasPage from './pages/FormulasPage';
 import BatchesPage from './pages/BatchesPage';
 import PurchasesPage from './pages/PurchasesPage';
 import ExpensesPage from './pages/ExpensesPage';
+import OrdersLedgerPage from './pages/OrdersLedgerPage';
 import CashAccountsPage from './pages/CashAccountsPage';
 import StockMovementsPage from './pages/StockMovementsPage';
 import ReportsPage from './pages/ReportsPage';
@@ -125,6 +126,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <PurchasesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders-ledger"
+            element={
+              <ProtectedRoute>
+                <OrdersLedgerPage />
               </ProtectedRoute>
             }
           />
