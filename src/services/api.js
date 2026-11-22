@@ -74,6 +74,17 @@ export const updateProduct = async (id, productData) => {
   return res.data?.data || res.data;
 };
 
+// Per-product cost overrides (admin only)
+export const getProductCostTables = async () => {
+  const res = await API.get('/products/admin/cost-tables');
+  return res.data?.data || [];
+};
+
+export const saveProductCostTable = async (id, costTable) => {
+  const res = await API.put(`/products/${id}/cost-table`, { costTable });
+  return res.data?.data || res.data;
+};
+
 export const deleteProduct = async (id) => {
   const res = await API.delete(`/products/${id}`);
   return res.data;

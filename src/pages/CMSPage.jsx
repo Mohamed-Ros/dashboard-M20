@@ -306,7 +306,6 @@ export default function CMSPage() {
           instaPay: { feePercent: Math.max(0, Number(payFees.instaPay) || 0) }
         },
         orderCosts,
-        costTable,
         announcement,
         socialMedia: contact,
         heroSlides: slides,
@@ -632,53 +631,6 @@ export default function CMSPage() {
                 <input type="number" min="0" step="0.1" value={payFees.instaPay} onChange={(e) => setPayFees((p) => ({ ...p, instaPay: e.target.value }))} className="rounded-control border border-line bg-surface px-3 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
               </label>
             </div>
-          </div>
-
-          {/* Cost per size table */}
-          <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3 overflow-x-auto">
-            <div>
-              <h4 className="text-xs font-semibold text-ink">{lang === 'ar' ? 'جدول تكلفة الزجاجة لكل مقاس' : 'Bottle cost table by size'}</h4>
-              <p className="text-xs text-ink-2">
-                {lang === 'ar'
-                  ? 'الأوردر بيحسب تكاليفه من الجدول ده: COGS = زجاجة + زيت + كحول + شحن خام + علبة + كارت (التصنيع = زيت + كحول + شحن خام، الباكدج = زجاجة + علبة + كارت). التسويق والديزاين بند مستقل، ودعم الشحن (50) بيتضاف من تكلفة الشحن الفعلية.'
-                  : 'Order costs are calculated from this table: COGS = bottle + oil + alcohol + raw shipping + box + card (manufacturing = oil + alcohol + raw shipping, packaging = bottle + box + card), marketing = mktg/design. Shipping comes from the real shipping cost.'}
-              </p>
-            </div>
-            <table className="w-full text-xs min-w-[640px]">
-              <thead>
-                <tr className="text-ink-2">
-                  <th className="text-start p-1">{lang === 'ar' ? 'المقاس' : 'Size'}</th>
-                  {COST_COLS.map((c) => <th key={c.k} className="p-1 font-medium">{lang === 'ar' ? c.ar : c.en}</th>)}
-                  <th className="p-1 font-semibold">COGS</th>
-                  <th className="p-1 font-semibold">{lang === 'ar' ? 'الإجمالي الشامل (+دعم شحن)' : 'All-in (+ship. support)'}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(costTable).map((size) => {
-                  const row = costTable[size];
-                  const sum = COST_COLS.reduce((a, c) => a + (Number(row[c.k]) || 0), 0);
-                  return (
-                    <tr key={size} className="border-t border-line">
-                      <td className="p-1 font-semibold text-ink">{size}</td>
-                      {COST_COLS.map((c) => (
-                        <td key={c.k} className="p-1">
-                          <input
-                            type="number"
-                            min="0"
-                            step="1"
-                            value={row[c.k] ?? 0}
-                            onChange={(e) => setCostTable((prev) => ({ ...prev, [size]: { ...prev[size], [c.k]: Math.max(0, Number(e.target.value)) } }))}
-                            className="rounded-control border border-line bg-surface px-2 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-16"
-                          />
-                        </td>
-                      ))}
-                      <td className="p-1 text-center font-mono font-semibold text-ink">{sum - (Number(row.marketing) || 0)}</td>
-                      <td className="p-1 text-center font-mono font-semibold text-brand-700">{sum + Number(defaultRealCost || 0)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
           </div>
 
           {/* 6 Tiers Grid */}

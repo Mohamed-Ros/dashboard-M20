@@ -19,6 +19,7 @@ import BatchesPage from './pages/BatchesPage';
 import PurchasesPage from './pages/PurchasesPage';
 import ExpensesPage from './pages/ExpensesPage';
 import OrdersLedgerPage from './pages/OrdersLedgerPage';
+import CostTablePage from './pages/CostTablePage';
 import CashAccountsPage from './pages/CashAccountsPage';
 import StockMovementsPage from './pages/StockMovementsPage';
 import ReportsPage from './pages/ReportsPage';
@@ -126,6 +127,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <PurchasesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cost-table"
+            element={
+              <ProtectedRoute>
+                <CostTablePage />
               </ProtectedRoute>
             }
           />
