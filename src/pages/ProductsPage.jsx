@@ -100,6 +100,8 @@ export default function ProductsPage() {
   const [topNotesStr, setTopNotesStr] = useState('');
   const [heartNotesStr, setHeartNotesStr] = useState('');
   const [baseNotesStr, setBaseNotesStr] = useState('');
+  // English version of the content
+  const [en, setEn] = useState({ name: '', shortDescription: '', description: '', top: '', heart: '', base: '' });
 
   // Image Uploading State map for 4 roles
   const [uploadingRole, setUploadingRole] = useState(null);
@@ -126,6 +128,7 @@ export default function ProductsPage() {
   const handleOpenNew = () => {
     setEditingId(null);
     setFormData(initialProductState);
+    setEn({ name: '', shortDescription: '', description: '', top: '', heart: '', base: '' });
     setTopNotesStr('البرغموت, الفلفل الوردي, الزعفران');
     setHeartNotesStr('الورد الجوري, الياسمين, القهوة');
     setBaseNotesStr('العود الملكي, العنبر الداكن, الفانيليا, المسك');
@@ -189,6 +192,15 @@ export default function ProductsPage() {
       active: product.active !== undefined ? product.active : true
     });
 
+    const tEn = product.translations?.en || {};
+    setEn({
+      name: tEn.name || '',
+      shortDescription: tEn.shortDescription || '',
+      description: tEn.description || '',
+      top: (tEn.notes?.top || []).join(', '),
+      heart: (tEn.notes?.heart || []).join(', '),
+      base: (tEn.notes?.base || []).join(', '),
+    });
     setTopNotesStr((product.notes?.top || []).join(', '));
     setHeartNotesStr((product.notes?.heart || []).join(', '));
     setBaseNotesStr((product.notes?.base || []).join(', '));
@@ -295,6 +307,14 @@ export default function ProductsPage() {
         top: topNotesStr.split(',').map(s => s.trim()).filter(Boolean),
         heart: heartNotesStr.split(',').map(s => s.trim()).filter(Boolean),
         base: baseNotesStr.split(',').map(s => s.trim()).filter(Boolean)
+      },
+      translations: {
+        en: {
+          name: en.name.trim(),
+          shortDescription: en.shortDescription.trim(),
+          description: en.description.trim(),
+          notes: { top: en.top, heart: en.heart, base: en.base }
+        }
       },
       longevityHours: formData.longevityHours !== '' && formData.longevityHours !== null ? Number(formData.longevityHours) : null,
       sillageHours: formData.sillageHours !== '' && formData.sillageHours !== null ? Number(formData.sillageHours) : null,
@@ -739,6 +759,42 @@ export default function ProductsPage() {
                       placeholder="العود, العنبر, المسك"
                       className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 disabled:bg-canvas disabled:text-ink-3 h-9 text-xs w-full"
                     />
+                  </div>
+                </div>
+              </div>
+
+              {/* Section 2.2: English version (shown when the website is in English) */}
+              <div className="p-4 bg-canvas border border-line rounded-card space-y-3" dir="ltr">
+                <span className="font-semibold text-brand-700 text-xs block">
+                  English version — shown when the visitor switches the site to English
+                </span>
+                <p className="text-xs text-ink-3">
+                  The fields above are the Arabic version. Leave a field empty to fall back to the Arabic text.
+                </p>
+                <div>
+                  <label className="block font-semibold text-ink-2 mb-1">Product name (English)</label>
+                  <input type="text" value={en.name} onChange={(e) => setEn({ ...en, name: e.target.value })} placeholder="NIGHT" className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+                </div>
+                <div>
+                  <label className="block font-semibold text-ink-2 mb-1">Short description (English)</label>
+                  <textarea rows="2" value={en.shortDescription} onChange={(e) => setEn({ ...en, shortDescription: e.target.value })} placeholder="A warm, dark evening scent opening with red ginger and cardamom..." className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+                </div>
+                <div>
+                  <label className="block font-semibold text-ink-2 mb-1">Full description (English)</label>
+                  <textarea rows="3" value={en.description} onChange={(e) => setEn({ ...en, description: e.target.value })} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block font-semibold text-ink-2 mb-1">Top notes</label>
+                    <input type="text" value={en.top} onChange={(e) => setEn({ ...en, top: e.target.value })} placeholder="Red ginger, Cardamom" className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+                  </div>
+                  <div>
+                    <label className="block font-semibold text-ink-2 mb-1">Heart notes</label>
+                    <input type="text" value={en.heart} onChange={(e) => setEn({ ...en, heart: e.target.value })} placeholder="Coffee, Caramel" className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+                  </div>
+                  <div>
+                    <label className="block font-semibold text-ink-2 mb-1">Base notes</label>
+                    <input type="text" value={en.base} onChange={(e) => setEn({ ...en, base: e.target.value })} placeholder="Vanilla, Amber" className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
                   </div>
                 </div>
               </div>
