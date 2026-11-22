@@ -62,6 +62,25 @@ export default function CMSPage() {
   });
 
   const [metroPickupFee, setMetroPickupFee] = useState(0);
+  // Real carrier cost per governorate (blank = use the default real cost), warn threshold, per-order overhead
+  const [realCosts, setRealCosts] = useState({});
+  const [defaultRealCost, setDefaultRealCost] = useState(50);
+  const [costWarnPercent, setCostWarnPercent] = useState(30);
+  const COST_COLS = [
+    { k: 'bottle', ar: 'زجاجة', en: 'Bottle' },
+    { k: 'oil', ar: 'زيت', en: 'Oil' },
+    { k: 'alcohol', ar: 'كحول', en: 'Alcohol' },
+    { k: 'rawShipping', ar: 'شحن خامات', en: 'Raw ship.' },
+    { k: 'bag', ar: 'شنطة', en: 'Bag' },
+    { k: 'card', ar: 'كارت', en: 'Card' },
+    { k: 'marketing', ar: 'تسويق/ديزاين', en: 'Mktg/Design' }
+  ];
+  const [costTable, setCostTable] = useState({
+    '30ml': { bottle: 45, oil: 35, alcohol: 10, rawShipping: 10, bag: 45, card: 5, marketing: 25 },
+    '50ml': { bottle: 55, oil: 55, alcohol: 10, rawShipping: 10, bag: 45, card: 5, marketing: 25 },
+    '100ml': { bottle: 60, oil: 100, alcohol: 20, rawShipping: 10, bag: 45, card: 5, marketing: 25 }
+  });
+  const [orderCosts, setOrderCosts] = useState({ operatingPerOrder: 0, operatingPercent: 0 });
 
   // Marketing Tracking & Pixels (Meta Pixel, CAPI, TikTok Pixel)
   const [tracking, setTracking] = useState({
@@ -108,6 +127,24 @@ export default function CMSPage() {
           if (data.shipping) {
             if (data.shipping.metroPickupCustomerFee !== undefined) {
               setMetroPickupFee(Math.round(Number(data.shipping.metroPickupCustomerFee)));
+            }
+            if (data.shipping.defaultRealCost !== undefined) setDefaultRealCost(Math.round(Number(data.shipping.defaultRealCost)));
+            if (data.shipping.costWarnPercent !== undefined) setCostWarnPercent(Number(data.shipping.costWarnPercent));
+            if (data.shipping.realCostMap) {
+              const rawReal = data.shipping.realCostMap;
+              const loadedReal = {};
+              EGYPT_GOVERNORATES.forEach((gov) => {
+                const v = rawReal[gov.nameEn] ?? rawReal[gov.nameAr] ?? rawReal[gov.id];
+                if (v !== undefined && v !== null) loadedReal[gov.nameEn] = Math.round(Number(v));
+              });
+              setRealCosts(loadedReal);
+            }
+            if (data.costTable) setCostTable(data.costTable);
+            if (data.orderCosts) {
+              setOrderCosts({
+                operatingPerOrder: Number(data.orderCosts.operatingPerOrder) || 0,
+                operatingPercent: Number(data.orderCosts.operatingPercent) || 0
+              });
             }
             if (data.shipping.governorateRates) {
               const loadedRates = {};
@@ -237,7 +274,19 @@ export default function CMSPage() {
       });
       ratesPayload['بور سعيد'] = Math.round(Number(shippingRates['Port Said'] ?? 80));
 
+      const realPayload = {};
+      EGYPT_GOVERNORATES.forEach((gov) => {
+        const v = realCosts[gov.nameEn];
+        if (v === undefined || v === '' || v === null) return;
+        const n = Math.max(0, Math.round(Number(v)));
+        realPayload[gov.nameEn] = n;
+        realPayload[gov.nameAr] = n;
+        realPayload[gov.id] = n;
+      });
+
       const payload = {
+        orderCosts,
+        costTable,
         announcement,
         socialMedia: contact,
         heroSlides: slides,
@@ -245,7 +294,9 @@ export default function CMSPage() {
         supportPhone: contact.phone,
         shipping: {
           governorateRates: ratesPayload,
-          realCostMap: ratesPayload,
+          realCostMap: realPayload,
+          defaultRealCost: Math.round(Number(defaultRealCost) || 0),
+          costWarnPercent: Number(costWarnPercent) || 0,
           metroPickupCustomerFee: Math.round(Number(metroPickupFee || 0)),
           defaultCustomerRate: 75
         },
@@ -501,6 +552,81 @@ export default function CMSPage() {
             </div>
           </div>
 
+          {/* Real cost & per-order cost settings */}
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3">
+            <div>
+              <h4 className="text-xs font-semibold text-ink">{lang === 'ar' ? 'تكلفة الشحن الفعلية وتكاليف الأوردر' : 'Real Shipping Cost & Per-Order Costs'}</h4>
+              <p className="text-xs text-ink-2">
+                {lang === 'ar'
+                  ? 'تكلفة الشركة الفعلية تُخصم من ربح كل أوردر. المنطقة بدون تكلفة محددة تستخدم التكلفة الافتراضية. يظهر تحذير لو تكلفة الشحن تعدت النسبة من قيمة المنتجات.'
+                  : 'Real carrier cost is deducted from each order profit. Regions without an explicit cost use the default. An order is flagged when shipping exceeds the % of products value.'}
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'تكلفة الشحن الافتراضية (ج.م)' : 'Default real shipping (EGP)'}</span>
+                <input type="number" min="0" step="1" value={defaultRealCost} onChange={(e) => setDefaultRealCost(Math.max(0, Math.round(Number(e.target.value))))} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'حد التحذير (% من قيمة المنتجات)' : 'Warn above (% of products)'}</span>
+                <input type="number" min="0" max="100" step="1" value={costWarnPercent} onChange={(e) => setCostWarnPercent(Math.max(0, Number(e.target.value)))} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'مصروفات تشغيلية / أوردر (ج.م)' : 'Operating cost / order (EGP)'}</span>
+                <input type="number" min="0" step="1" value={orderCosts.operatingPerOrder} onChange={(e) => setOrderCosts((p) => ({ ...p, operatingPerOrder: Math.max(0, Number(e.target.value)) }))} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+              <label className="text-xs text-ink-2 space-y-1">
+                <span className="block">{lang === 'ar' ? 'مصروفات تشغيلية (% من الأوردر)' : 'Operating cost (% of order)'}</span>
+                <input type="number" min="0" step="0.1" value={orderCosts.operatingPercent} onChange={(e) => setOrderCosts((p) => ({ ...p, operatingPercent: Math.max(0, Number(e.target.value)) }))} className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-full" />
+              </label>
+            </div>
+          </div>
+
+          {/* Cost per size table */}
+          <div className="bg-surface rounded-card border border-line shadow-card p-4 space-y-3 overflow-x-auto">
+            <div>
+              <h4 className="text-xs font-semibold text-ink">{lang === 'ar' ? 'جدول تكلفة الزجاجة لكل مقاس' : 'Bottle cost table by size'}</h4>
+              <p className="text-xs text-ink-2">
+                {lang === 'ar'
+                  ? 'الأوردر بيحسب تكاليفه من الجدول ده: التصنيع = زيت + كحول + شحن خامات، الباكدج = زجاجة + شنطة + كارت، الماركتنج = تسويق/ديزاين. الشحن بيتضاف من تكلفة الشحن الفعلية.'
+                  : 'Order costs are calculated from this table: manufacturing = oil + alcohol + raw shipping, packaging = bottle + bag + card, marketing = mktg/design. Shipping comes from the real shipping cost.'}
+              </p>
+            </div>
+            <table className="w-full text-xs min-w-[640px]">
+              <thead>
+                <tr className="text-ink-2">
+                  <th className="text-start p-1">{lang === 'ar' ? 'المقاس' : 'Size'}</th>
+                  {COST_COLS.map((c) => <th key={c.k} className="p-1 font-medium">{lang === 'ar' ? c.ar : c.en}</th>)}
+                  <th className="p-1 font-semibold">{lang === 'ar' ? 'الإجمالي + شحن' : 'Total + ship.'}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(costTable).map((size) => {
+                  const row = costTable[size];
+                  const sum = COST_COLS.reduce((a, c) => a + (Number(row[c.k]) || 0), 0);
+                  return (
+                    <tr key={size} className="border-t border-line">
+                      <td className="p-1 font-semibold text-ink">{size}</td>
+                      {COST_COLS.map((c) => (
+                        <td key={c.k} className="p-1">
+                          <input
+                            type="number"
+                            min="0"
+                            step="1"
+                            value={row[c.k] ?? 0}
+                            onChange={(e) => setCostTable((prev) => ({ ...prev, [size]: { ...prev[size], [c.k]: Math.max(0, Number(e.target.value)) } }))}
+                            className="rounded-control border border-line bg-surface px-2 text-ink outline-none hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-16"
+                          />
+                        </td>
+                      ))}
+                      <td className="p-1 text-center font-mono font-semibold text-brand-700">{sum + Number(defaultRealCost || 0)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
           {/* 6 Tiers Grid */}
           {[1, 2, 3, 4, 5, 6].map((tierNum) => {
             const tierInfo = TIER_DESCRIPTIONS[tierNum];
@@ -556,6 +682,18 @@ export default function CMSPage() {
                             <span className="text-xs text-ink-2 font-medium">
                               {lang === 'ar' ? 'ج.م' : 'EGP'}
                             </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 border-s border-line ps-2 ms-2" title={lang === 'ar' ? 'تكلفة الشحن الفعلية' : 'Real carrier cost'}>
+                            <input
+                              type="number"
+                              min="0"
+                              step="1"
+                              placeholder={String(defaultRealCost)}
+                              value={realCosts[gov.nameEn] ?? ''}
+                              onChange={(e) => setRealCosts((prev) => ({ ...prev, [gov.nameEn]: e.target.value === '' ? '' : Math.max(0, Math.round(Number(e.target.value))) }))}
+                              className="rounded-control border border-line bg-surface px-3 text-ink placeholder:text-ink-3 outline-none transition-colors hover:border-ink-3 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/15 h-9 text-xs w-16"
+                            />
+                            <span className="text-[10px] text-ink-3">{lang === 'ar' ? 'فعلي' : 'real'}</span>
                           </div>
                         </div>
                       );

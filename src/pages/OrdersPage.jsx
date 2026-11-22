@@ -2451,6 +2451,59 @@ export default function OrdersPage() {
                 </div>
               </div>
 
+              {/* Per-order cost breakdown & profit */}
+              {selectedOrder.costBreakdown && (() => {
+                const cb = selectedOrder.costBreakdown;
+                const ship = Math.round(Number(selectedOrder.actualOutboundShippingCost ?? selectedOrder.realShippingCost ?? cb.shipping ?? 0));
+                const rows = [
+                  { k: 'manufacturing', ar: 'تكلفة التصنيع', en: 'Manufacturing', v: cb.manufacturing },
+                  { k: 'packaging', ar: 'الباكدج', en: 'Packaging', v: cb.packaging },
+                  { k: 'marketing', ar: 'الماركتنج', en: 'Marketing', v: cb.marketing },
+                  { k: 'shipping', ar: 'الشحن الفعلي', en: 'Shipping (real)', v: ship },
+                  { k: 'operating', ar: 'مصروفات تشغيلية', en: 'Operating', v: cb.operating },
+                  { k: 'financial', ar: 'مصروفات مالية', en: 'Financial', v: cb.financial }
+                ];
+                const total = Math.round(Number(selectedOrder.total || 0));
+                const totalCost = rows.reduce((a, r) => a + (Number(r.v) || 0), 0);
+                const net = total - totalCost;
+                const pct = (n) => (total > 0 ? ((n / total) * 100).toFixed(1) : '0.0');
+                const subtotal = Number(selectedOrder.subtotal || 0);
+                const shipPct = subtotal > 0 ? (ship / subtotal) * 100 : 0;
+                const warn = cb.shippingCostWarning || shipPct > 30;
+                const cur = isRTL ? 'ج.م' : 'EGP';
+                return (
+                  <div className="p-4 bg-canvas rounded-card border border-line space-y-2">
+                    <span className="font-semibold text-brand-700 text-xs block pb-1 border-b border-line">
+                      {isRTL ? 'تقسيم تكلفة الأوردر وصافي الربح' : 'Order Cost Breakdown & Profit'}
+                    </span>
+                    <div className="flex justify-between text-ink text-xs font-semibold">
+                      <span>{isRTL ? 'قيمة الأوردر' : 'Order total'}</span>
+                      <span className="font-mono">{total.toLocaleString()} {cur}</span>
+                    </div>
+                    {rows.map((r) => (
+                      <div key={r.k} className="flex justify-between text-ink-2 text-xs">
+                        <span>{isRTL ? r.ar : r.en}</span>
+                        <span className="font-mono">
+                          -{Math.round(r.v || 0).toLocaleString()} {cur}
+                          <span className="text-ink-3"> ({pct(r.v || 0)}%)</span>
+                        </span>
+                      </div>
+                    ))}
+                    <div className={`flex justify-between pt-2 border-t border-line text-sm font-semibold ${net >= 0 ? 'text-success' : 'text-danger'}`}>
+                      <span>{isRTL ? 'صافي الربح' : 'Net profit'}</span>
+                      <span className="font-mono">{net.toLocaleString()} {cur} ({pct(net)}%)</span>
+                    </div>
+                    {warn && (
+                      <div className="text-xs font-semibold text-danger bg-danger/10 border border-danger/30 rounded-control p-2">
+                        {isRTL
+                          ? `تحذير: تكلفة الشحن ${ship} ج.م = ${shipPct.toFixed(0)}% من قيمة المنتجات (أعلى من الحد المسموح).`
+                          : `Warning: shipping ${ship} EGP = ${shipPct.toFixed(0)}% of products value (above the limit).`}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
               {/* Order Status History Audit Trail */}
               {selectedOrder.statusHistory && selectedOrder.statusHistory.length > 0 && (
                 <div className="p-4 bg-canvas/90 rounded-card border border-line space-y-2.5">
